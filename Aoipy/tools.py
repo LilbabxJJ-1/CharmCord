@@ -56,5 +56,5 @@ async def findBracketPairs(entry: str):
             name = await funcs[find[2].lower()](find[3])
     try:
         return name
-    except ReferenceError:
-        return "Error"
+    except:
+        raise SyntaxError(f"Missing '$' in {code}")
