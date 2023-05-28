@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from tools import findBracketPairs
+from .tools import findBracketPairs
 global bots
 global Context
 
