@@ -1,5 +1,5 @@
 async def username(user):
-    from Aoipy.core import bots
+    from Aoipy.Functions.AoiCore import bots
     try:
         int(user)
         new_user = await bots.fetch_user(user)
@@ -8,16 +8,16 @@ async def username(user):
     return new_user
 
 async def authorName(emp):
-    from Aoipy.core import Context
+    from Aoipy.Functions.AoiCore import Context
     return Context.author.name
 
 async def authorID(emp):
-    from Aoipy.core import Context
+    from Aoipy.Functions.AoiCore import Context
     return Context.author.id
 
 
 async def send(args: str):
-    from Aoipy.core import bots
+    from Aoipy.Functions.AoiCore import bots
     split = args.split(";")
     channel_id = split[0]
     message = split[1]

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from .tools import findBracketPairs
+from Aoipy.tools import findBracketPairs
 global bots
 global Context
 
@@ -82,6 +82,12 @@ class Commands:
                                 raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
             await findBracketPairs(Code)
 
+
+class AoiEvents:
+    def onReady(self, code):
+        @bots.event
+        async def on_ready():
+            await findBracketPairs(code)
 
 def Bot(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
     global bots

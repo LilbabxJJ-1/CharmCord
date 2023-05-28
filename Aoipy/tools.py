@@ -1,4 +1,4 @@
-from Aoipy.Users.funcs import *
+from Aoipy.Functions.Users.funcs import *
 
 funcs = {"$username": username, "$authorid": authorID, "$send": send, "$pyeval": pyeval}
 
