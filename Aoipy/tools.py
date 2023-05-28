@@ -56,5 +56,5 @@ async def findBracketPairs(entry: str):
             name = await funcs[find[2].lower()](find[3])
     try:
         return name
-    except:
+    except ReferenceError:
         return "Error"
