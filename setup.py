@@ -1,12 +1,14 @@
 import setuptools
+with open("readMe.md", "r") as rd:
+    longtext = rd.read()
 
 setuptools.setup(
     # Here is the module name.
     name="AoiPy",
-    version="0.9.17",
+    version="0.10.0",
     author="Jade",
     description="Pycord made simple for learning",
-    long_description="",
+    long_description=longtext,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
 
