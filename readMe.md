@@ -26,7 +26,7 @@ from Aoipy import Bot, Commands, AoiEvents
 
 bot = Bot(prefix="!", case_insensitive=False, intents=("all",))
 events = AoiEvents()
-command = Commands.command
+command = Commands().command
 
 events.onReady(
     code="$pyeval[print('Bot is Ready')]"
