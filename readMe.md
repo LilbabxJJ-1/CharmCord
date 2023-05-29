@@ -1,4 +1,5 @@
-# AoiPy - Discord.py made simple
+# AoiPy
+### Aoi.py is the best python string-based package for Discord bot creators!
 Latest Update: 05/28/23
 
 ![PyPI](https://img.shields.io/pypi/v/aoipy)
