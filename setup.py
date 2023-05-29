@@ -5,7 +5,7 @@ with open("readMe.md", "r") as rd:
 setuptools.setup(
     # Here is the module name.
     name="AoiPy",
-    version="0.10.0",
+    version="0.10.4",
     author="Jade",
     description="Pycord made simple for learning",
     long_description=longtext,

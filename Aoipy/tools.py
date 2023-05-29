@@ -1,6 +1,7 @@
 from Aoipy.Functions.Users.funcs import *
+from Aoipy.Functions.Guilds import *
 
-funcs = {"$username": username, "$authorid": authorID, "$send": send, "$pyeval": pyeval}
+funcs = {"$username": username, "$authorid": authorID, "$send": send, "$pyeval": pyeval, "$currentchannel": currentChannelID}
 
 
 async def findBracketPairs(entry: str):
@@ -8,8 +9,6 @@ async def findBracketPairs(entry: str):
     for code in lines:
         first = None
         last = None
-        argument = ""
-        keyword = ""
         count = 0
         for i in code:
             if i == "[" and first is None:
@@ -18,9 +17,10 @@ async def findBracketPairs(entry: str):
                 last = count
             count += 1
         argument = code[first + 1:last]
+        argument = str(argument)
         keyword = code[0:first]
         find = [first, last, keyword, argument]
-        while "[" in argument and "]" in argument and "$" in argument:
+        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
             count = 0
             start = None
             end = None
@@ -36,11 +36,11 @@ async def findBracketPairs(entry: str):
                 count += 1
                 if balance == 0 and start is not None and end is not None:
                     break
-
             if start != 0:
-                argument = argument[:start] + await findBracketPairs(argument[start:end + 1]) + argument[end + 1:]
+                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1])) + argument[end + 1:]
             else:
-                argument = await findBracketPairs(argument)
+                argument = str(await findBracketPairs(argument)) + argument[end + 1:]
+
             find = [first, last, keyword, argument]
         if find[2].lower() in funcs:
             name = await funcs[find[2].lower()](find[3])
@@ -49,4 +49,3 @@ async def findBracketPairs(entry: str):
         return name
     except:
         raise SyntaxError(f"Missing '$' in {code}")
-

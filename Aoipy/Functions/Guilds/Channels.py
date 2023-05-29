@@ -1,3 +1,6 @@
 import discord
-async def setSlowMode(args: discord.TextChannel):
-    argsdelete()
+
+
+async def currentChannelID(args):
+    from Aoipy.Functions.AoiCore import Context
+    return Context.channel.id
