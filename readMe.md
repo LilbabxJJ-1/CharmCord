@@ -1,5 +1,5 @@
 # AoiPy - Discord.py made simple
-Latest Update: 12/13/22
+Latest Update: 05/28/23
 
 ![PyPI](https://img.shields.io/pypi/v/aoipy)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/aoipy?color=green&label=downloads)
