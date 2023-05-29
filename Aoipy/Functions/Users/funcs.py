@@ -17,7 +17,6 @@ async def authorID(emp):
 
 
 async def send(args: str):
-    print()
     from Aoipy.Functions.AoiCore import bots
     split = args.split(";")
     channel_id = split[0]
