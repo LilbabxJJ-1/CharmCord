@@ -24,14 +24,22 @@ async def findBracketPairs(entry: str, Functions):
         first = None
         last = None
         count = 0
+        balance1 = 0
         for i in code:
             if i == "[" and first is None:
                 first = count
+                balance1 += 1
+                count += 1
+                continue
+            if i == "[":
+                balance1 += 1
             elif i == "]":
                 last = count
+                balance1 -= 1
+            if first is not None and last is not None and balance1 == 0:
+                break
             count += 1
-        argument = code[first + 1:last]
-        argument = str(argument)
+        argument = str(code[first + 1:last])
         keyword = code[0:first]
         find = [first, last, keyword, argument]
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
@@ -55,7 +63,6 @@ async def findBracketPairs(entry: str, Functions):
             else:
                 argument = str(await findBracketPairs(argument, Functions)) + argument[end + 1:]
             find = [first, last, keyword, argument]
-
         if find[2].lower() in Functions.funcs:
             name = await Functions.execute_functions(find[2].lower(), find[3])
         else:
@@ -63,5 +70,5 @@ async def findBracketPairs(entry: str, Functions):
 
     try:
         return name
-    except:
-        return
+    except Exception as e:
+        raise Exception(f"Error at: {e}")
