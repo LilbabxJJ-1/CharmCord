@@ -78,8 +78,6 @@ class Commands:
             Context = ctx
             getChannelContext(Context)
             getGuildContext(Context)
-
-            # Handle $args substitution
             if '$args' in Code:
                 while "$args" in str(Code):
                     count = 0
@@ -104,6 +102,20 @@ class Commands:
                                 break
                             except IndexError:
                                 raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
+
+            if "$argCheck" in Code:
+                start = Code.index("$argCheck[") + 10
+                area = Code[start:]
+                try:
+                    argTotal = area[:area.index(";")]
+                    warning = area[area.index(";") + 1:area.index("]")]
+                    if len(args) != int(argTotal):
+                        await Context.channel.send(warning)
+                        return
+                    Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
+                except:
+                    raise SyntaxError("Not enough arguments in $argCheck!")
+
             await findBracketPairs(Code, TotalFuncs)
 
     ########################################
