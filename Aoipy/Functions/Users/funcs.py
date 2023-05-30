@@ -1,10 +1,12 @@
+from Aoipy.AoiErrorHandling import AoipyErrorHandling
+Errors = AoipyErrorHandling()
 async def username(user):
     from Aoipy.Functions.AoiCore import bots
     try:
         int(user)
         new_user = await bots.fetch_user(user)
-    except:
-        raise Exception(f"{user} isn't an ID")
+    except ValueError:
+        Errors.Errors(1, user)
     return new_user
 
 
