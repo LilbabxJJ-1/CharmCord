@@ -7,9 +7,11 @@ async def username(user):
         raise Exception(f"{user} isn't an ID")
     return new_user
 
+
 async def authorName(emp):
     from Aoipy.Functions.AoiCore import Context
     return Context.author.name
+
 
 async def authorID(emp):
     from Aoipy.Functions.AoiCore import Context

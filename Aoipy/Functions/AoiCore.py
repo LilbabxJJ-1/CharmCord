@@ -1,10 +1,11 @@
 import discord
 from discord.ext import commands
-from Aoipy.tools import findBracketPairs
+from Aoipy.tools import findBracketPairs, FunctionHandler
+from Aoipy.Functions import *
 
 global bots
 global Context
-
+global TotalFuncs
 
 class Start(discord.Client):
     global bots
@@ -62,6 +63,8 @@ class Commands:
         async def go(ctx, *args, Code=Code):
             global Context
             Context = ctx
+            getChannelContext(Context)
+            getGuildContext(Context)
             if '$args' in Code:
                 while "$args" in str(Code):
                     count = 0
@@ -85,7 +88,7 @@ class Commands:
                                 break
                             except IndexError:
                                 raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
-            await findBracketPairs(Code)
+            await findBracketPairs(Code, TotalFuncs)
 
     ########################################
     #              EVENTS                  #
@@ -96,11 +99,15 @@ class AoiEvents:
     def onReady(self, code):
         @bots.event
         async def on_ready():
-            await findBracketPairs(code)
+            await findBracketPairs(code, TotalFuncs)
 
 
 def Bot(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
     global bots
+    global TotalFuncs
+    Functions = FunctionHandler()
+    TotalFuncs = Functions
+    Functions.register_functions()
     _final = Start(prefix, case_insensitive, intents, activity, help_command)
     working = _final.clients
     return working

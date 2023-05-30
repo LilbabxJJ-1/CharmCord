@@ -1,10 +1,24 @@
 from Aoipy.Functions.Users.funcs import *
 from Aoipy.Functions.Guilds import *
 
-funcs = {"$username": username, "$authorid": authorID, "$send": send, "$pyeval": pyeval, "$currentchannel": currentChannelID}
+
+class FunctionHandler:
+
+    def __init__(self):
+        self.funcs = {}
+
+    def register_functions(self):
+        with open("Aoipy/all_Functions.txt", "r") as keys:
+            keyword = keys.readlines()
+            for line in keyword:
+                function = eval(line.replace("$", ""))
+                self.funcs[line.replace("\n", "").lower()] = function
+
+    async def execute_functions(self, keyword, args):
+        return await self.funcs[keyword](args)
 
 
-async def findBracketPairs(entry: str):
+async def findBracketPairs(entry: str, Functions):
     lines = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     for code in lines:
         first = None
@@ -37,15 +51,17 @@ async def findBracketPairs(entry: str):
                 if balance == 0 and start is not None and end is not None:
                     break
             if start != 0:
-                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1])) + argument[end + 1:]
+                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1], Functions)) + argument[end + 1:]
             else:
-                argument = str(await findBracketPairs(argument)) + argument[end + 1:]
-
+                argument = str(await findBracketPairs(argument, Functions)) + argument[end + 1:]
             find = [first, last, keyword, argument]
-        if find[2].lower() in funcs:
-            name = await funcs[find[2].lower()](find[3])
+
+        if find[2].lower() in Functions.funcs:
+            name = await Functions.execute_functions(find[2].lower(), find[3])
+        else:
+            name = find[2]
 
     try:
         return name
     except:
-        raise SyntaxError(f"Missing '$' in {code}")
+        return

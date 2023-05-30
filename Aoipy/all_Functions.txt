@@ -1,0 +1,5 @@
+$username
+$authorID
+$send
+$pyeval
+$currentChannelID
