@@ -3,3 +3,6 @@ $authorID
 $send
 $pyeval
 $currentChannelID
+$currentChannelName
+$channelName
+$channelDelay
