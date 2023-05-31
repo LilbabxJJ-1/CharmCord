@@ -1,7 +1,7 @@
-with open("Aoipy/all_Functions.txt") as funcs:
-    alls = funcs.readlines()
-    for i in alls:
-        try:
-            exec(f'from .{i.replace("$", "").strip()} import *')
-        except ModuleNotFoundError:
-            continue
+from Aoipy.all_functions import funcs
+
+for i in funcs:
+    try:
+        exec(f'from .{i.replace("$", "").strip()} import *')
+    except ModuleNotFoundError:
+        continue
