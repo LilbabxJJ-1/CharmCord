@@ -1,9 +1,8 @@
 $username
 $authorID
-$send
-$pyeval
+$sendMessage
+$pyEval
 $currentChannelID
-$currentChannelName
 $channelName
 $channelDelay
 $channelMention

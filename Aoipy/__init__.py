@@ -1,2 +1,4 @@
 from Aoipy.Functions.AoiCore import Bot, Commands, AoiEvents
-from Aoipy.Functions import setActivity
+from Aoipy.Functions import *
+
+

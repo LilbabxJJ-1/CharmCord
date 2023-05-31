@@ -3,5 +3,5 @@ with open("Aoipy/all_Functions.txt") as funcs:
     for i in alls:
         try:
             exec(f'from .{i.replace("$", "").strip()} import *')
-        except ModuleNotFoundError as e:
+        except ModuleNotFoundError:
             continue

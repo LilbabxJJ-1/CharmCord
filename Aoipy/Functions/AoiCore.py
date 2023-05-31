@@ -78,8 +78,6 @@ class Commands:
         async def go(ctx, *args, Code=Code):
             global Context
             Context = ctx
-            getChannelContext(Context)
-            getGuildContext(Context)
             if '$args' in Code:
                 while "$args" in str(Code):
                     count = 0
@@ -120,7 +118,7 @@ class Commands:
                 except:
                     raise SyntaxError("Not enough arguments in $argCheck!")
 
-            await findBracketPairs(Code, TotalFuncs)
+            await findBracketPairs(Code, TotalFuncs, Context)
 
     ########################################
     #              EVENTS                  #
@@ -132,7 +130,7 @@ class AoiEvents:
         # Define on_ready event function
         @bots.event
         async def on_ready():
-            await findBracketPairs(code, TotalFuncs)
+            await findBracketPairs(code, TotalFuncs, None)
 
 
 def Bot(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):

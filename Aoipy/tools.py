@@ -1,6 +1,4 @@
-from Aoipy.Functions.Users.funcs import *
-from Aoipy.Functions.Guilds import *
-
+from Aoipy.Functions import *
 
 class FunctionHandler:
 
@@ -14,11 +12,12 @@ class FunctionHandler:
                 function = eval(line.replace("$", ""))
                 self.funcs[line.replace("\n", "").lower()] = function
 
-    async def execute_functions(self, keyword, args):
-        return await self.funcs[keyword](args)
+    async def execute_functions(self, keyword, args, context):
+        return await self.funcs[keyword](args, context)
 
 
-async def findBracketPairs(entry: str, Functions):
+async def findBracketPairs(entry: str, Functions, context):
+    print("Hey")
     lines = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     for code in lines:
         first = None
@@ -41,7 +40,7 @@ async def findBracketPairs(entry: str, Functions):
             count += 1
         argument = str(code[first + 1:last])
         keyword = code[0:first]
-        find = [first, last, keyword, argument]
+        find = [first, last, keyword, argument, context]
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
             count = 0
             start = None
@@ -59,12 +58,12 @@ async def findBracketPairs(entry: str, Functions):
                 if balance == 0 and start is not None and end is not None:
                     break
             if start != 0:
-                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1], Functions)) + argument[end + 1:]
+                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1], Functions, context)) + argument[end + 1:]
             else:
-                argument = str(await findBracketPairs(argument, Functions)) + argument[end + 1:]
-            find = [first, last, keyword, argument]
+                argument = str(await findBracketPairs(argument, Functions, context)) + argument[end + 1:]
+            find = [first, last, keyword, argument, context]
         if find[2].lower() in Functions.funcs:
-            name = await Functions.execute_functions(find[2].lower(), find[3])
+            name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
         else:
             name = find[2]
 
