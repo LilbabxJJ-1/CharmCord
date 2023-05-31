@@ -17,7 +17,6 @@ class FunctionHandler:
 
 
 async def findBracketPairs(entry: str, Functions, context):
-    print("Hey")
     lines = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     for code in lines:
         first = None

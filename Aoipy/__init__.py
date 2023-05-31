@@ -1,4 +1,3 @@
-from Aoipy.Functions.AoiCore import Bot, Commands, AoiEvents
+from Aoipy.Classes import *
 from Aoipy.Functions import *
-
 
