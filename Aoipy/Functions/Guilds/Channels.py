@@ -22,8 +22,18 @@ async def channelName(ID):
     from Aoipy.Functions.AoiCore import bots
     try:
         int(ID)
-        channel = await bots.fetch_user(ID)
+        channel = await bots.fetch_channel(ID)
         return channel.name
+    except ValueError:
+        Errors.Errors(2, ID)
+
+
+async def channelMention(ID):
+    from Aoipy.Functions.AoiCore import bots
+    try:
+        int(ID)
+        channel = await bots.fetch_channel(ID)
+        return channel.mention
     except ValueError:
         Errors.Errors(2, ID)
 

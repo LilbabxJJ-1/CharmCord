@@ -6,3 +6,4 @@ $currentChannelID
 $currentChannelName
 $channelName
 $channelDelay
+$channelMention

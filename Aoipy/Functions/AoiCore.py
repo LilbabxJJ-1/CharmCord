@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from Aoipy.tools import findBracketPairs, FunctionHandler
 from Aoipy.Functions import *
+import os
 
 # Global variables
 global bots
@@ -72,6 +73,7 @@ class Commands:
 
     def command(self, Name, Code):
         # Define command function dynamically
+
         @bots.command(name=Name)
         async def go(ctx, *args, Code=Code):
             global Context
@@ -104,6 +106,8 @@ class Commands:
                                 raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
 
             if "$argCheck" in Code:
+                if Code.count("$argCheck") > 1:
+                    raise Exception("Too many $argCheck in a single command | Max is 1!")
                 start = Code.index("$argCheck[") + 10
                 area = Code[start:]
                 try:
