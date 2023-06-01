@@ -31,13 +31,13 @@ events = AoiEvents()
 command = Commands().command
 
 events.onReady(
-    code="$pyeval[print('Bot is Ready')]"
+    code="$pyEval[print('Bot is Ready')]"
 )
 
 command(
     Name="Ping",
     Code="""
-    $send[$currentChannelID[]; Pong!!]
+    $sendMessage[$currentChannelID[]; Pong!!]
     """
 )
 
