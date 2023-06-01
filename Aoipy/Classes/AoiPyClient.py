@@ -6,7 +6,7 @@ global TotalFuncs
 global bots
 
 
-class AoipyClient(discord.Client):
+class Aoipy(discord.Client):
     # Global variables
     global bots
 
@@ -57,7 +57,7 @@ class AoipyClient(discord.Client):
         return self._clients
 
 
-def Bot(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
+def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
     # Global variables
     global bots
     global TotalFuncs
@@ -68,6 +68,6 @@ def Bot(prefix: str, case_insensitive: bool = False, intents: tuple = ("default"
     Functions.register_functions()
 
     # Create Start instance and return working bot
-    _final = AoipyClient(prefix, case_insensitive, intents, activity, help_command)
+    _final = Aoipy(prefix, case_insensitive, intents, activity, help_command)
     working = _final.clients
     return working
