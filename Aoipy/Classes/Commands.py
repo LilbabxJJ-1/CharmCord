@@ -8,14 +8,17 @@ from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck
 class Commands:
     # Global variables
 
-    def command(self, Name, Code):
+    def command(self, Name, Code, Aliases=None):
         # Define command function dynamically
         from Aoipy.Classes.AoiPyClient import bots
-        @bots.command(name=Name)
+
+        @bots.command(name=Name, aliases=Aliases)
         async def go(ctx, *args, Code=Code):
             from Aoipy.Classes.AoiPyClient import TotalFuncs
             Context = ctx
-            newCode = checkArgs(args, Code)
-            finalCode = await checkArgCheck(args, newCode, Context)
+            newCode = await checkArgCheck(args, Code, Context)
+            if newCode == "Failed":
+                return
+            finalCode = checkArgs(args, newCode)
 
             await findBracketPairs(finalCode, TotalFuncs, Context)
