@@ -5,7 +5,7 @@ with open("readMe.md", "r") as rd:
 setuptools.setup(
     # Here is the module name.
     name="AoiPy",
-    version="0.11.2Beta",
+    version="0.11.3",
     author="Jade",
     description="Aoi.py is the best python string-based package for Discord bot devs",
     long_description=longtext,
