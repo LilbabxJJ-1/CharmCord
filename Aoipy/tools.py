@@ -111,7 +111,7 @@ async def checkArgCheck(args, Code, Context):
             warning = area[area.index(";") + 1:area.index("]")]
             if len(args) != int(argTotal):
                 await Context.channel.send(warning)
-                return
+                return 'Failed'
             Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
             return Code
         except:
