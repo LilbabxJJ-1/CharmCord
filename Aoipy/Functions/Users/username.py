@@ -4,7 +4,7 @@ EH = ErrorHandling.AoipyErrorHandling()
 
 
 async def username(user):
-    from Aoipy.Functions.AoiCore import bots
+    from Aoipy.Classes.AoiPyClient import bots
     try:
         int(user)
         new_user = await bots.fetch_user(user)

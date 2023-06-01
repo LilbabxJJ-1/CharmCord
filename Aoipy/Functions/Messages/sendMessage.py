@@ -1,5 +1,5 @@
 async def sendMessage(args: str, Context):
-    from Aoipy.Functions.AoiCore import bots
+    from Aoipy.Classes.AoiPyClient import bots
     split = args.split(";")
     channel_id = split[0]
     message = split[1]
