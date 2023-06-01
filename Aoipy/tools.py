@@ -1,4 +1,6 @@
 from Aoipy.Functions import *
+from Aoipy.all_functions import funcs
+
 
 class FunctionHandler:
 
@@ -6,11 +8,9 @@ class FunctionHandler:
         self.funcs = {}
 
     def register_functions(self):
-        with open("Aoipy/all_Functions.txt", "r") as keys:
-            keyword = keys.readlines()
-            for line in keyword:
-                function = eval(line.replace("$", ""))
-                self.funcs[line.replace("\n", "").lower()] = function
+        for line in funcs:
+            function = eval(line.replace("$", ""))
+            self.funcs[line.replace("\n", "").lower()] = function
 
     async def execute_functions(self, keyword, args, context):
         return await self.funcs[keyword](args, context)
@@ -70,3 +70,49 @@ async def findBracketPairs(entry: str, Functions, context):
         return name
     except Exception as e:
         raise Exception(f"Error at: {e}")
+
+
+def checkArgs(args, Code):
+    if '$args' in Code:
+        while "$args" in str(Code):
+            count = 0
+            end = None
+            balance = 0
+            start = Code.index("$args") + 5
+            look = Code[start:len(Code)]
+            for i in look:
+                if i == "[":
+                    start = count
+                    count += 1
+                    balance += 1
+                    continue
+                if i == "]":
+                    end = count
+                    balance -= 1
+                count += 1
+                if balance == 0 and start is not None and end is not None:
+                    try:
+                        # Replace $args with arguments
+                        Code = str(Code).replace(f"$args[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
+                        break
+                    except IndexError:
+                        raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
+    return Code
+
+
+async def checkArgCheck(args, Code, Context):
+    if "$argCheck" in Code:
+        if Code.count("$argCheck") > 1:
+            raise Exception("Too many $argCheck in a single command | Max is 1!")
+        start = Code.index("$argCheck[") + 10
+        area = Code[start:]
+        try:
+            argTotal = area[:area.index(";")]
+            warning = area[area.index(";") + 1:area.index("]")]
+            if len(args) != int(argTotal):
+                await Context.channel.send(warning)
+                return
+            Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
+            return Code
+        except:
+            raise SyntaxError("Not enough arguments in $argCheck!")
