@@ -8,7 +8,7 @@ from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck
 class Commands:
     # Global variables
 
-    def command(self, Name, Code, Aliases=None):
+    def command(self, Name, Code, Aliases=[]):
         # Define command function dynamically
         from Aoipy.Classes.AoiPyClient import bots
 
