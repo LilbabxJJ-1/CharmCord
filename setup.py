@@ -1,5 +1,5 @@
 import setuptools
-with open("readMe.md", "r") as rd:
+with open("README.md", "r") as rd:
     longtext = rd.read()
 
 setuptools.setup(
