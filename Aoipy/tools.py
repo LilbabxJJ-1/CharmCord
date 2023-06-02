@@ -124,3 +124,4 @@ async def checkArgCheck(args, Code, Context):
         except Exception as e:
             print(e)
             raise SyntaxError("Not enough arguments in $argCheck!")
+    return Code
