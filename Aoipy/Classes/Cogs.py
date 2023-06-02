@@ -12,7 +12,7 @@ class cogs:
 
             @bots.command(name=Name)
             async def go(ctx, *args, Code=Code):
-                from LuPYdisc.Classes.AoiPyClient import TotalFuncs
+                from Aoipy.Classes.AoiPyClient import TotalFuncs
                 Context   = ctx
                 if type(Code) == type({"p": "s"}):
                     for main, secondary in Code.items():
