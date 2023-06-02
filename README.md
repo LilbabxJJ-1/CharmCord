@@ -1,6 +1,6 @@
 # AoiPy
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ### Aoi.py is the best python string-based package for Discord bot creators!
 
@@ -59,6 +59,7 @@ Our Contributors! ✨
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/LilbabxJJ-1"><img src="https://avatars.githubusercontent.com/u/99676249?v=4?s=100" width="100px;" alt="LilbabxJJ-1"/><br /><sub><b>LilbabxJJ-1</b></sub></a><br /><a href="https://github.com/LilbabxJJ-1/AoiPy2.0/commits?author=LilbabxJJ-1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jagg3127"><img src="https://avatars.githubusercontent.com/u/61505193?v=4?s=100" width="100px;" alt="jagg3127"/><br /><sub><b>jagg3127</b></sub></a><br /><a href="https://github.com/LilbabxJJ-1/AoiPy2.0/commits?author=jagg3127" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
