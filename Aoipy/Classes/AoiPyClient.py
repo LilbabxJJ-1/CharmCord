@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 from Aoipy.tools import FunctionHandler
-
+from .CommandHandler import load_commands
+import asyncio
 global TotalFuncs
 global bots
 
@@ -10,7 +11,7 @@ class Aoipy(discord.Client):
     # Global variables
     global bots
 
-    def __init__(self, prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
+    def __init__(self, prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None, load_command_dir: str="commands"):
         # Global variables
         global bots
 
@@ -50,6 +51,7 @@ class Aoipy(discord.Client):
                                          activity=self._activity,
                                          help_command=self._help_command)
             bots = self._clients
+        load_commands(load_command_dir)
         super().__init__(intents=self.intent)
 
     @property
