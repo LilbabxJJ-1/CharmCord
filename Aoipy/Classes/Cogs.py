@@ -3,7 +3,7 @@ from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck
 import asyncio
 
 
-class cogs:
+class Aoicogs:
     def Cogs(self, Cog_Group, Name, Code):
         from Aoipy.Classes.AoiPyClient import bots
 
