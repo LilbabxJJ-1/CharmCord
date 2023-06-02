@@ -107,12 +107,20 @@ async def checkArgCheck(args, Code, Context):
         start = Code.index("$argCheck[") + 10
         area = Code[start:]
         try:
-            argTotal = area[:area.index(";")]
-            warning = area[area.index(";") + 1:area.index("]")]
-            if len(args) != int(argTotal):
-                await Context.channel.send(warning)
-                return 'Failed'
-            Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
-            return Code
-        except:
+            if ";" in area[:area.index("]")]:
+                argTotal = area[:area.index(";")]
+                warning = area[area.index(";") + 1:area.index("]")]
+                if len(args) < int(argTotal):
+                    await Context.channel.send(warning)
+                    return 'Failed'
+                Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
+                return Code
+            else:
+                argTotal = area[:area.index("]")]
+                if len(args) < int(argTotal):
+                    return 'Failed'
+                Code = Code.replace(f"$argCheck[{argTotal}]\n", "")
+                return Code
+        except Exception as e:
+            print(e)
             raise SyntaxError("Not enough arguments in $argCheck!")
