@@ -11,7 +11,7 @@ class Aoipy(discord.Client):
     # Global variables
     global bots
 
-    def __init__(self, prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None, load_command_dir: str="commands"):
+    def __init__(self, prefix, case_insensitive, intents: tuple, activity, help_command, load_command_dir):
         # Global variables
         global bots
 
@@ -51,7 +51,10 @@ class Aoipy(discord.Client):
                                          activity=self._activity,
                                          help_command=self._help_command)
             bots = self._clients
-        load_commands(load_command_dir)
+        try:
+            load_commands(load_command_dir)
+        except FileNotFoundError:
+            pass
         super().__init__(intents=self.intent)
 
     @property
@@ -59,7 +62,7 @@ class Aoipy(discord.Client):
         return self._clients
 
 
-def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None):
+def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None, load_command_dir = "commands"):
     # Global variables
     global bots
     global TotalFuncs
@@ -70,6 +73,6 @@ def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("
     Functions.register_functions()
 
     # Create Start instance and return working bot
-    _final = Aoipy(prefix, case_insensitive, intents, activity, help_command)
+    _final = Aoipy(prefix, case_insensitive, intents, activity, help_command, load_command_dir)
     working = _final.clients
     return working
