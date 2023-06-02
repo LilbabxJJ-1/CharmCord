@@ -27,6 +27,7 @@ class Aoipy(discord.Client):
         self._clients = ''
         self.intent = ''
         self._activity = activity
+        all_commands   = {}
 
         # Determine intents
         if "all" in self.intented:
