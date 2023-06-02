@@ -5,7 +5,7 @@ import asyncio
 
 class Aoicogs:
     def Cogs(self, Cog_Group, Name, Code):
-        from Aoipy.Classes.AoiPyClient import bots
+        from Aoipy.Classes.AoiPyClient import bots, all_commands
 
         class main_bod:
             def __init__(self, bot):
@@ -20,5 +20,10 @@ class Aoicogs:
 
                 await findBracketPairs(finalCode, TotalFuncs, Context)
 
-        COGS = type(Cog_Group, (commands.Cog,), {'__init__': main_bod.__init__, 'go': main_bod.go})
-        asyncio.run(bots.add_cog(COGS(bots)))
+        if Cog_Group in all_commands:
+            bots.remove_cog(Cog_Group)
+            all_commands[Cog_Group][f"go{len(all_commands[Cog_Group])}"]=main_bod.go
+        else:
+            all_commands[Cog_Group] = {'__init__': main_bod.__init__, 'go': main_bod.go}
+        COGS = type(Cog_Group, (commands.Cog,), all_commands[Cog_Group])
+        bots.add_cog(COGS(bots))

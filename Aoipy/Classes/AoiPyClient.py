@@ -3,17 +3,21 @@ from discord.ext import commands
 from Aoipy.tools import FunctionHandler
 from .CommandHandler import load_commands
 import asyncio
+
 global TotalFuncs
 global bots
+global all_commands
 
 
 class Aoipy(discord.Client):
     # Global variables
     global bots
+    global all_commands
 
     def __init__(self, prefix, case_insensitive, intents: tuple, activity, help_command, load_command_dir):
         # Global variables
         global bots
+        global all_commands
 
         # Initialize Start class
         self.prefix = prefix
@@ -66,6 +70,7 @@ def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("
     # Global variables
     global bots
     global TotalFuncs
+    global all_commands
 
     # Initialize FunctionHandler and register functions
     Functions = FunctionHandler()
