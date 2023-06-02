@@ -10,8 +10,8 @@ class cogs:
             def __init__(self, bot):
                 self.bot = bot
 
-            @bots.command(name=Name)
-            async def go(ctx, *args, Code=Code):
+            @commands.command(name=Name)
+            async def go(self, ctx, *args, Code=Code):
                 from Aoipy.Classes.AoiPyClient import TotalFuncs
                 Context   = ctx
                 newCode   = checkArgs(args, Code)
@@ -23,7 +23,4 @@ class cogs:
             
 
         COGS = type(Cog_Group, (commands.Cog,), {'__init__': main_bod.__init__, 'go': main_bod.go})
-        try:
-            bots.add_cog(COGS(bots))
-        except:
-            pass
+        bots.add_cog(COGS(bots))
