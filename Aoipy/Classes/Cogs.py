@@ -14,27 +14,10 @@ class cogs:
             async def go(ctx, *args, Code=Code):
                 from Aoipy.Classes.AoiPyClient import TotalFuncs
                 Context   = ctx
-                if type(Code) == type({"p": "s"}):
-                    for main, secondary in Code.items():
-                        if type(secondary) == type(([], "")):                        
-                            main_args=""
-                            for arg in secondary[0]: main_args+="$"+arg+"[]; "
+                newCode   = checkArgs(args, Code)
+                finalCode = await checkArgCheck(args, newCode, Context)
 
-                            Code      = f'{main+"["+main_args+secondary[1]+"]"}'.strip()
-                        else:
-                            Code      = f'{main+"["+secondary+"]"}'.strip()
-                    
-                        
-                        newCode   = checkArgs(args, Code)
-                        finalCode = await checkArgCheck(args, newCode, Context)
-
-                        await findBracketPairs(finalCode, TotalFuncs, Context)
-
-                else:
-                    newCode   = checkArgs(args, Code)
-                    finalCode = await checkArgCheck(args, newCode, Context)
-
-                    await findBracketPairs(finalCode, TotalFuncs, Context)
+                await findBracketPairs(finalCode, TotalFuncs, Context)
 
         
             
