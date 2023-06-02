@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "jagg3127",
+      "name": "jagg3127",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61505193?v=4",
+      "profile": "https://github.com/jagg3127",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "AoiPy2.0",
+  "projectOwner": "LilbabxJJ-1"
+}
