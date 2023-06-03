@@ -3,12 +3,10 @@ import Aoipy.AoiErrorHandling as ErrorHandling
 EH = ErrorHandling.AoipyErrorHandling()
 
 
-async def username(user):
+async def channelCategoryID(empty, Context):
     from Aoipy.Classes.AoiPyClient import bots
     try:
-        int(user)
-        new_user = await bots.fetch_user(user)
+        int(Context.channel.category.id)
     except ValueError:
-        EH.Errors(1, user)
-        return
-    return new_user
+        EH.Errors(3, "None")
+    return Context.channel.category.id

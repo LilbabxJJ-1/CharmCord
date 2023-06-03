@@ -56,6 +56,7 @@ class Aoipy(discord.Client):
                                          activity=self._activity,
                                          help_command=self._help_command)
             bots = self._clients
+        bots._LUNA_DEV_ONLY = False
         try:
             load_commands(load_command_dir)
         except FileNotFoundError:

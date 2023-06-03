@@ -16,35 +16,53 @@ class FunctionHandler:
         return await self.funcs[keyword](args, context)
 
 
+
+
+
+
+
 async def findBracketPairs(entry: str, Functions, context):
-    lines = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
-    for code in lines:
-        first = None
-        last = None
-        count = 0
-        balance1 = 0
+    lines_of_function = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
+
+    for code in lines_of_function:
+        print(code)
+        first    = None; last     = None
+        count    = 0   ; balance1 = 0
+        
+        first_and_last = first is None and last is None
+        
+        #    count stuff
         for i in code:
+
             if i == "[" and first is None:
-                first = count
+                first     = count
                 balance1 += 1
-                count += 1
+                count    += 1
                 continue
+
             if i == "[":
                 balance1 += 1
+
             elif i == "]":
-                last = count
+                last      = count
                 balance1 -= 1
-            if first is not None and last is not None and balance1 == 0:
-                break
+
+            if not first_and_last and balance1 == 0:   break
+
             count += 1
+        #end count stuff
+
         argument = str(code[first + 1:last])
-        keyword = code[0:first]
-        find = [first, last, keyword, argument, context]
-        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
-            count = 0
-            start = None
-            end = None
-            balance = 0
+        keyword  =     code[0:first]
+        find     = [first, last, keyword, argument, context]
+
+        #    Magic
+        while "[" in argument and "]" in argument and "$" in argument:
+            start = None; end     = None
+            count = 0   ; balance = 0
+            
+            start_and_end = start is None and end is None
+
             for i in argument:
                 if i == "$" and start is None:
                     start = count
@@ -54,32 +72,44 @@ async def findBracketPairs(entry: str, Functions, context):
                     end = count
                     balance -= 1
                 count += 1
-                if balance == 0 and start is not None and end is not None:
-                    break
+                if not start_and_end and balance == 0: break
+
+            
+            
             if start != 0:
                 argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1], Functions, context)) + argument[end + 1:]
             else:
-                argument = str(await findBracketPairs(argument, Functions, context)) + argument[end + 1:]
-            find = [first, last, keyword, argument, context]
-        if find[2].lower() in Functions.funcs:
-            name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
+                argument =                    str(await findBracketPairs(argument,                Functions, context)) + argument[end + 1:]
+            
+            
+            find = (first, last, keyword, argument, context)
+        #END Magic
+
+        first, last, keyword, argument, context                                                                                              = find
+
+
+        if keyword.lower() in Functions.funcs:
+            name = await Functions.execute_functions(keyword.lower(), argument, context)
+        
         else:
-            name = find[2]
+            name = keyword
 
     try:
         return name
-    except Exception as e:
+
+    except    Exception as e:
         raise Exception(f"Error at: {e}")
 
 
 def checkArgs(args, Code):
     if '$args' in Code:
         while "$args" in str(Code):
-            count = 0
-            end = None
-            balance = 0
+            end = None; count = 0; balance = 0
+
             start = Code.index("$args") + 5
-            look = Code[start:len(Code)]
+            look  = Code[start:len(Code)]
+
+
             for i in look:
                 if i == "[":
                     start = count
