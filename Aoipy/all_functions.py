@@ -20,6 +20,7 @@ funcs = [
     #others for now-------
     "$wait",
     "$ping",
+    "$sendEmbed",
     "$userMention",
     "$count",
     "$username",
