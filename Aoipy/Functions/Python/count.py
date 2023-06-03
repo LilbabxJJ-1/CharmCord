@@ -1,2 +1,5 @@
 async def count(code, Context):
-    return len(code)
+    try:
+        return len(eval(code))
+    except:
+        return len(code)

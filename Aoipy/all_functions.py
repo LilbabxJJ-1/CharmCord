@@ -15,7 +15,7 @@ funcs = [
     # "$threadAutoArchive",
     # Guilds
     "$guildID",
-    "$guildChannels",
+    "$guildTextChannels",
     "$guildName",
     #others for now-------
     "$wait",
