@@ -1,5 +1,6 @@
 import os
 
+
 def load_commands(dir):
     for filename in os.listdir(dir):
         if filename.endswith('.py'):

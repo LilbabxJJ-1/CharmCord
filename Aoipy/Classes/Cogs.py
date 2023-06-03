@@ -26,4 +26,5 @@ class Aoicogs:
         else:
             all_commands[Cog_Group] = {'__init__': main_bod.__init__, 'go': main_bod.go}
         COGS = type(Cog_Group, (commands.Cog,), all_commands[Cog_Group])
-        bots.add_cog(COGS(bots))
+        asyncio.run(bots.add_cog(COGS(bots)))
+
