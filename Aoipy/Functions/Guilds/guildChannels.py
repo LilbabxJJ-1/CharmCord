@@ -1,5 +1,5 @@
 import Aoipy.AoiErrorHandling as ErrorHandling
-
+import discord
 EH = ErrorHandling.AoipyErrorHandling()
 
 

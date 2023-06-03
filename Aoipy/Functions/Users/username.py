@@ -3,7 +3,7 @@ import Aoipy.AoiErrorHandling as ErrorHandling
 EH = ErrorHandling.AoipyErrorHandling()
 
 
-async def username(user):
+async def username(user, context):
     from Aoipy.Classes.AoiPyClient import bots
     try:
         int(user)

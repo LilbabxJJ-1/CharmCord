@@ -18,6 +18,9 @@ funcs = [
     "$guildChannels",
     "$guildName",
     #others for now-------
+    "$wait",
+    "$ping",
+    "$userMention",
     "$count",
     "$username",
     "$authorID",
