@@ -3,9 +3,9 @@ import Aoipy.AoiErrorHandling as ErrorHandling
 EH = ErrorHandling.AoipyErrorHandling()
 
 
-async def authorID(emp, Context):
+async def currentChannelID(empty, Context):
     try:
-        int(Context.author.id)
+        int(Context.channel.id)
     except ValueError:
         EH.Errors(1, "None")
-    return Context.author.id
+    return Context.channel.id

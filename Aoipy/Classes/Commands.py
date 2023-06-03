@@ -16,9 +16,10 @@ class Commands:
         async def go(ctx, *args, Code=Code):
             from Aoipy.Classes.AoiPyClient import TotalFuncs
             Context = ctx
-            newCode = await checkArgCheck(args, Code, Context)
-            if newCode == "Failed":
-                return
-            finalCode = checkArgs(args, newCode)
+            if type(Code) == type({"p": "s"}) and bots._LUNA_DEV_ONLY:pass
+            else:
+                newCode    =        checkArgs    (args,    Code         )
+                if newCode == "Failed": return
+                finalCode  =  await checkArgCheck(args, newCode, Context)
 
-            await findBracketPairs(finalCode, TotalFuncs, Context)
+                await            findBracketPairs(finalCode, TotalFuncs, Context)
