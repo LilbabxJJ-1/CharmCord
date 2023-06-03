@@ -3,7 +3,7 @@ import Aoipy.AoiErrorHandling as ErrorHandling
 EH = ErrorHandling.AoipyErrorHandling()
 
 
-async def currentChannelID(empty, Context):
+async def channelID(empty, Context):
     try:
         int(Context.channel.id)
     except ValueError:

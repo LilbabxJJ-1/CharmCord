@@ -10,11 +10,15 @@ funcs = [
     "$channelName",
     "$channelNsfw",
     "$channelPosition",
-   #"$channelType",
+    "$channelType",
     "$channelURL",
-   #"$threadAutoArchive",
-
+    # "$threadAutoArchive",
+    # Guilds
+    "$guildID",
+    "$guildChannels",
+    "$guildName",
     #others for now-------
+    "$count",
     "$username",
     "$authorID",
     "$sendMessage",
