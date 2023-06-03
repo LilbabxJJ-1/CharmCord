@@ -28,3 +28,6 @@ funcs = [
     "$pyEval"
 ]
 
+date_funcs=[
+    "$channelcreated"
+]

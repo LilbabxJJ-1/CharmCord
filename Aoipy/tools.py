@@ -1,6 +1,7 @@
 from Aoipy.Functions import *
-from Aoipy.all_functions import funcs
+from Aoipy.all_functions import funcs, date_funcs
 
+from datetime import datetime as D_T
 
 class FunctionHandler:
 
@@ -13,6 +14,8 @@ class FunctionHandler:
             self.funcs[line.replace("\n", "").lower()] = function
 
     async def execute_functions(self, keyword, args, context):
+        if keyword in date_funcs:
+            return await self.funcs[keyword](args, context, timezones, format_datetime)
         return await self.funcs[keyword](args, context)
 
 
@@ -125,3 +128,44 @@ async def checkArgCheck(args, Code, Context):
             print(e)
             raise SyntaxError("Not enough arguments in $argCheck!")
     return Code
+
+
+
+from     pytz import timezone
+timezones=(
+    timezone('EST'),
+    timezone('UTC'),
+    timezone('US/Pacific')
+)
+
+def format_datetime(datetime:D_T, FORM: str, TIMEZONE):
+    UnformatedDatetime      = datetime.astimezone(TIMEZONE)
+    UnformatedDatetimeTuple = (UnformatedDatetime.year, UnformatedDatetime.month, UnformatedDatetime.day, UnformatedDatetime.hour, UnformatedDatetime.minute, UnformatedDatetime.second, UnformatedDatetime.microsecond)
+    year, month, day, hour, minute, second, microsecond = UnformatedDatetimeTuple
+
+    AM_PM = "AM" if hour < 12 else "PM"
+    hour  = hour if hour < 12 else hour-12
+
+    FORM=FORM.lower().strip()
+
+    if   FORM == "full":
+        desiredDateForm = f"USA: {month}/{day}/{year} at {hour} :{minute} :{second} :{microsecond} {AM_PM}"
+    elif FORM == "year": 
+        desiredDateForm = str(year)
+    elif FORM == "month": 
+        desiredDateForm = str(month)
+    elif FORM == "day": 
+        desiredDateForm = str(day)
+    elif FORM == "hour": 
+        desiredDateForm = str(hour)
+    elif FORM == "minute": 
+        desiredDateForm = str(minute)
+    elif FORM == "second": 
+        desiredDateForm = str(second)
+    elif FORM == "microsecond":
+        desiredDateForm = str(microsecond)
+    elif FORM == "ampm": 
+        desiredDateForm = AM_PM
+    else:
+        desiredDateForm = "ERROR"
+    return desiredDateForm
