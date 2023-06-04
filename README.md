@@ -49,33 +49,8 @@ bot.run("*******<<TOKEN>>***********")
 
 ## New and still a work in progress
 
-
-Our Contributors! ✨
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/LilbabxJJ-1"><img src="https://avatars.githubusercontent.com/u/99676249?v=4?s=100" width="100px;" alt="LilbabxJJ-1"/><br /><sub><b>LilbabxJJ-1</b></sub></a><br /><a href="https://github.com/LilbabxJJ-1/AoiPy2.0/commits?author=LilbabxJJ-1" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jagg3127"><img src="https://avatars.githubusercontent.com/u/61505193?v=4?s=100" width="100px;" alt="jagg3127"/><br /><sub><b>jagg3127</b></sub></a><br /><a href="https://github.com/LilbabxJJ-1/AoiPy2.0/commits?author=jagg3127" title="Code">💻</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+<a href="https://github.com/LilbabxJJ-1/AoiPy2.0/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=LilbabxJJ-1/AoiPy2.0"  alt="aoi.py-contributors"/>
+</a>
