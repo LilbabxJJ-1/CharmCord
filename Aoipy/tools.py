@@ -1,7 +1,14 @@
 from Aoipy.Functions import *
 from Aoipy.all_functions import funcs, date_funcs
-
 from datetime import datetime as D_T
+from pytz import timezone
+
+timezones = (
+    timezone('EST'),
+    timezone('UTC'),
+    timezone('US/Pacific')
+)
+
 
 class FunctionHandler:
 
@@ -130,41 +137,35 @@ async def checkArgCheck(args, Code, Context):
     return Code
 
 
-
-from     pytz import timezone
-timezones=(
-    timezone('EST'),
-    timezone('UTC'),
-    timezone('US/Pacific')
-)
-
-def format_datetime(datetime:D_T, FORM: str, TIMEZONE):
-    UnformatedDatetime      = datetime.astimezone(TIMEZONE)
-    UnformatedDatetimeTuple = (UnformatedDatetime.year, UnformatedDatetime.month, UnformatedDatetime.day, UnformatedDatetime.hour, UnformatedDatetime.minute, UnformatedDatetime.second, UnformatedDatetime.microsecond)
+def format_datetime(datetime: D_T, FORM: str, TIMEZONE):
+    UnformatedDatetime = datetime.astimezone(TIMEZONE)
+    UnformatedDatetimeTuple = (
+        UnformatedDatetime.year, UnformatedDatetime.month, UnformatedDatetime.day, UnformatedDatetime.hour, UnformatedDatetime.minute,
+        UnformatedDatetime.second, UnformatedDatetime.microsecond)
     year, month, day, hour, minute, second, microsecond = UnformatedDatetimeTuple
 
     AM_PM = "AM" if hour < 12 else "PM"
-    hour  = hour if hour < 12 else hour-12
+    hour = hour if hour < 12 else hour - 12
 
-    FORM=FORM.lower().strip()
+    FORM = FORM.lower().strip()
 
-    if   FORM == "full":
+    if FORM == "full":
         desiredDateForm = f"USA: {month}/{day}/{year} at {hour} :{minute} :{second} :{microsecond} {AM_PM}"
-    elif FORM == "year": 
+    elif FORM == "year":
         desiredDateForm = str(year)
-    elif FORM == "month": 
+    elif FORM == "month":
         desiredDateForm = str(month)
-    elif FORM == "day": 
+    elif FORM == "day":
         desiredDateForm = str(day)
-    elif FORM == "hour": 
+    elif FORM == "hour":
         desiredDateForm = str(hour)
-    elif FORM == "minute": 
+    elif FORM == "minute":
         desiredDateForm = str(minute)
-    elif FORM == "second": 
+    elif FORM == "second":
         desiredDateForm = str(second)
     elif FORM == "microsecond":
         desiredDateForm = str(microsecond)
-    elif FORM == "ampm": 
+    elif FORM == "ampm":
         desiredDateForm = AM_PM
     else:
         desiredDateForm = "ERROR"

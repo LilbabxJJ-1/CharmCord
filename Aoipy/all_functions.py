@@ -30,5 +30,5 @@ funcs = [
 ]
 
 date_funcs=[
-    "$channelcreated"
+    "$channelCreated"
 ]
