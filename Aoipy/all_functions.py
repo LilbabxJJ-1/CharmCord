@@ -26,7 +26,8 @@ funcs = [
     "$username",
     "$authorID",
     "$sendMessage",
-    "$pyEval"
+    "$pyEval",
+    '$onChannelDelete'
 ]
 
 date_funcs=[
