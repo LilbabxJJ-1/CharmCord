@@ -9,7 +9,7 @@ global bots
 global all_commands
 
 
-class Aoipy(discord.Client):
+class Aoipy:
     # Global variables
     global bots
     global all_commands
@@ -27,7 +27,7 @@ class Aoipy(discord.Client):
         self._clients = ''
         self.intent = ''
         self._activity = activity
-        all_commands   = {}
+        all_commands = {}
 
         # Determine intents
         if "all" in self.intented:
@@ -56,19 +56,35 @@ class Aoipy(discord.Client):
                                          activity=self._activity,
                                          help_command=self._help_command)
             bots = self._clients
-        bots._LUNA_DEV_ONLY = False
         try:
             load_commands(load_command_dir)
         except FileNotFoundError:
             pass
-        super().__init__(intents=self.intent)
+        # super().__init__(intents=self.intent)
 
-    @property
-    def clients(self):
-        return self._clients
+    def run(self, token: str):
+        bots.run(token)
 
 
-def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None, load_command_dir = "commands"):
+    def onChannelDeleted(self, code):
+        @bots.event
+        async def on_guild_channel_delete(channel):
+            from Aoipy.Functions.Events.onChannelDelete import options
+            options["name"] = channel.name
+            options['id'] = channel.id
+            #more options coming
+
+            from Aoipy.tools import findBracketPairs
+            await findBracketPairs(code, TotalFuncs, None)
+
+    def onReady(self, code):
+        @bots.event
+        async def on_ready():
+            from Aoipy.tools import findBracketPairs
+            await findBracketPairs(code, TotalFuncs, None)
+
+def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None,
+                load_command_dir="commands"):
     # Global variables
     global bots
     global TotalFuncs
@@ -81,5 +97,5 @@ def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("
 
     # Create Start instance and return working bot
     _final = Aoipy(prefix, case_insensitive, intents, activity, help_command, load_command_dir)
-    working = _final.clients
+    working = _final
     return working
