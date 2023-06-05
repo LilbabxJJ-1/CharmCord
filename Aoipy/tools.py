@@ -27,8 +27,39 @@ class FunctionHandler:
 
 
 async def findBracketPairs(entry: str, Functions, context):
-    lines = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
-    for code in lines:
+    test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
+    starts = 0
+    for i in test:
+        if i.strip().startswith("$") and i[-1] != "]":
+            try:
+                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
+                test.remove(test[starts + 1])
+                starts += 1
+            except IndexError:
+                starts -= 1
+                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
+                test.remove(test[starts + 1])
+                starts += 1
+        elif i.endswith("]") and i[0].strip() != "$":
+            test[starts] = (test[starts - 1].strip() + " " + test[starts].strip()).strip()
+            test.remove(test[starts - 1])
+            starts += 1
+        elif i[-1].strip() != "]" and i[0].strip() != "$":
+            test[starts] = (test[starts - 1] + " " + test[starts].strip())
+            test.remove(test[starts - 1])
+        else:
+            continue
+    try:
+        if test[-1].endswith("]") and test[-2][-1] != "]":
+            test[-2] = test[-2] + " " + test[-1].strip()
+            test.remove(test[-1])
+    except:
+        pass
+
+    if len(test) == 0:
+        test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
+    for code in test:
+        code = code.strip()
         first = None
         last = None
         count = 0
