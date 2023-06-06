@@ -17,6 +17,7 @@ funcs = [
     "$guildID",
     "$guildTextChannels",
     "$guildName",
+ 
     #others for now-------
     "$wait",
     "$ping",
@@ -27,9 +28,12 @@ funcs = [
     "$authorID",
     "$sendMessage",
     "$pyEval",
-    '$onChannelDelete'
+    '$onChannelDelete',
+    '$onChannelUpdated'
 ]
 
 date_funcs=[
     "$channelCreated"
 ]
+
+newline_char = "*n*"
