@@ -65,8 +65,18 @@ class Aoipy:
     def run(self, token: str):
         bots.run(token)
 
+    def onChannelUpdated(self, Code):
+        @bots.event
+        async def on_guild_channel_update(before, after):
+            from Aoipy.Functions.Events.onChannelUpdated import options
+            options["before"]["name"] = before.name
+            options["after"]["name"]  = after.name
+            options["id"] = after.id
 
-    def onChannelDeleted(self, code):
+            from Aoipy.tools import findBracketPairs
+            await findBracketPairs(Code, TotalFuncs, None)
+
+    def onChannelDeleted(self, Code):
         @bots.event
         async def on_guild_channel_delete(channel):
             from Aoipy.Functions.Events.onChannelDelete import options
@@ -75,13 +85,13 @@ class Aoipy:
             #more options coming
 
             from Aoipy.tools import findBracketPairs
-            await findBracketPairs(code, TotalFuncs, None)
+            await findBracketPairs(Code, TotalFuncs, None)
 
-    def onReady(self, code):
+    def onReady(self, Code):
         @bots.event
         async def on_ready():
             from Aoipy.tools import findBracketPairs
-            await findBracketPairs(code, TotalFuncs, None)
+            await findBracketPairs(Code, TotalFuncs, None)
 
 def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None,
                 load_command_dir="commands"):
