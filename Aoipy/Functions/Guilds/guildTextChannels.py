@@ -2,7 +2,9 @@ import Aoipy.AoiErrorHandling as ErrorHandling
 
 EH = ErrorHandling.AoipyErrorHandling()
 import discord
+
 d = discord.Guild
+
 
 async def guildTextChannels(ID, Context):
     from Aoipy.Classes.AoiPyClient import bots
@@ -17,4 +19,3 @@ async def guildTextChannels(ID, Context):
         return text
     except ValueError:
         EH.Errors(2, "None")
-
