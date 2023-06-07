@@ -6,7 +6,7 @@ async def sendMessage(args: str, Context):
         channel_id = split[0]
         message = split[1]
         channel = await bots.fetch_channel(int(channel_id))
-        message=message.replace(newline_char, "\n")
+        message = message.replace(newline_char, "\n")
         await channel.send(message)
     except:
         raise SyntaxError("Can't send empty message!")

@@ -5,5 +5,5 @@ options = {
 }
 
 
-async def onChannelDelete(option, context):
+async def deletedChannel(option, context):
     return options[option]

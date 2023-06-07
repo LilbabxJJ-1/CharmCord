@@ -1,5 +1,5 @@
 from Aoipy.Functions import *
-from Aoipy.all_functions import funcs, date_funcs
+from Aoipy.all_functions import all_Funcs, date_funcs
 from datetime import datetime as D_T
 from pytz import timezone
 
@@ -16,7 +16,7 @@ class FunctionHandler:
         self.funcs = {}
 
     def register_functions(self):
-        for line in funcs:
+        for line in all_Funcs:
             function = eval(line.replace("$", ""))
             self.funcs[line.replace("\n", "").lower()] = function
 
@@ -24,6 +24,15 @@ class FunctionHandler:
         if keyword in date_funcs:
             return await self.funcs[keyword](args, context, timezones, format_datetime)
         return await self.funcs[keyword](args, context)
+
+
+async def noArguments(entry: str, Functions, context):
+    from .all_functions import no_arg_Funcs
+    for func in no_arg_Funcs:
+        if func in entry:
+            entry = entry.replace(func, str(await Functions.execute_functions(func.lower(), None, context)))
+
+    return entry
 
 
 async def findBracketPairs(entry: str, Functions, context):

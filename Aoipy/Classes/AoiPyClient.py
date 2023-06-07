@@ -68,30 +68,32 @@ class Aoipy:
     def onChannelUpdated(self, Code):
         @bots.event
         async def on_guild_channel_update(before, after):
-            from Aoipy.Functions.Events.onChannelUpdated import options
-            options["before"]["name"] = before.name
-            options["after"]["name"]  = after.name
-            options["id"] = after.id
+            from Aoipy.Functions.Events.oldChannel import options as old
+            from Aoipy.Functions.Events.newChannel import options as new
+            for i in old.keys():
+                old[i] = eval(f"before.{i}")
 
-            from Aoipy.tools import findBracketPairs
-            await findBracketPairs(Code, TotalFuncs, None)
+            if Code is not None:
+                from Aoipy.tools import findBracketPairs
+                await findBracketPairs(Code, TotalFuncs, None)
 
-    def onChannelDeleted(self, Code):
+    def onChannelDeleted(self, Code=None):
         @bots.event
         async def on_guild_channel_delete(channel):
-            from Aoipy.Functions.Events.onChannelDelete import options
+            from Aoipy.Functions.Events.deletedChannel import options
             options["name"] = channel.name
             options['id'] = channel.id
-            #more options coming
-
-            from Aoipy.tools import findBracketPairs
-            await findBracketPairs(Code, TotalFuncs, None)
+            # more options coming
+            if Code is not None:
+                from Aoipy.tools import findBracketPairs
+                await findBracketPairs(Code, TotalFuncs, None)
 
     def onReady(self, Code):
         @bots.event
         async def on_ready():
             from Aoipy.tools import findBracketPairs
             await findBracketPairs(Code, TotalFuncs, None)
+
 
 def AoipyClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None,
                 load_command_dir="commands"):
