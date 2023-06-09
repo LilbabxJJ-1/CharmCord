@@ -2,7 +2,9 @@ import discord
 from discord.ext import commands
 from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck
 import asyncio
+
 AC = {}
+
 
 class Aoicogs:
     def Cogs(self, Cog_Group, Name, Code):
@@ -27,8 +29,8 @@ class Aoicogs:
         # else:
         #    AC[Cog_Group] = {'__init__': main_bod.__init__, 'go': main_bod.go}
         try:
-           COGS = type(Cog_Group, (commands.Cog,), {'__init__': main_bod.__init__, 'go': main_bod.go})
+            COGS = type(Cog_Group, (commands.Cog,), {'__init__': main_bod.__init__, 'go': main_bod.go})
+            asyncio.run(bots.add_cog(COGS(bots)))
         except:
-           COGS = type(Cog_Group, (commands.Cog,), AC[Name])
-        bots.add_cog(COGS(bots))
-
+            COGS = type(Name, (commands.Cog,), {'__init__': main_bod.__init__, 'go': main_bod.go})
+            asyncio.run(bots.add_cog(COGS(bots)))
