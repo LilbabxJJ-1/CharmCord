@@ -1,6 +1,10 @@
 import discord
+from Aoipy.all_functions import newline_char
+
+
 async def sendEmbed(args: str, Context):
     from Aoipy.Classes.AoiPyClient import bots
+    args = args.replace(newline_char, "\n")
     split = args.split(";")
     try:
         channel_id = split[0]
@@ -9,7 +13,7 @@ async def sendEmbed(args: str, Context):
         color = split[3]
         footer = split[4]
         channel = await bots.fetch_channel(int(channel_id))
-        embed = eval(f"discord.Embed(title=title, description=message, color=discord.Color.{color}())")
+        embed = eval(f"discord.Embed(title=title, description=message, color=discord.Color.{color.lower()}())")
         embed.set_footer(text=footer)
         await channel.send(embed=embed)
     except discord.ClientException:
