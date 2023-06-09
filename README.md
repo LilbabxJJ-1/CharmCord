@@ -1,6 +1,5 @@
 # AoiPy
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 ### Aoi.py is the best python string-based package for Discord bot creators!
 
 
@@ -15,31 +14,29 @@
 
 1 - `pip install AoiPy`
 
-2 - Import Bot, Commands, etc
+2 - Import AoiClient
 
 ```python
-from Aoipy import AoipyClient, Commands, AoiEvents
+from Aoipy import AoipyClient
 ```
 
 3 -  Example:
 
 ```python
 
-from Aoipy import AoipyClient, Commands, AoiEvents
+from Aoipy import AoipyClient
 # ---------------Imports--------------------
 
 bot = AoipyClient(prefix="!", case_insensitive=False, intents=("all",))
-events = AoiEvents()
-command = Commands().command
 
-events.onReady(
+bot.onReady(
     code="$pyEval[print('Bot is Ready')]"
 )
 
-command(
+bot.command(
     Name="Ping",
     Code="""
-    $sendMessage[$currentChannelID[]; Pong!!]
+    $sendMessage[$channelID; Pong!! $ping]
     """
 )
 
