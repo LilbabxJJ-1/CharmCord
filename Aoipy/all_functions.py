@@ -61,6 +61,7 @@ date_funcs=[
 ]
 
 no_arg_Funcs = [
+    '$authorID',
     "$channelID",
     "$ping",
     "$guildID"
