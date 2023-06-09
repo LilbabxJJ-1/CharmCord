@@ -65,6 +65,16 @@ class Aoipy:
     def run(self, token: str):
         bots.run(token)
 
+    def command(self, Name, Code, Aliases=[]):
+        from .Commands import Commands
+        co = Commands().command
+        co(
+            Name=Name,
+            Code=Code,
+            Aliases=Aliases
+        )
+
+
     def onChannelUpdated(self, Code):
         @bots.event
         async def on_guild_channel_update(before, after):
