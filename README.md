@@ -30,7 +30,7 @@ from Aoipy import AoipyClient
 bot = AoipyClient(prefix="!", case_insensitive=False, intents=("all",))
 
 bot.onReady(
-    code="$pyEval[print('Bot is Ready')]"
+    Code="$pyEval[print('Bot is Ready')]"
 )
 
 bot.command(
