@@ -10,17 +10,19 @@
 ![PyPI - License](https://img.shields.io/pypi/l/aoipy)
 ![](https://tokei.rs/b1/github/tomschimansky/aoipy)
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
 ---
 ![logo](https://github.com/LilbabxJJ-1/AoiPy/blob/master/CharmCord%20logo.png)
 
-### Using AoiPy
+---
+### Using CharmCord
 
 1 - Install CharmCord
 ```bash
 pip install CharmCord
 ```
 
-2 - Import AoiClient
+2 - Import CharmClient
 
 ```python
 from CharmCord import CharmClient
