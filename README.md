@@ -4,7 +4,7 @@
 
 ---
 ### Stats ✨
-![PyPI](https://img.shields.io/pypi/v/aoipy)
+![PyPI](https://img.shields.io/pypi/v/charmcord)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/aoipy?color=green&label=downloads)
 ![Downloads](https://static.pepy.tech/personalized-badge/aoipy?period=total&units=international_system&left_color=grey&right_color=green&left_text=downloads)
 ![PyPI - License](https://img.shields.io/pypi/l/aoipy)
