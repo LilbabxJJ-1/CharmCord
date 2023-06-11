@@ -13,7 +13,10 @@
 
 ### Using AoiPy
 
-1 - `pip install AoiPy`
+1 - Install CharmCord
+```bash
+pip install CharmCord
+```
 
 2 - Import AoiClient
 
