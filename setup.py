@@ -4,17 +4,17 @@ with open("README.md", "r") as rd:
 
 setuptools.setup(
     # Here is the module name.
-    name="AoiPy",
-    version="0.14.2",
+    name="CharmCord",
+    version="0.15.0",
     author="Jade",
-    description="Aoi.py is the best python string-based package for Discord bot devs",
+    description="CharmCord is the best python string-based package for Discord bot devs",
     long_description=longtext,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
 
     # if module has dependencies i.e. if your package rely on other package at pypi.org
     # then you must add there, in order to download every requirement of package
-    install_requires=["Py-cord", "Discord", "pytz", "datetime"],
+    install_requires=["Py-cord", "pytz"],
     license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",

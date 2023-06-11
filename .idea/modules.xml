@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/AoiPy2-0.iml" filepath="$PROJECT_DIR$/.idea/AoiPy2-0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CharmCord.iml" filepath="$PROJECT_DIR$/.idea/CharmCord.iml" />
     </modules>
   </component>
 </project>
