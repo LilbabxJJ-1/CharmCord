@@ -7,12 +7,14 @@ import asyncio
 global TotalFuncs
 global bots
 global all_commands
+global all_vars
 
 
 class Aoipy:
     # Global variables
     global bots
     global all_commands
+    global all_vars
 
     def __init__(self, prefix, case_insensitive, intents: tuple, activity, help_command, load_command_dir):
         # Global variables
@@ -28,6 +30,7 @@ class Aoipy:
         self.intent = ''
         self._activity = activity
         all_commands = {}
+        self.all_variables = {}
 
         # Determine intents
         if "all" in self.intented:
@@ -56,16 +59,43 @@ class Aoipy:
                                          activity=self._activity,
                                          help_command=self._help_command)
             bots = self._clients
+
         try:
             load_commands(load_command_dir)
         except FileNotFoundError:
             pass
+
+        import json
+        try:
+           with open("variables.json", "r") as var:
+                pass
+        except FileNotFoundError:
+            with open("variables.json", "w") as var:
+                go = {"STRD": True}
+                json.dump(go, var)
+
         # super().__init__(intents=self.intent)
 
     def run(self, token: str):
         bots.run(token)
 
-    def command(self, Name, Code, Aliases=[]):
+    def variables(self, vars: dict):
+        global all_vars
+        for key, value in vars.items():
+            self.all_variables[key] = value
+        all_vars = self.all_variables
+
+    def slashCommand(self, Name: str, Code: str, Args: list, Description: str):
+        from .SlashCommands import SlashCommands
+        sl = SlashCommands().slashCommand
+        sl(
+            Name=Name,
+            Code=Code,
+            Args=Args,
+            Description=Description.lower()
+        )
+
+    def command(self, Name: str, Code: str, Aliases=[]):
         from .Commands import Commands
         co = Commands().command
         co(
@@ -73,7 +103,6 @@ class Aoipy:
             Code=Code,
             Aliases=Aliases
         )
-
 
     def onChannelUpdated(self, Code):
         @bots.event
