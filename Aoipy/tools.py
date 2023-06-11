@@ -35,6 +35,34 @@ async def noArguments(entry: str, Functions, context):
     return entry
 
 
+def slashArgs(args, Code):
+    if '$slashArgs' in Code:
+        while "$slashArgs" in str(Code):
+            count = 0
+            end = None
+            balance = 0
+            start = Code.index("$slashArgs") + 10
+            look = Code[start:len(Code)]
+            for i in look:
+                if i == "[":
+                    start = count
+                    count += 1
+                    balance += 1
+                    continue
+                if i == "]":
+                    end = count
+                    balance -= 1
+                count += 1
+                if balance == 0 and start is not None and end is not None:
+                    try:
+                        # Replace $args with arguments
+                        Code = str(Code).replace(f"$slashArgs[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
+                        break
+                    except IndexError:
+                        raise SyntaxError(F"$slashArgs[{int(look[start + 1:end])}] Not Provided")
+    return Code
+
+
 async def findBracketPairs(entry: str, Functions, context):
     test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     starts = 0
@@ -96,7 +124,7 @@ async def findBracketPairs(entry: str, Functions, context):
             end = None
             balance = 0
             for i in argument:
-                if i == "$" and start is None:
+                if i == "$" and start is None and argument[count + 1] != '$':
                     start = count
                 elif i == "[":
                     balance += 1
@@ -120,6 +148,49 @@ async def findBracketPairs(entry: str, Functions, context):
         return name
     except Exception as e:
         raise Exception(f"Error at: {e}")
+
+
+def ifs(args):
+    choices = ["==", ">=" "<=", "<", ">", "!="]
+    if "$if" in args:
+        if args.count("$if") > 1:
+            raise SyntaxError("Too many $if")
+        pass
+    else:
+        return
+    while "$if" in args:
+        start = args[args.index("$if[") + 4:]
+        count = 1
+        counter = 0
+        for i in start:
+            if i == "[":
+                count += 1
+                counter += 1
+            elif i == "]":
+                count -= 1
+                counter += 1
+                end = counter
+            counter += 1
+            if count == 0:
+                break
+        statement = args[args.index("$if[") + 4:end + 8]
+        for i in choices:
+            if i in args:
+                if i in ["==", "!="]:
+                    vals = statement.split(i)
+                    val1 = vals[0]
+                    val2 = vals[1]
+                else:
+                    vals = statement.split(i)
+                    val1 = int(vals[0])
+                    val2 = int(vals[1])
+                test = eval(f"val1 {i} val2")
+                if test:
+                    args = args.replace(f"$if[{statement}]\n", "")
+                    return args
+                else:
+                    return False
+    return False
 
 
 def checkArgs(args, Code):
