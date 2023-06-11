@@ -1,6 +1,6 @@
-# AoiPy
+# CharmCord
 
-### Aoi.py is the best python string-based package for Discord bot creators!
+### CharmCord is the best python string-based package for Discord bot creators!
 
 
 ![PyPI](https://img.shields.io/pypi/v/aoipy)
@@ -18,7 +18,7 @@
 2 - Import AoiClient
 
 ```python
-from CharmCord import AoipyClient
+from CharmCord import CharmClient
 ```
 
 3 -  Example:
