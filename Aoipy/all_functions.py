@@ -1,5 +1,5 @@
 all_Funcs = [
-    # channels--------
+    "$authorID",
     "$channelCategoryID",
     "$channelCategoryName",
     "$channelCreated",
@@ -11,25 +11,33 @@ all_Funcs = [
     "$channelPosition",
     "$channelType",
     "$channelURL",
-    # Guilds
-    "$guildID",
-    "$guildTextChannels",
-    "$guildName",
-    "$wait",
-    "$sendEmbed",
-    "$userMention",
     "$count",
-    "$username",
-    "$authorID",
-    "$sendMessage",
+    "$deletedChannel",
+    "$getVar",
+    "$getUserVar",
+    "$guildID",
+    "$guildName",
+    "$guildTextChannels",
+    "$messageAuthor",
+    "$messageContent",
+    "$oldChannel",
+    "$ping",
     "$pyEval",
-    '$deletedChannel',
-    '$oldChannel',
-    '$ping'
+    "$sendMessage",
+    "$setUserVar",
+    "$setVar",
+    "$slashSend",
+    "$userMention",
+    "$username",
+    "$getVar",
+    "$setUserVar",
+    "$setVar",
+    "$getUserVar",
+    "$wait"
 ]
 
 argument_funcs = [
-    #channels--------
+    "$authorID",
     "$channelCategoryID",
     "$channelCategoryName",
     "$channelCreated",
@@ -42,29 +50,27 @@ argument_funcs = [
     "$channelURL",
     "$guildTextChannels",
     "$guildName",
- 
-    #others for now-------
-    "$wait",
-    "$sendEmbed",
-    "$userMention",
-    "$count",
-    "$username",
-    "$authorID",
-    "$sendMessage",
-    "$pyEval",
-    '$deletedChannel',
-    '$oldChannel'
+    "$messageAuthor",
+    "$messageContent",
+    "$getVar",
+    "$getServerVar",
+    "$getUserVar",
+    "$getGlobalUserVar",
+    "$setVar",
+    "$setServerVar",
+    "$setUserVar",
+    "$setGlobalUserVar"
 ]
 
-date_funcs=[
+date_funcs = [
     "$channelCreated"
 ]
 
 no_arg_Funcs = [
-    '$authorID',
+    "$authorID",
     "$channelID",
-    "$ping",
-    "$guildID"
+    "$guildID",
+    "$ping"
 ]
 
 newline_char = "*n*"
