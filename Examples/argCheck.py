@@ -1,4 +1,4 @@
-from Aoipy import Bot, Commands
+from CharmCord import Bot, Commands
 bot = Bot(prefix="!", case_insensitive=True, intents=("all",))
 commands = Commands().command
 

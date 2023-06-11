@@ -1,4 +1,4 @@
-from Aoipy import Bot, Commands, AoiEvents
+from CharmCord import Bot, Commands, AoiEvents
 bot = Bot(prefix="!", case_insensitive=True, intents=("all",))
 commands = Commands().command
 event = AoiEvents()

@@ -18,17 +18,17 @@
 2 - Import AoiClient
 
 ```python
-from Aoipy import AoipyClient
+from CharmCord import AoipyClient
 ```
 
 3 -  Example:
 
 ```python
 
-from Aoipy import AoipyClient
+from CharmCord import CharmClient
 # ---------------Imports--------------------
 
-bot = AoipyClient(prefix="!", case_insensitive=False, intents=("all",))
+bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",))
 
 bot.onReady(
     Code="$pyEval[print('Bot is Ready')]"

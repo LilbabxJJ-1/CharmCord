@@ -26,7 +26,9 @@ pip install Aoipy
 <summary>Step 2: Imports and bot instance</summary>
 
 ```python
-from Aoipy import AoipyClient, Command,...
+from CharmCord import AoipyClient, Command,
+
+...
 ```
 
 _As of update 0.11.3 you can Import the **Client**, **Command**, **Event**, and **setActivity** Function_
@@ -42,8 +44,9 @@ Bot Instance with Commands
 
 
 {% code overflow="wrap" %}
+
 ```python
-from Aoipy import AoipyClient, Commands, AoiEvents, setActivity
+from CharmCord import AoipyClient, Commands, AoiEvents, setActivity
 
 # ---------------Imports--------------------
 commands = Commands().command
@@ -62,8 +65,9 @@ commands(
 Bot Instance with Events and Activities
 
 {% code overflow="wrap" %}
+
 ```python
-from Aoipy import AoipyClient, Commands, AoiEvents, setActivity
+from CharmCord import AoipyClient, Commands, AoiEvents, setActivity
 
 # ---------------Imports--------------------
 commands = Commands().command
