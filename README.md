@@ -46,7 +46,7 @@ bot.run("*******<<TOKEN>>***********")
 ```
 
 ## New and still a work in progress
-
+![](https://github.com/LilbabxJJ-1/CharmCord/blob/master/logo.gif)
 ## Contributors ✨
 
 <a href="https://github.com/LilbabxJJ-1/AoiPy2.0/graphs/contributors">
