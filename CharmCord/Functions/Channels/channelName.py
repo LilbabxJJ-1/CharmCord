@@ -1,6 +1,6 @@
-import CharmCord.AoiErrorHandling as ErrorHandling
+import CharmCord.CharmErrorHandling as ErrorHandling
 
-EH = ErrorHandling.AoipyErrorHandling()
+EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelName(ID, Context):

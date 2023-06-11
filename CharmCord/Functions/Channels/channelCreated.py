@@ -1,5 +1,5 @@
-import CharmCord.AoiErrorHandling as ErrorHandling
-EH = ErrorHandling.AoipyErrorHandling()
+import CharmCord.CharmErrorHandling as ErrorHandling
+EH = ErrorHandling.CharmErrorHandling()
 
 async def channelCreated(args: str, Context, timezones, format_datetime):
     if len(args) < 1:

@@ -1,7 +1,7 @@
 import discord
-import CharmCord.AoiErrorHandling as ErrorHandling
+import CharmCord.CharmErrorHandling as ErrorHandling
 
-EH = ErrorHandling.AoipyErrorHandling()
+EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelType(ID, Context):

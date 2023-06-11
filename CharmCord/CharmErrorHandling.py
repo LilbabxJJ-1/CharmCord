@@ -1,4 +1,4 @@
-class CharmpyErrorHandling:
+class CharmErrorHandling:
 
     def Errors(self, error, code):
         """
