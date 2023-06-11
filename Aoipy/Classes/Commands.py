@@ -1,4 +1,4 @@
-from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck, noArguments
+from Aoipy.tools import findBracketPairs, checkArgs, checkArgCheck, noArguments, ifs
 
 
 ########################################
@@ -21,4 +21,7 @@ class Commands:
                 return
             finalCode = checkArgs(args, newCode)
             finalCode = await noArguments(finalCode, TotalFuncs, Context)
+            finalCode = ifs(finalCode)
+            if finalCode is False:
+                return
             await findBracketPairs(finalCode, TotalFuncs, Context)
