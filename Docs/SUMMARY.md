@@ -9,6 +9,8 @@
 
 ## Functions
 
+* [Messages](functions/messages/README.md)
+  * [sendMessage](functions/messages/sendmessage.md)
 * [Keyword Reminder](functions/keyword-reminder.md)
 * [args](functions/args.md)
 * [argCheck](functions/argcheck.md)
