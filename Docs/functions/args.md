@@ -1,8 +1,17 @@
-# $args
+---
+description: Used to grab any arguments that have/will be given when using command
+---
 
-Description: Used to grab any arguments that have/will be given when usinga command
+# args
 
-Ex Use:`$args[1]`
+```python
+bot.command(
+    Name = "say",
+    Code = """
+        $sendMessage[$channelID; $args[1]!]
+    """
+)
+```
 
 Parameters:&#x20;
 
