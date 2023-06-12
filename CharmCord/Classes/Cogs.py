@@ -6,7 +6,7 @@ import asyncio
 AC = {}
 
 
-class Aoicogs:
+class Charmcogs:
     def Cogs(self, Name, Code):
         from .CharmCord import bots
 
