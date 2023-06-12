@@ -157,7 +157,7 @@ def ifs(args):
             raise SyntaxError("Too many $if")
         pass
     else:
-        return
+        return args
     while "$if" in args:
         start = args[args.index("$if[") + 4:]
         count = 1
