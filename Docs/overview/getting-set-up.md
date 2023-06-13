@@ -1,83 +1,68 @@
 ---
 description: >-
-  Congratulations! You're now ready to unleash the power of AoiPy and build
+  Congratulations! You're now ready to unleash the power of CharmCord and build
   incredible Discord bots. Explore the extensive documentation, tap into the
   vibrant developer community
 ---
 
 # 🛠 Getting set up
 
-
-
 <details>
 
-<summary>Step 1: Installing Aoi.Py</summary>
+<summary>Step 1: Installing CharmCord</summary>
 
 Need Python 3.5 and Above
 
 ```bash
-pip install Aoipy
+pip install CharmCord
 ```
 
 </details>
 
 <details>
 
-<summary>Step 2: Imports and bot instance</summary>
+<summary>Step 2: Imports</summary>
 
-```python
-from CharmCord import AoipyClient, Command,
+<pre class="language-python"><code class="lang-python">from CharmCord import CharmClient
 
-...
-```
-
-_As of update 0.11.3 you can Import the **Client**, **Command**, **Event**, and **setActivity** Function_
+<strong>...
+</strong></code></pre>
 
 </details>
 
 <details>
 
-<summary>Step 3: Creating a AoiPy Bot Instance</summary>
+<summary>Step 3: Creating a CharmCord Bot Instance</summary>
 
 Bot Instance with Commands
 
-
-
-{% code overflow="wrap" %}
-
-```python
-from CharmCord import AoipyClient, Commands, AoiEvents, setActivity
+<pre class="language-python" data-overflow="wrap"><code class="lang-python">from CharmCord import CharmClient
 
 # ---------------Imports--------------------
-commands = Commands().command
-bot = AoipyClient(prefix="!", case_insensitive=True, intents=("all",))
+bot = CharmClient(prefix="!", case_insensitive=True, intents=("all",))
 
-commands(
-    Name='Ping',
+<strong>bot.command(
+</strong>    Name='Ping',
     Aliases=["pg"],
     Code="""
-    $sendMessage[$currentChannelID[]; Pong!]
+    $sendMessage[$channelID; $ping Pong!]
     """
 )
-```
-{% endcode %}
+</code></pre>
 
 Bot Instance with Events and Activities
 
 {% code overflow="wrap" %}
-
 ```python
-from CharmCord import AoipyClient, Commands, AoiEvents, setActivity
+from CharmCord import CharmClient, setActivity
 
 # ---------------Imports--------------------
-commands = Commands().command
-event = AoiEvents()
 act = setActivity(type="watching", message="My friends")
-bot = AoipyClient(prefix="!", case_insensitive=True, intents=("all",), activity=act)
+bot = CharmClient(prefix="!", case_insensitive=True, intents=("all",), activity=act)
 
-event.onReady(code="""$pyeval[print('Bot is online!')]""")
+bot.onReady(code="""$pyeval[print('Bot is online!')]""")
 
-commands(
+bot.command(
     Name='Ping',
     Aliases=["pg"],
     Code="""
@@ -93,7 +78,7 @@ commands(
 
 <summary>Step 4: Add the run method</summary>
 
-Lastly and most simple you will add
+Lastly and most simple, you will add
 
 ```python
 bot.run("YOUR-TOKEN-HERE")
