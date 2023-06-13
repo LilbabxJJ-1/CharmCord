@@ -92,6 +92,7 @@ async def findBracketPairs(entry: str, Functions, context):
             test[starts] = (test[starts - 1] + " " + test[starts].strip())
             test.remove(test[starts - 1])
         else:
+            starts +=1
             continue
 
     if len(test) == 0:
