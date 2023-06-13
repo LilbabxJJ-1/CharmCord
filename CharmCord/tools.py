@@ -1,5 +1,5 @@
 from CharmCord.Functions import *
-from CharmCord.all_functions import all_Funcs, date_funcs
+from CharmCord.all_functions import all_Funcs, date_funcs, ifse
 from datetime import datetime as D_T
 from pytz import timezone
 
@@ -21,6 +21,9 @@ class FunctionHandler:
             self.funcs[line.replace("\n", "").lower()] = function
 
     async def execute_functions(self, keyword, args, context):
+        if keyword in ifse:
+            check = await self.funcs[keyword](args, context)
+            return check
         if keyword in date_funcs:
             return await self.funcs[keyword](args, context, timezones, format_datetime)
         return await self.funcs[keyword](args, context)
@@ -63,11 +66,15 @@ def slashArgs(args, Code):
     return Code
 
 
+EndIf = True
+
+
 async def findBracketPairs(entry: str, Functions, context):
+    global EndIf
     test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     starts = 0
     for i in test:
-        if i.strip().startswith("$") and i[-1] != "]":
+        if i.strip().startswith("$") and i[-1] != "]" and "[" in i.strip():
             try:
                 test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
                 test.remove(test[starts + 1])
@@ -86,16 +93,27 @@ async def findBracketPairs(entry: str, Functions, context):
             test.remove(test[starts - 1])
         else:
             continue
-    try:
-        if test[-1].endswith("]") and test[-2][-1] != "]":
-            test[-2] = test[-2] + " " + test[-1].strip()
-            test.remove(test[-1])
-    except:
-        pass
 
     if len(test) == 0:
         test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     for code in test:
+        if EndIf:
+            if code.strip().startswith("$EndIf"):
+                continue
+            elif code.strip().startswith("$ElIf"):
+                EndIf = False
+                continue
+            else:
+                pass
+        else:
+            if code.strip().startswith("$ElIf"):
+                EndIf = True
+                pass
+            elif code.strip().startswith("$EndIf"):
+                EndIf = True
+                continue
+            else:
+                continue
         code = code.strip()
         first = None
         last = None
@@ -140,7 +158,16 @@ async def findBracketPairs(entry: str, Functions, context):
                 argument = str(await findBracketPairs(argument, Functions, context)) + argument[end + 1:]
             find = [first, last, keyword, argument, context]
         if find[2].lower() in Functions.funcs:
+
             name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
+            if find[2] == "$If" and name is False:
+                EndIf = False
+                continue
+            if find[2] == "$ElIf" and EndIf is False:
+                if name is False:
+                    EndIf = False
+                else:
+                    EndIf = True
         else:
             name = find[2]
 
@@ -148,49 +175,6 @@ async def findBracketPairs(entry: str, Functions, context):
         return name
     except Exception as e:
         raise Exception(f"Error at: {e}")
-
-
-def ifs(args):
-    choices = ["==", ">=" "<=", "<", ">", "!="]
-    if "$if" in args:
-        if args.count("$if") > 1:
-            raise SyntaxError("Too many $if")
-        pass
-    else:
-        return args
-    while "$if" in args:
-        start = args[args.index("$if[") + 4:]
-        count = 1
-        counter = 0
-        for i in start:
-            if i == "[":
-                count += 1
-                counter += 1
-            elif i == "]":
-                count -= 1
-                counter += 1
-                end = counter
-            counter += 1
-            if count == 0:
-                break
-        statement = args[args.index("$if[") + 4:end + 8]
-        for i in choices:
-            if i in args:
-                if i in ["==", "!="]:
-                    vals = statement.split(i)
-                    val1 = vals[0]
-                    val2 = vals[1]
-                else:
-                    vals = statement.split(i)
-                    val1 = int(vals[0])
-                    val2 = int(vals[1])
-                test = eval(f"val1 {i} val2")
-                if test:
-                    args = args.replace(f"$if[{statement}]\n", "")
-                    return args
-                else:
-                    return False
-    return False
 
 
 def checkArgs(args, Code):
