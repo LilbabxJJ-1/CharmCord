@@ -96,11 +96,15 @@ async def findBracketPairs(entry: str, Functions, context):
 
     if len(test) == 0:
         test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
+    line = 0
     for code in test:
+        line += 1
         if EndIf:
             if code.strip().startswith("$EndIf"):
                 continue
             elif code.strip().startswith("$ElIf"):
+                if not any('$If' in i for i in test):
+                    raise SyntaxError("No $If found in command before $ElIf")
                 EndIf = False
                 continue
             else:
@@ -162,12 +166,29 @@ async def findBracketPairs(entry: str, Functions, context):
             name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
             if find[2] == "$If" and name is False:
                 EndIf = False
+                if not any('$EndIf' in i for i in test):
+                    raise SyntaxError("No $EndIf found in command after $If")
+            elif find[2] == "$If":
+                if not any('$EndIf' in i for i in test):
+                    raise SyntaxError("No $EndIf found in command after $If")
+
                 continue
             if find[2] == "$ElIf" and EndIf is False:
-                if name is False:
-                    EndIf = False
-                else:
-                    EndIf = True
+                if not any('$If' in i for i in test):
+                    raise SyntaxError("No $If found in command before $ElIf")
+
+                if not any('$EndIf' in i for i in test):
+                    raise SyntaxError("No $EndIf found in command after $Elif")
+
+            if find[2] == "$ElIf":
+                if not any('$If' in i for i in test):
+                    raise SyntaxError("No $If found in command before $ElIf")
+
+                if not any('$EndIf' in i for i in test):
+                    raise SyntaxError("No $EndIf found in command after $Elif")
+
+            EndIf = name is not False
+
         else:
             name = find[2]
 
