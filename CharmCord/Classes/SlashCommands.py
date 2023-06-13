@@ -14,7 +14,7 @@ class SlashCommands:
 async def go(ctx, {', '.join(Args)}):
                 global code
                 global args
-                from Aoipy.Classes.AoiPyClient import TotalFuncs
+                from CharmCord.Classes.CharmClient import TotalFuncs
                 Context = ctx
                 new = []
                 for i in args:
