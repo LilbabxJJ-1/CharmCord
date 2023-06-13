@@ -15,6 +15,8 @@ all_Funcs = [
     "$deletedChannel",
     "$getVar",
     "$getUserVar",
+    "$getServerVar",
+    "$setServerVar",
     "$guildID",
     "$guildName",
     "$guildTextChannels",
@@ -33,7 +35,9 @@ all_Funcs = [
     "$setUserVar",
     "$setVar",
     "$getUserVar",
-    "$wait"
+    "$wait",
+    "$If",
+    "$ElIf"
 ]
 
 argument_funcs = [
@@ -64,6 +68,11 @@ argument_funcs = [
 
 date_funcs = [
     "$channelCreated"
+]
+
+ifse = [
+    "$If",
+    "$ElIf"
 ]
 
 no_arg_Funcs = [
