@@ -249,7 +249,6 @@ async def checkArgCheck(args, Code, Context):
                 Code = Code.replace(f"$argCheck[{argTotal}]\n", "")
                 return Code
         except Exception as e:
-            print(e)
             raise SyntaxError("Not enough arguments in $argCheck!")
     return Code
 

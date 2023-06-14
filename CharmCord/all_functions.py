@@ -37,7 +37,8 @@ all_Funcs = [
     "$getUserVar",
     "$wait",
     "$If",
-    "$ElIf"
+    "$ElIf",
+    "$console"
 ]
 
 argument_funcs = [
@@ -63,7 +64,8 @@ argument_funcs = [
     "$setVar",
     "$setServerVar",
     "$setUserVar",
-    "$setGlobalUserVar"
+    "$setGlobalUserVar",
+    "$console"
 ]
 
 date_funcs = [
