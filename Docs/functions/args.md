@@ -1,8 +1,9 @@
+# $args
 ---
-description: Used to grab any arguments that have/will be given when using command
+description: Used to grab any arguments that have/will be given when using commands
 ---
 
-# args
+## Use
 
 ```python
 bot.command(
@@ -10,12 +11,16 @@ bot.command(
     Code = """
         $sendMessage[$channelID; $args[1]!]
     """
+
+    # If user did !say CharmCord, bot would reply 'CharmCord'
 )
 ```
 
-Parameters:&#x20;
+---
 
-| Name      | Type                                 | Description                                                                                     | Required                             |
-| --------- | ------------------------------------ | ----------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **Index** | <mark style="color:blue;">Int</mark> | The number arg that you are looking for, starting at 1 and going up. 1 being the first argument | <mark style="color:red;">True</mark> |
+## Parameters
 
+| Name      | Type           | Description                             | Required |
+| --------- | -------------- | --------------------------------------- | -------- |
+| Index     | `Int`          | The number arg you are looking for       | `true`   |
+| Parameter | `String`       | The parameter description                | `false`  |
