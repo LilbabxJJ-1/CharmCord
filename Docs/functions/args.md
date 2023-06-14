@@ -1,6 +1,7 @@
-# $args
----
-description: Used to grab any arguments that have/will be given when using commands
+# $Args
+
+### Used to grab any arguments that have/will be given when using commands
+
 ---
 
 ## Use
