@@ -1,4 +1,5 @@
 all_Funcs = [
+    "$botID",
     "$authorID",
     "$channelCategoryID",
     "$channelCategoryName",
@@ -39,7 +40,8 @@ all_Funcs = [
     "$If",
     "$ElIf",
     "$console",
-    "$onlyIf"
+    "$onlyIf",
+    "$botName"
 ]
 
 argument_funcs = [
@@ -67,7 +69,7 @@ argument_funcs = [
     "$setUserVar",
     "$setGlobalUserVar",
     "$console",
-    "$onlyIf"
+    "$onlyIf",
 ]
 
 date_funcs = [
@@ -80,6 +82,8 @@ ifse = [
 ]
 
 no_arg_Funcs = [
+    "$botName",
+    "$botID",
     "$authorID",
     "$channelID",
     "$guildID",
