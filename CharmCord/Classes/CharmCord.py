@@ -130,9 +130,9 @@ class CharmCord:
     def onReady(self, Code):
         @bots.event
         async def on_ready():
-            from CharmCord.tools import findBracketPairs
-            await findBracketPairs(Code, TotalFuncs, None)
-
+            from CharmCord.tools import noArguments, findBracketPairs
+            finalCode = await noArguments(Code, TotalFuncs, None)
+            await findBracketPairs(finalCode, TotalFuncs, None)
 
 def CharmClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None,
                 load_command_dir="commands"):
