@@ -92,7 +92,7 @@ async def findBracketPairs(entry: str, Functions, context):
             test[starts] = (test[starts - 1] + " " + test[starts].strip())
             test.remove(test[starts - 1])
         else:
-            starts +=1
+            starts += 1
             continue
 
     if len(test) == 0:
@@ -165,6 +165,8 @@ async def findBracketPairs(entry: str, Functions, context):
         if find[2].lower() in Functions.funcs:
 
             name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
+            if find[2] == "$onlyIf" and name is False:
+                return
             if find[2] == "$If" and name is False:
                 EndIf = False
                 if not any('$EndIf' in i for i in test):
@@ -202,28 +204,34 @@ async def findBracketPairs(entry: str, Functions, context):
 def checkArgs(args, Code):
     if '$args' in Code:
         while "$args" in str(Code):
-            count = 0
-            end = None
-            balance = 0
-            start = Code.index("$args") + 5
-            look = Code[start:len(Code)]
-            for i in look:
-                if i == "[":
-                    start = count
+            if '$args[' in Code:
+                count = 0
+                end = None
+                balance = 0
+                start = Code.index("$args") + 5
+                look = Code[start:len(Code)]
+                for i in look:
+                    if i == "[":
+                        start = count
+                        count += 1
+                        balance += 1
+                        continue
+                    if i == "]":
+                        end = count
+                        balance -= 1
                     count += 1
-                    balance += 1
-                    continue
-                if i == "]":
-                    end = count
-                    balance -= 1
-                count += 1
-                if balance == 0 and start is not None and end is not None:
-                    try:
-                        # Replace $args with arguments
-                        Code = str(Code).replace(f"$args[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
-                        break
-                    except IndexError:
-                        raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
+                    if balance == 0 and start is not None and end is not None:
+                        try:
+                            # Replace $args with arguments
+                            Code = str(Code).replace(f"$args[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
+                            break
+                        except IndexError:
+                            raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
+            else:
+                new = ''
+                for i in args:
+                    new += f"{i} "
+                Code = str(Code).replace(f"$args", new)
     return Code
 
 
