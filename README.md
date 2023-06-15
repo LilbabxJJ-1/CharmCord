@@ -38,7 +38,7 @@ from CharmCord import CharmClient
 bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",))
 
 bot.onReady(
-    Code="$pyEval[print('Bot is Ready')]"
+    Code="$console[Bot is Ready]"
 )
 
 bot.command(
