@@ -32,8 +32,24 @@ from CharmCord import CharmClient
 
 bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",))
 
+bot.variables({
+    "money": 199
+})
+
 bot.onReady(
     Code="$console[Bot is Ready]"
+)
+
+bot.command(
+    Name="add-money",
+    Code="""
+    $setUserVar[$args[1];money;$args[2]]
+    $sendMessage[$channelID;Added $$args[2] to $userName[$args[1]]'s account]
+    """
+    # !add-money 123456789 300 
+    # This would add money to the user variable then 
+    # send a confirmation message in the channel it 
+    # was invoked
 )
 
 bot.command(
