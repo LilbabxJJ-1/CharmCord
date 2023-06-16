@@ -1,4 +1,4 @@
-# CharmCord
+# <span style="color:pink">CharmCord</span>
 
 ### CharmCord is the best python string-based package for Discord bot creators!
 
