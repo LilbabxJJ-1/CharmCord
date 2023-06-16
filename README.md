@@ -15,7 +15,7 @@
 ![logo](https://github.com/LilbabxJJ-1/AoiPy/blob/master/CharmCord%20logo.png)
 
 ---
-### Using <span style="color:ping">CharmCord</span>
+### Using <span style="color:pink">CharmCord</span>
 
 1 - Install [CharmCord](https://pypi.org/charmcord)
 ```bash
