@@ -61,7 +61,7 @@ act = setActivity(message="my servers", type="watching")
 
 # For Commands outside the main.py file, you should add the 
 # load_command_dir parameter with the name of your command file
-bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",), load_command_dir="Commands")
+bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",), activity=act,  load_command_dir="Commands")
 
 
 bot.onReady(
