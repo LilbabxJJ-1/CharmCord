@@ -1,24 +1,22 @@
-from CharmCord import Bot, Commands, AoiEvents
-bot = Bot(prefix="!", case_insensitive=True, intents=("all",))
-commands = Commands().command
-event = AoiEvents()
+from CharmCord import CharmClient
+bot = CharmClient(prefix="!", case_insensitive=True, intents=("all",))
 
-commands(
+bot.commands(
     Name='Send',
     Code="""
-    $send[1112301680839643156;Hiya, $username[$authorID[]] and $args[1]]"""
+    $sendMessage[$channelID;Hiya, $username[$authorID] and $args[1]]"""
 )
 
-commands(
+bot.commands(
     Name="Toast",
     Code="""
-    $send[1112301680839643156; I AM TOAST!!]
+    $sendMessage[1112301680839643156; I AM TOAST!!]
     $pyeval[print('Hey')]"""
 )
 
 
-event.onReady(
-    code="""$send[1112301680839643156; Bot is online!]"""
+bot.onReady(
+    code="""$console[$botName is online!]"""
 )
 
 
