@@ -63,7 +63,7 @@ bot.command(
 bot.run("*******<<TOKEN>>***********")
 ```
 
-
+---
 Slash Interactions/Outside Commands/Activity:
 
 ```python
