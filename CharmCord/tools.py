@@ -253,7 +253,6 @@ def safe_eval(expression):
     try:
         compiled = compile(ast_tree, "<string>", "eval")
         result = eval(compiled, namespace)
-        print(result)
         return result
     except Exception as e:
         raise ValueError("Evaluation error") from e

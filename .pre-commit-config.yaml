@@ -8,14 +8,14 @@ repos:
 # just so so so so many many many many
 # security issues with this lib
 # From your dearest, Noelle
-# -   repo: https://github.com/PyCQA/bandit
-#     rev: 1.7.5
-#     hooks:
-#     -   id: bandit
-#         args: ["-c", "pyproject.toml"]
-#         name: Bandit
-#         stages: [commit]
-#         additional_dependencies: ["bandit[toml]"]
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+    -   id: bandit
+        args: ["-c", "pyproject.toml"]
+        name: Bandit
+        stages: [commit]
+        additional_dependencies: ["bandit[toml]"]
 
 -   repo: https://github.com/psf/black
     rev: 23.3.0
