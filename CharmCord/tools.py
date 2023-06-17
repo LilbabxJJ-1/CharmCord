@@ -220,42 +220,6 @@ async def findBracketPairs(entry: str, Functions, context):
         raise Exception(f"Error at: {e}")
 
 
-import ast
-
-
-def safe_eval(expression):
-    # Validate the expression or restrict to a specific grammar if needed
-
-    # Parse the expression into an abstract syntax tree (AST)
-    try:
-        ast_tree = ast.parse(expression, mode='eval')
-    except SyntaxError:
-        raise ValueError("Invalid expression")
-
-    # Check if the AST contains any disallowed nodes
-    disallowed_nodes = [
-        ast.Call,
-        ast.FunctionDef,
-        ast.Import,
-        ast.ImportFrom,
-        ast.Attribute,
-    ]
-    for node in ast.walk(ast_tree):
-        if isinstance(node, tuple(disallowed_nodes)):
-            raise ValueError("Disallowed operation or function found")
-
-    # Create an empty namespace to restrict access to variables and functions
-    namespace = {}
-
-    # Execute the expression within the restricted environment
-    try:
-        compiled = compile(ast_tree, "<string>", "eval")
-        result = eval(compiled, namespace) # nosec
-        return result
-    except Exception as e:
-        raise ValueError("Evaluation error") from e
-
-
 def checkArgs(args, Code):
     if "$args" in Code:
         while "$args" in str(Code):
