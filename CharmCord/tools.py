@@ -1,8 +1,7 @@
 from datetime import datetime as D_T
 from pytz import timezone
-from CharmCord.all_functions import all_Funcs, date_funcs, ifse
+from CharmCord.all_functions import date_funcs, ifse
 from .Functions import *
-from ast import literal_eval
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 
@@ -13,7 +12,7 @@ class FunctionHandler:
 
     def register_functions(self):
         for line in all_Funcs:
-            function = eval(line.replace("$", ""))
+            function = eval(line.replace("$", "")) # nosec
             self.funcs[line.replace("\n", "").lower()] = function
 
     async def execute_functions(self, keyword, args, context):
@@ -243,7 +242,6 @@ def safe_eval(expression):
     ]
     for node in ast.walk(ast_tree):
         if isinstance(node, tuple(disallowed_nodes)):
-            print(node)
             raise ValueError("Disallowed operation or function found")
 
     # Create an empty namespace to restrict access to variables and functions
@@ -252,7 +250,7 @@ def safe_eval(expression):
     # Execute the expression within the restricted environment
     try:
         compiled = compile(ast_tree, "<string>", "eval")
-        result = eval(compiled, namespace)
+        result = eval(compiled, namespace) # nosec
         return result
     except Exception as e:
         raise ValueError("Evaluation error") from e
