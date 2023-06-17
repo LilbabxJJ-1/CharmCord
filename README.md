@@ -102,6 +102,6 @@ bot.run("*******<<TOKEN>>***********")
 ![](https://github.com/LilbabxJJ-1/CharmCord/blob/master/logo.gif)
 ## Contributors ✨
 
-<a href="https://github.com/LilbabxJJ-1/AoiPy2.0/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=LilbabxJJ-1/AoiPy2.0"  alt="aoi.py-contributors"/>
+<a href="https://github.com/LilbabxJJ-1/CharmCord/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=LilbabxJJ-1/CharmCord"  alt="CharmCord-contributors"/>
 </a>
