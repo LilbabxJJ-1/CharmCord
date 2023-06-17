@@ -1,5 +1,3 @@
-from ast import literal_eval
-
 async def count(code, Context):
     if isinstance(code, list):
         try:

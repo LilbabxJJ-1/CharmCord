@@ -1,8 +1,13 @@
-from ast import literal_eval
-
 async def If(args, context):
-    from CharmCord.tools import safe_eval
     choices = ["==", ">=", "<=", "!=", "<", ">"]
+    operator_mapping = {
+        "==": lambda x, y: x == y,
+        "!=": lambda x, y: x != y,
+        ">": lambda x, y: x > y,
+        ">=": lambda x, y: x >= y,
+        "<": lambda x, y: x < y,
+        "<=": lambda x, y: x <= y,
+    }
     for i in choices:
         if i in args:
             if i in ["==", "!="]:
@@ -13,8 +18,8 @@ async def If(args, context):
                 vals = args.split(i)
                 val1 = int(vals[0])
                 val2 = int(vals[1])
-            test = safe_eval(f"{val1} {i} {val2}")
-            if test:
+            result = operator_mapping.get(i, lambda x, y: None)(val1, val2)
+            if result:
                 return True
             else:
                 return False

@@ -1,28 +1,36 @@
 import discord
 
+
 async def onlyIf(args, context):
-    from CharmCord.tools import safe_eval
     choices = ["==", ">=", "<=", "!=", "<", ">"]
+    operator_mapping = {
+        "==": lambda x, y: x == y,
+        "!=": lambda x, y: x != y,
+        ">": lambda x, y: x > y,
+        ">=": lambda x, y: x >= y,
+        "<": lambda x, y: x < y,
+        "<=": lambda x, y: x <= y,
+    }
     if ";" in args:
-        value = args.split(";")
+        values = args.split(";")
         for i in choices:
-            if i in value[0]:
+            if i in args:
                 if i in ["==", "!="]:
-                    vals = value[0].split(i)
+                    vals = values[0]
                     val1 = vals[0]
                     val2 = vals[1]
                 else:
-                    vals = value[0].split(i)
+                    vals = values[0]
                     val1 = int(vals[0])
                     val2 = int(vals[1])
-                test = safe_eval(f"{val1} {i} {val2}")
-                if test:
+                result = operator_mapping.get(i, lambda x, y: None)(val1, val2)
+                if result:
                     return True
                 else:
                     if isinstance(context, discord.ApplicationContext):
-                        await context.respond(value[1])
+                        await context.respond(values[1])
                     else:
-                        await context.send(value[1])
+                        await context.send(values[1])
                     return False
     else:
         value = args.split(";")
@@ -36,8 +44,8 @@ async def onlyIf(args, context):
                     vals = args.split(i)
                     val1 = int(vals[0])
                     val2 = int(vals[1])
-                test = safe_eval(f"{val1} {i} {val2}")
-                if test:
+                result = operator_mapping.get(i, lambda x, y: None)(val1, val2)
+                if result:
                     return True
                 else:
                     return False
