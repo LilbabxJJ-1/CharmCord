@@ -2,7 +2,8 @@ import json
 
 
 async def setVar(args, Context):
-    from CharmCord.Classes.CharmCord import all_vars
+    pass
+
     ag = args.split(";")
     try:
         with open("variables.json", "r") as var:

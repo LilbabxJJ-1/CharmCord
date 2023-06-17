@@ -41,7 +41,7 @@ all_Funcs = [
     "$ElIf",
     "$console",
     "$onlyIf",
-    "$botName"
+    "$botName",
 ]
 
 argument_funcs = [
@@ -72,22 +72,10 @@ argument_funcs = [
     "$onlyIf",
 ]
 
-date_funcs = [
-    "$channelCreated"
-]
+date_funcs = ["$channelCreated"]
 
-ifse = [
-    "$If",
-    "$ElIf"
-]
+ifse = ["$If", "$ElIf"]
 
-no_arg_Funcs = [
-    "$botName",
-    "$botID",
-    "$authorID",
-    "$channelID",
-    "$guildID",
-    "$ping"
-]
+no_arg_Funcs = ["$botName", "$botID", "$authorID", "$channelID", "$guildID", "$ping"]
 
 newline_char = "*n*"

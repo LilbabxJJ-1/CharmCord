@@ -3,6 +3,7 @@ import json
 
 async def getServerVar(args, Context):
     from CharmCord.Classes.CharmCord import all_vars
+
     ag = args.split(";")
     server = ag[0]
     var = ag[1]

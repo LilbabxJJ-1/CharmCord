@@ -5,6 +5,7 @@ EH = ErrorHandling.CharmErrorHandling()
 
 async def username(user, context):
     from CharmCord.Classes.CharmCord import bots
+
     try:
         int(user)
         new_user = await bots.fetch_user(user)

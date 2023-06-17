@@ -1,4 +1,5 @@
 import setuptools
+
 with open("README.md", "r") as rd:
     longtext = rd.read()
 
@@ -11,7 +12,6 @@ setuptools.setup(
     long_description=longtext,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-
     # if module has dependencies i.e. if your package rely on other package at pypi.org
     # then you must add there, in order to download every requirement of package
     install_requires=["Py-cord", "pytz"],

@@ -1,17 +1,13 @@
-from CharmCord.Functions import *
-from CharmCord.all_functions import all_Funcs, date_funcs, ifse
 from datetime import datetime as D_T
+
 from pytz import timezone
 
-timezones = (
-    timezone('EST'),
-    timezone('UTC'),
-    timezone('US/Pacific')
-)
+from CharmCord.all_functions import all_Funcs, date_funcs, ifse
+
+timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 
 
 class FunctionHandler:
-
     def __init__(self):
         self.funcs = {}
 
@@ -31,21 +27,25 @@ class FunctionHandler:
 
 async def noArguments(entry: str, Functions, context):
     from .all_functions import no_arg_Funcs
+
     for func in no_arg_Funcs:
         if func in entry:
-            entry = entry.replace(func, str(await Functions.execute_functions(func.lower(), None, context)))
+            entry = entry.replace(
+                func,
+                str(await Functions.execute_functions(func.lower(), None, context)),
+            )
 
     return entry
 
 
 def slashArgs(args, Code):
-    if '$slashArgs' in Code:
+    if "$slashArgs" in Code:
         while "$slashArgs" in str(Code):
             count = 0
             end = None
             balance = 0
             start = Code.index("$slashArgs") + 10
-            look = Code[start:len(Code)]
+            look = Code[start : len(Code)]
             for i in look:
                 if i == "[":
                     start = count
@@ -59,10 +59,15 @@ def slashArgs(args, Code):
                 if balance == 0 and start is not None and end is not None:
                     try:
                         # Replace $args with arguments
-                        Code = str(Code).replace(f"$slashArgs[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
+                        Code = str(Code).replace(
+                            f"$slashArgs[{look[start + 1:end]}]",
+                            args[int(look[start + 1 : end]) - 1],
+                        )
                         break
                     except IndexError:
-                        raise SyntaxError(F"$slashArgs[{int(look[start + 1:end])}] Not Provided")
+                        raise SyntaxError(
+                            f"$slashArgs[{int(look[start + 1:end])}] Not Provided"
+                        )
     return Code
 
 
@@ -76,20 +81,26 @@ async def findBracketPairs(entry: str, Functions, context):
     for i in test:
         if i.strip().startswith("$") and i[-1] != "]" and "[" in i.strip():
             try:
-                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
+                test[starts] = (
+                    test[starts].strip() + " " + test[starts + 1].strip()
+                ).strip()
                 test.remove(test[starts + 1])
                 starts += 1
             except IndexError:
                 starts -= 1
-                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
+                test[starts] = (
+                    test[starts].strip() + " " + test[starts + 1].strip()
+                ).strip()
                 test.remove(test[starts + 1])
                 starts += 1
         elif i.endswith("]") and i[0].strip() != "$":
-            test[starts] = (test[starts - 1].strip() + " " + test[starts].strip()).strip()
+            test[starts] = (
+                test[starts - 1].strip() + " " + test[starts].strip()
+            ).strip()
             test.remove(test[starts - 1])
             starts += 1
         elif i[-1].strip() != "]" and i[0].strip() != "$":
-            test[starts] = (test[starts - 1] + " " + test[starts].strip())
+            test[starts] = test[starts - 1] + " " + test[starts].strip()
             test.remove(test[starts - 1])
         else:
             starts += 1
@@ -104,7 +115,7 @@ async def findBracketPairs(entry: str, Functions, context):
             if code.strip().startswith("$EndIf"):
                 continue
             elif code.strip().startswith("$ElIf"):
-                if not any('$If' in i for i in test):
+                if not any("$If" in i for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
                 EndIf = False
                 continue
@@ -113,7 +124,6 @@ async def findBracketPairs(entry: str, Functions, context):
         else:
             if code.strip().startswith("$ElIf"):
                 EndIf = True
-                pass
             elif code.strip().startswith("$EndIf"):
                 EndIf = True
                 continue
@@ -138,7 +148,7 @@ async def findBracketPairs(entry: str, Functions, context):
             if first is not None and last is not None and balance1 == 0:
                 break
             count += 1
-        argument = str(code[first + 1:last])
+        argument = str(code[first + 1 : last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
@@ -147,7 +157,7 @@ async def findBracketPairs(entry: str, Functions, context):
             end = None
             balance = 0
             for i in argument:
-                if i == "$" and start is None and argument[count + 1] != '$':
+                if i == "$" and start is None and argument[count + 1] != "$":
                     start = count
                 elif i == "[":
                     balance += 1
@@ -158,36 +168,46 @@ async def findBracketPairs(entry: str, Functions, context):
                 if balance == 0 and start is not None and end is not None:
                     break
             if start != 0:
-                argument = argument[:start] + str(await findBracketPairs(argument[start:end + 1], Functions, context)) + argument[end + 1:]
+                argument = (
+                    argument[:start]
+                    + str(
+                        await findBracketPairs(
+                            argument[start : end + 1], Functions, context
+                        )
+                    )
+                    + argument[end + 1 :]
+                )
             else:
-                argument = str(await findBracketPairs(argument, Functions, context)) + argument[end + 1:]
+                argument = (
+                    str(await findBracketPairs(argument, Functions, context))
+                    + argument[end + 1 :]
+                )
             find = [first, last, keyword, argument, context]
         if find[2].lower() in Functions.funcs:
-
             name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
             if find[2] == "$onlyIf" and name is False:
                 return
             if find[2] == "$If" and name is False:
                 EndIf = False
-                if not any('$EndIf' in i for i in test):
+                if not any("$EndIf" in i for i in test):
                     raise SyntaxError("No $EndIf found in command after $If")
             elif find[2] == "$If":
-                if not any('$EndIf' in i for i in test):
+                if not any("$EndIf" in i for i in test):
                     raise SyntaxError("No $EndIf found in command after $If")
 
                 continue
             if find[2] == "$ElIf" and EndIf is False:
-                if not any('$If' in i for i in test):
+                if not any("$If" in i for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any('$EndIf' in i for i in test):
+                if not any("$EndIf" in i for i in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             if find[2] == "$ElIf":
-                if not any('$If' in i for i in test):
+                if not any("$If" in i for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any('$EndIf' in i for i in test):
+                if not any("$EndIf" in i for i in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             EndIf = name is not False
@@ -202,14 +222,14 @@ async def findBracketPairs(entry: str, Functions, context):
 
 
 def checkArgs(args, Code):
-    if '$args' in Code:
+    if "$args" in Code:
         while "$args" in str(Code):
-            if '$args[' in Code:
+            if "$args[" in Code:
                 count = 0
                 end = None
                 balance = 0
                 start = Code.index("$args") + 5
-                look = Code[start:len(Code)]
+                look = Code[start : len(Code)]
                 for i in look:
                     if i == "[":
                         start = count
@@ -223,12 +243,17 @@ def checkArgs(args, Code):
                     if balance == 0 and start is not None and end is not None:
                         try:
                             # Replace $args with arguments
-                            Code = str(Code).replace(f"$args[{look[start + 1:end]}]", args[int(look[start + 1:end]) - 1])
+                            Code = str(Code).replace(
+                                f"$args[{look[start + 1:end]}]",
+                                args[int(look[start + 1 : end]) - 1],
+                            )
                             break
                         except IndexError:
-                            raise SyntaxError(F"$args[{int(look[start + 1:end])}] Not Provided")
+                            raise SyntaxError(
+                                f"$args[{int(look[start + 1:end])}] Not Provided"
+                            )
             else:
-                new = ''
+                new = ""
                 for i in args:
                     new += f"{i} "
                 Code = str(Code).replace(f"$args", new)
@@ -242,21 +267,24 @@ async def checkArgCheck(args, Code, Context):
         start = Code.index("$argCheck[") + 10
         area = Code[start:]
         try:
-            if ";" in area[:area.index("]")]:
-                argTotal = area[:area.index(";")]
-                warning = area[area.index(";") + 1:area.index("]")]
+            if ";" in area[: area.index("]")]:
+                argTotal = area[: area.index(";")]
+                warning = area[area.index(";") + 1 : area.index("]")]
                 if len(args) < int(argTotal):
                     await Context.channel.send(warning)
-                    return 'Failed'
-                Code = Code.replace(f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n", "")
+                    return "Failed"
+                Code = Code.replace(
+                    f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n",
+                    "",
+                )
                 return Code
             else:
-                argTotal = area[:area.index("]")]
+                argTotal = area[: area.index("]")]
                 if len(args) < int(argTotal):
-                    return 'Failed'
+                    return "Failed"
                 Code = Code.replace(f"$argCheck[{argTotal}]\n", "")
                 return Code
-        except Exception as e:
+        except Exception:
             raise SyntaxError("Not enough arguments in $argCheck!")
     return Code
 
@@ -264,8 +292,14 @@ async def checkArgCheck(args, Code, Context):
 def format_datetime(datetime: D_T, FORM: str, TIMEZONE):
     UnformatedDatetime = datetime.astimezone(TIMEZONE)
     UnformatedDatetimeTuple = (
-        UnformatedDatetime.year, UnformatedDatetime.month, UnformatedDatetime.day, UnformatedDatetime.hour, UnformatedDatetime.minute,
-        UnformatedDatetime.second, UnformatedDatetime.microsecond)
+        UnformatedDatetime.year,
+        UnformatedDatetime.month,
+        UnformatedDatetime.day,
+        UnformatedDatetime.hour,
+        UnformatedDatetime.minute,
+        UnformatedDatetime.second,
+        UnformatedDatetime.microsecond,
+    )
     year, month, day, hour, minute, second, microsecond = UnformatedDatetimeTuple
 
     AM_PM = "AM" if hour < 12 else "PM"

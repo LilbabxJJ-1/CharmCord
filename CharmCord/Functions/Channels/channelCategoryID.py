@@ -4,7 +4,8 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelCategoryID(empty, Context):
-    from CharmCord.Classes.CharmCord import bots
+    pass
+
     try:
         int(Context.channel.category.id)
     except ValueError:

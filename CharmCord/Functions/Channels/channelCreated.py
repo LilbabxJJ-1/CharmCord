@@ -1,5 +1,7 @@
 import CharmCord.CharmErrorHandling as ErrorHandling
+
 EH = ErrorHandling.CharmErrorHandling()
+
 
 async def channelCreated(args: str, Context, timezones, format_datetime):
     if len(args) < 1:
@@ -10,18 +12,16 @@ async def channelCreated(args: str, Context, timezones, format_datetime):
         TIME = locals()[TIME.strip()]
         FORM = FORM.lower()
     except ValueError:
-        FORM="full"
+        FORM = "full"
         try:
             ID, TIME = tuple(args.split(","))
             TIME = locals()[TIME.strip()]
         except:
-            ID   = args
+            ID = args
             TIME = utc
-    
 
-
-    
     from CharmCord.Classes.CharmCord import bots
+
     try:
         int(ID)
         channel = await bots.fetch_channel(ID)

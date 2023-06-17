@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands
+
 from CharmCord.tools import FunctionHandler
+
 from .CommandHandler import load_commands
-import asyncio
 
 global TotalFuncs
 global bots
@@ -16,7 +17,15 @@ class CharmCord:
     global all_commands
     global all_vars
 
-    def __init__(self, prefix, case_insensitive, intents: tuple, activity, help_command, load_command_dir):
+    def __init__(
+        self,
+        prefix,
+        case_insensitive,
+        intents: tuple,
+        activity,
+        help_command,
+        load_command_dir,
+    ):
         # Global variables
         global bots
         global all_commands
@@ -26,8 +35,8 @@ class CharmCord:
         self.case_insensitive = case_insensitive
         self.intented = intents
         self._help_command = help_command
-        self._clients = ''
-        self.intent = ''
+        self._clients = ""
+        self.intent = ""
         self._activity = activity
         all_commands = {}
         self.all_variables = {}
@@ -50,14 +59,22 @@ class CharmCord:
 
         # Create bot instances
         if self._activity is None:
-            self._clients = commands.Bot(command_prefix=self.prefix, case_insensitive=self.case_insensitive, intents=self.intent,
-                                         help_command=self._help_command)
+            self._clients = commands.Bot(
+                command_prefix=self.prefix,
+                case_insensitive=self.case_insensitive,
+                intents=self.intent,
+                help_command=self._help_command,
+            )
             bots = self._clients
 
         else:
-            self._clients = commands.Bot(command_prefix=self.prefix, case_insensitive=self.case_insensitive, intents=self.intent,
-                                         activity=self._activity,
-                                         help_command=self._help_command)
+            self._clients = commands.Bot(
+                command_prefix=self.prefix,
+                case_insensitive=self.case_insensitive,
+                intents=self.intent,
+                activity=self._activity,
+                help_command=self._help_command,
+            )
             bots = self._clients
 
         try:
@@ -66,8 +83,9 @@ class CharmCord:
             pass
 
         import json
+
         try:
-           with open("variables.json", "r") as var:
+            with open("variables.json", "r") as var:
                 pass
         except FileNotFoundError:
             with open("variables.json", "w") as var:
@@ -87,55 +105,59 @@ class CharmCord:
 
     def slashCommand(self, Name: str, Code: str, Args: list, Description: str):
         from .SlashCommands import SlashCommands
+
         sl = SlashCommands().slashCommand
-        sl(
-            Name=Name,
-            Code=Code,
-            Args=Args,
-            Description=Description.lower()
-        )
+        sl(Name=Name, Code=Code, Args=Args, Description=Description.lower())
 
     def command(self, Name: str, Code: str, Aliases=[]):
         from .Commands import Commands
+
         co = Commands().command
-        co(
-            Name=Name,
-            Code=Code,
-            Aliases=Aliases
-        )
+        co(Name=Name, Code=Code, Aliases=Aliases)
 
     def onChannelUpdated(self, Code):
         @bots.event
         async def on_guild_channel_update(before, after):
             from CharmCord.Functions.Events.oldChannel import options as old
-            from CharmCord.Functions.Events.newChannel import options as new
+
             for i in old.keys():
                 old[i] = eval(f"before.{i}")
 
             if Code is not None:
                 from CharmCord.tools import findBracketPairs
+
                 await findBracketPairs(Code, TotalFuncs, None)
 
     def onChannelDeleted(self, Code=None):
         @bots.event
         async def on_guild_channel_delete(channel):
             from CharmCord.Functions.Events.deletedChannel import options
+
             options["name"] = channel.name
-            options['id'] = channel.id
+            options["id"] = channel.id
             # more options coming
             if Code is not None:
                 from CharmCord.tools import findBracketPairs
+
                 await findBracketPairs(Code, TotalFuncs, None)
 
     def onReady(self, Code):
         @bots.event
         async def on_ready():
-            from CharmCord.tools import noArguments, findBracketPairs
+            from CharmCord.tools import findBracketPairs, noArguments
+
             finalCode = await noArguments(Code, TotalFuncs, None)
             await findBracketPairs(finalCode, TotalFuncs, None)
 
-def CharmClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("default",), activity=None, help_command=None,
-                load_command_dir="commands"):
+
+def CharmClient(
+    prefix: str,
+    case_insensitive: bool = False,
+    intents: tuple = ("default",),
+    activity=None,
+    help_command=None,
+    load_command_dir="commands",
+):
     # Global variables
     global bots
     global TotalFuncs
@@ -147,6 +169,8 @@ def CharmClient(prefix: str, case_insensitive: bool = False, intents: tuple = ("
     Functions.register_functions()
 
     # Create Start instance and return working bot
-    _final = CharmCord(prefix, case_insensitive, intents, activity, help_command, load_command_dir)
+    _final = CharmCord(
+        prefix, case_insensitive, intents, activity, help_command, load_command_dir
+    )
     working = _final
     return working
