@@ -119,7 +119,7 @@ class CharmCord:
             from CharmCord.Functions.Events.oldChannel import options as old
 
             for i in old.keys():
-                old[i] = eval(f"before.{i}")
+                old[i] = before.i
 
             if Code is not None:
                 from CharmCord.tools import findBracketPairs
