@@ -1,11 +1,9 @@
-from CharmCord.tools import findBracketPairs
-
 #######################################
 #              EVENTS                 #
 #######################################
 
 #
-#class AoiEvents:
+# class AoiEvents:
 #    def onReady(self, code):
 #        from Aoipy.Classes.AoiPyClient import bots, TotalFuncs
 #        # Define on_ready event function

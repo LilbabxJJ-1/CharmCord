@@ -8,6 +8,7 @@ d = discord.Guild
 
 async def guildTextChannels(ID, Context):
     from CharmCord.Classes.CharmCord import bots
+
     try:
         ID = int(ID)
         text = []

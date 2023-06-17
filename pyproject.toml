@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "charmcord"
+version = "0.16.0"
+description = "CharmCord is the best python string-based package for Discord bot devs"
+authors = ["Jade"]
+license = "MIT"
+readme = "README.md"
+classifiers= [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+pytz = ">=2023.3"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.3.3"
+ruff = "^0.0.272"
+pyright = "^1.1.314"
+pyinstrument = "^4.5.0"
+discord-py = "^2.3.0"
+
+
+[tool.poetry.group.tests.dependencies]
+pytest = "^7.3.2"
+pytest-asyncio = "^0.21.0"
+nox = "^2023.4.22"
+nox-poetry = "^1.0.2"
+pytest-cov = "^4.1.0"
+
+[tool.isort]
+profile = 'black'
+
+[tool.bandit]
+skips = ["B311", "B101"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

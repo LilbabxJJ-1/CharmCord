@@ -3,6 +3,7 @@ import json
 
 async def getUserVar(args, Context):
     from CharmCord.Classes.CharmCord import all_vars
+
     ag = args.split(";")
     user = ag[0]
     var = ag[1]
@@ -17,4 +18,3 @@ async def getUserVar(args, Context):
             total.update({f"{user}_{var}": all_vars[var]})
             json.dump(total, vars)
             return all_vars[var]
-

@@ -1,15 +1,11 @@
-from CharmCord.tools import findBracketPairs, checkArgs, checkArgCheck, noArguments, slashArgs
-import inspect
-
 class SlashCommands:
-
-    def slashCommand(self, Name, Code, Args, Description=''):
+    def slashCommand(self, Name, Code, Args, Description=""):
         global code
         global args
         global parem
         code = Code
         args = Args
-        from .CharmCord import bots
+
         function_definition = f"""@bots.slash_command(name=Name, description=Description)
 async def go(ctx, {', '.join(Args)}):
                 global code

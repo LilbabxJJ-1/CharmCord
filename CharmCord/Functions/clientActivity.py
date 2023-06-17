@@ -1,5 +1,6 @@
-import discord
 import random
+
+import discord
 from discord.ext import tasks
 
 
@@ -13,9 +14,15 @@ def setActivity(message: str, type: str = "watching"):
 
     return act
 
-#Come back to this
+
+# Come back to this
 @tasks.loop(seconds=10)
 async def updateActivity(messages: list, type: str = "watching"):
     from CharmCord.Functions.AoiCore import bots
+
     all = messages
-    await bots.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=random.choice(all)))
+    await bots.change_presence(
+        activity=discord.Activity(
+            type=discord.ActivityType.watching, name=random.choice(all)
+        )
+    )

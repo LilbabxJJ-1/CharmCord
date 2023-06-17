@@ -1,7 +1,8 @@
 options = {
-    "name": '',
-    "id": '',
+    "name": "",
+    "id": "",
 }
+
 
 async def oldChannel(option, context):
     return options[option.lower()]

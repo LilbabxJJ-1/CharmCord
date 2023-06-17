@@ -7,6 +7,7 @@ async def channelChangedRoles(ID, Context):
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelChangedRoles'")
     from CharmCord.Classes.CharmCord import bots
+
     if ";" in ID:
         args = ID.split(";")
         ID = args[0]

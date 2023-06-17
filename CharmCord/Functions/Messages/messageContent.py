@@ -1,7 +1,6 @@
-
-
 async def messageContent(IDs, Context):
     from CharmCord.Classes.CharmCord import bots
+
     try:
         args = IDs.split(";")
         channel = await bots.fetch_channel(args[0])

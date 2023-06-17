@@ -1,19 +1,16 @@
 class CharmErrorHandling:
-
     def Errors(self, error, code):
         """
-ERRORS:
+        ERRORS:
 
-1: user     ID
-2: channel  ID
-3: category ID
+        1: user     ID
+        2: channel  ID
+        3: category ID
 
-4: WILDCARD
+        4: WILDCARD
 
 
         """
-
-
 
         if error == 1:
             raise SyntaxError(f"ID '{code}' is not a user ID")
