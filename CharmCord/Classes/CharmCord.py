@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
-
 from CharmCord.tools import FunctionHandler
-
 from .CommandHandler import load_commands
 
 global TotalFuncs
@@ -103,11 +101,11 @@ class CharmCord:
             self.all_variables[key] = value
         all_vars = self.all_variables
 
-    def slashCommand(self, Name: str, Code: str, Args: list, Description: str):
+    def slashCommand(self, name: str, code: str, args: list, description: str):
         from .SlashCommands import SlashCommands
 
         sl = SlashCommands().slashCommand
-        sl(Name=Name, Code=Code, Args=Args, Description=Description.lower())
+        sl(name=name, code=code, args=args, description=description.lower())
 
     def command(self, Name: str, Code: str, Aliases=[]):
         from .Commands import Commands

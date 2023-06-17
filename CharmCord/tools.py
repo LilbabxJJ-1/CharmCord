@@ -1,8 +1,8 @@
 from datetime import datetime as D_T
-
 from pytz import timezone
-
 from CharmCord.all_functions import all_Funcs, date_funcs, ifse
+from .Functions import *
+from ast import literal_eval
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 
@@ -45,7 +45,7 @@ def slashArgs(args, Code):
             end = None
             balance = 0
             start = Code.index("$slashArgs") + 10
-            look = Code[start : len(Code)]
+            look = Code[start: len(Code)]
             for i in look:
                 if i == "[":
                     start = count
@@ -61,7 +61,7 @@ def slashArgs(args, Code):
                         # Replace $args with arguments
                         Code = str(Code).replace(
                             f"$slashArgs[{look[start + 1:end]}]",
-                            args[int(look[start + 1 : end]) - 1],
+                            args[int(look[start + 1: end]) - 1],
                         )
                         break
                     except IndexError:
@@ -82,20 +82,20 @@ async def findBracketPairs(entry: str, Functions, context):
         if i.strip().startswith("$") and i[-1] != "]" and "[" in i.strip():
             try:
                 test[starts] = (
-                    test[starts].strip() + " " + test[starts + 1].strip()
+                        test[starts].strip() + " " + test[starts + 1].strip()
                 ).strip()
                 test.remove(test[starts + 1])
                 starts += 1
             except IndexError:
                 starts -= 1
                 test[starts] = (
-                    test[starts].strip() + " " + test[starts + 1].strip()
+                        test[starts].strip() + " " + test[starts + 1].strip()
                 ).strip()
                 test.remove(test[starts + 1])
                 starts += 1
         elif i.endswith("]") and i[0].strip() != "$":
             test[starts] = (
-                test[starts - 1].strip() + " " + test[starts].strip()
+                    test[starts - 1].strip() + " " + test[starts].strip()
             ).strip()
             test.remove(test[starts - 1])
             starts += 1
@@ -148,7 +148,7 @@ async def findBracketPairs(entry: str, Functions, context):
             if first is not None and last is not None and balance1 == 0:
                 break
             count += 1
-        argument = str(code[first + 1 : last])
+        argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
@@ -169,18 +169,18 @@ async def findBracketPairs(entry: str, Functions, context):
                     break
             if start != 0:
                 argument = (
-                    argument[:start]
-                    + str(
-                        await findBracketPairs(
-                            argument[start : end + 1], Functions, context
-                        )
+                        argument[:start]
+                        + str(
+                    await findBracketPairs(
+                        argument[start: end + 1], Functions, context
                     )
-                    + argument[end + 1 :]
+                )
+                        + argument[end + 1:]
                 )
             else:
                 argument = (
-                    str(await findBracketPairs(argument, Functions, context))
-                    + argument[end + 1 :]
+                        str(await findBracketPairs(argument, Functions, context))
+                        + argument[end + 1:]
                 )
             find = [first, last, keyword, argument, context]
         if find[2].lower() in Functions.funcs:
@@ -221,6 +221,44 @@ async def findBracketPairs(entry: str, Functions, context):
         raise Exception(f"Error at: {e}")
 
 
+import ast
+
+
+def safe_eval(expression):
+    # Validate the expression or restrict to a specific grammar if needed
+
+    # Parse the expression into an abstract syntax tree (AST)
+    try:
+        ast_tree = ast.parse(expression, mode='eval')
+    except SyntaxError:
+        raise ValueError("Invalid expression")
+
+    # Check if the AST contains any disallowed nodes
+    disallowed_nodes = [
+        ast.Call,
+        ast.FunctionDef,
+        ast.Import,
+        ast.ImportFrom,
+        ast.Attribute,
+    ]
+    for node in ast.walk(ast_tree):
+        if isinstance(node, tuple(disallowed_nodes)):
+            print(node)
+            raise ValueError("Disallowed operation or function found")
+
+    # Create an empty namespace to restrict access to variables and functions
+    namespace = {}
+
+    # Execute the expression within the restricted environment
+    try:
+        compiled = compile(ast_tree, "<string>", "eval")
+        result = eval(compiled, namespace)
+        print(result)
+        return result
+    except Exception as e:
+        raise ValueError("Evaluation error") from e
+
+
 def checkArgs(args, Code):
     if "$args" in Code:
         while "$args" in str(Code):
@@ -229,7 +267,7 @@ def checkArgs(args, Code):
                 end = None
                 balance = 0
                 start = Code.index("$args") + 5
-                look = Code[start : len(Code)]
+                look = Code[start: len(Code)]
                 for i in look:
                     if i == "[":
                         start = count
@@ -245,7 +283,7 @@ def checkArgs(args, Code):
                             # Replace $args with arguments
                             Code = str(Code).replace(
                                 f"$args[{look[start + 1:end]}]",
-                                args[int(look[start + 1 : end]) - 1],
+                                args[int(look[start + 1: end]) - 1],
                             )
                             break
                         except IndexError:
@@ -269,7 +307,7 @@ async def checkArgCheck(args, Code, Context):
         try:
             if ";" in area[: area.index("]")]:
                 argTotal = area[: area.index(";")]
-                warning = area[area.index(";") + 1 : area.index("]")]
+                warning = area[area.index(";") + 1: area.index("]")]
                 if len(args) < int(argTotal):
                     await Context.channel.send(warning)
                     return "Failed"
