@@ -9,7 +9,7 @@
 ![Downloads](https://static.pepy.tech/personalized-badge/aoipy?period=total&units=international_system&left_color=grey&right_color=green&left_text=downloads)
 ![PyPI - License](https://img.shields.io/pypi/l/aoipy)
 ![](https://tokei.rs/b1/github/tomschimansky/aoipy)
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 ---
 ![logo](https://github.com/LilbabxJJ-1/AoiPy/blob/master/CharmCord%20logo.png)
