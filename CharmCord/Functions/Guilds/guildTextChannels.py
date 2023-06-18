@@ -1,9 +1,6 @@
 import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
 import discord
-
-d = discord.Guild
+EH = ErrorHandling.CharmErrorHandling()
 
 
 async def guildTextChannels(ID, Context):

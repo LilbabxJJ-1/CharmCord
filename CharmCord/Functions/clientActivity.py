@@ -3,7 +3,6 @@ import random
 import discord
 from discord.ext import tasks
 
-
 def setActivity(message: str, type: str = "watching"):
     if type.lower() == "watching":
         act = discord.Activity(type=discord.ActivityType.watching, name=message)

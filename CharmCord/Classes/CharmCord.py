@@ -5,14 +5,12 @@ from .CommandHandler import load_commands
 
 global TotalFuncs
 global bots
-global all_commands
 global all_vars
 
 
 class CharmCord:
     # Global variables
     global bots
-    global all_commands
     global all_vars
 
     def __init__(
@@ -26,7 +24,6 @@ class CharmCord:
     ):
         # Global variables
         global bots
-        global all_commands
 
         # Initialize Start class
         self.prefix = prefix
@@ -36,7 +33,6 @@ class CharmCord:
         self._clients = ""
         self.intent = ""
         self._activity = activity
-        all_commands = {}
         self.all_variables = {}
 
         # Determine intents
@@ -101,7 +97,7 @@ class CharmCord:
             self.all_variables[key] = value
         all_vars = self.all_variables
 
-    def slashCommand(self, name: str, code: str, args: list, description: str):
+    def slashCommand(self, name: str, code: str, args: list = [], description: str = ""):
         from .SlashCommands import SlashCommands
 
         sl = SlashCommands().slashCommand
