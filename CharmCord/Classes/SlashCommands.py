@@ -1,27 +1,21 @@
+import asyncio
 from ast import literal_eval
-
-import CharmCord
 
 
 class SlashCommands:
     def slashCommand(self, name, code, args, description=""):
         from .CharmCord import bots
-        global codes
-        global argss
-        global parem
-        codes = code
-        argss = args
-
-        function_definition = f"""@bots.slash_command(name=name, description=description)
-async def go(ctx, {', '.join(args)}):
-                global codes
-                global argss
-                from CharmCord.Classes.CharmClient import TotalFuncs
+        newArgs = []
+        for i in args:
+            newArgs.append(f"{i}: str")
+        function_definition = f"""@bots.tree.command(name=name, description=description)
+async def go(ctx, {', '.join(newArgs)}):
+                from CharmCord.Classes.CharmCord import TotalFuncs
                 Context = ctx
                 new = []
                 for i in args:
                     new.append(eval(i))
-                finalCode = await noArguments(code, TotalFuncs, Context)
+                finalCode = await noArguments(codes, TotalFuncs, Context)
                 finalCode = slashArgs(new, finalCode)
                 await findBracketPairs(finalCode, TotalFuncs, Context)
                 
@@ -30,8 +24,8 @@ async def go(ctx, {', '.join(args)}):
             'bots': bots,
             'name': name,
             'description': description,
-            'codes': codes,
-            'argss': argss,
+            'code': code,
+            'args': args,
             'TotalFuncs': __import__("CharmCord.Classes.CharmCord", fromlist=["TotalFuncs"]).TotalFuncs,
             'from': __builtins__.get('from'),
             'await': __builtins__.get('await'),
