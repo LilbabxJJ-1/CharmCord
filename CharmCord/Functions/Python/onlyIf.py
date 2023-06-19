@@ -17,8 +17,8 @@ async def onlyIf(args, context):
             if i in args:
                 if i in ["==", "!="]:
                     vals = values[0]
-                    val1 = vals[0]
-                    val2 = vals[1]
+                    val1 = vals[0].strip()
+                    val2 = vals[1].strip()
                 else:
                     vals = values[0]
                     val1 = int(vals[0])
@@ -38,8 +38,8 @@ async def onlyIf(args, context):
             if i in value[0]:
                 if i in ["==", "!="]:
                     vals = args.split(i)
-                    val1 = vals[0]
-                    val2 = vals[1]
+                    val1 = vals[0].strip()
+                    val2 = vals[1].strip()
                 else:
                     vals = args.split(i)
                     val1 = int(vals[0])

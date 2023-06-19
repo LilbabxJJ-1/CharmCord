@@ -14,8 +14,8 @@ async def ElIf(args, context):
         if i in args:
             if i in ["==", "!="]:
                 vals = args.split(i)
-                val1 = vals[0]
-                val2 = vals[1]
+                val1 = vals[0].strip()
+                val2 = vals[1].strip()
             else:
                 vals = args.split(i)
                 val1 = int(vals[0])
