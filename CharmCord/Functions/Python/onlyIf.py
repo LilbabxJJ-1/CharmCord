@@ -27,8 +27,8 @@ async def onlyIf(args, context):
                 if result:
                     return True
                 else:
-                    if isinstance(context, discord.ApplicationContext):
-                        await context.respond(values[1])
+                    if isinstance(context, discord.Interaction):
+                        await context.response.send_message(values[1])
                     else:
                         await context.send(values[1])
                     return False
