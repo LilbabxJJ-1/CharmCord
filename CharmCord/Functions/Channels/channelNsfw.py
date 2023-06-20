@@ -12,8 +12,8 @@ async def channelNsfw(ID, Context):
         int(ID)
         channel = await bots.fetch_channel(ID)
         if channel.is_nsfw():
-            return "nsfw"
+            return True
         else:
-            return "not nsfw"
+            return False
     except ValueError:
         EH.Errors(2, ID)
