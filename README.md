@@ -15,13 +15,20 @@
 ![logo](https://github.com/LilbabxJJ-1/AoiPy/blob/master/CharmCord%20logo.png)
 
 ---
+## 0.18.3 Update
+
+  - Added `$let` function
+  - Added `$get` function
+  - `$sendMessage` now returns message id
+  - removed unneeded function list
+
 ## <span style="color:pink">CharmCord</span> Setups
 
 Install [CharmCord](https://pypi.org/charmcord)
 ```bash
 pip install CharmCord
 ```
-##### Warning: Package is still in Alpha and not meant to be used on public bots
+##### Warning: Package is still in beta, use at your own risk | feel free to report issues
 ---
 Simple Bot:
 
