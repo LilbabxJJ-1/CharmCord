@@ -4,6 +4,7 @@ from CharmCord.all_functions import date_funcs, ifse
 from .Functions import *
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
+lets = {}
 
 
 class FunctionHandler:
@@ -12,7 +13,7 @@ class FunctionHandler:
 
     def register_functions(self):
         for line in all_Funcs:
-            function = eval(line.replace("$", "")) # nosec
+            function = eval(line.replace("$", ""))  # nosec
             self.funcs[line.replace("\n", "").lower()] = function
 
     async def execute_functions(self, keyword, args, context):
@@ -156,7 +157,8 @@ async def findBracketPairs(entry: str, Functions, context):
             end = None
             balance = 0
             for i in argument:
-                if i == "$" and start is None and argument[count + 1] != "$":
+                digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a digit in it
+                if i == "$" and start is None and argument[count + 1] != "$" and argument[count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
                     start = count
                 elif i == "[":
                     balance += 1
@@ -170,9 +172,7 @@ async def findBracketPairs(entry: str, Functions, context):
                 argument = (
                         argument[:start]
                         + str(
-                    await findBracketPairs(
-                        argument[start: end + 1], Functions, context
-                    )
+                    await findBracketPairs(argument[start: end + 1], Functions, context)
                 )
                         + argument[end + 1:]
                 )
