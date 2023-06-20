@@ -3,7 +3,7 @@ import CharmCord.CharmErrorHandling as ErrorHandling
 EH = ErrorHandling.CharmErrorHandling()
 
 
-async def username(user, context):
+async def userName(user, context):
     from CharmCord.Classes.CharmCord import bots
 
     try:
@@ -12,4 +12,4 @@ async def username(user, context):
     except ValueError:
         EH.Errors(1, user)
         return
-    return new_user
+    return new_user.name
