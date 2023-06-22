@@ -1,5 +1,7 @@
 from datetime import datetime as D_T
 from pytz import timezone
+
+import CharmCord.Classes.CharmCord
 from CharmCord.all_functions import date_funcs, ifse
 from .Functions import *
 
@@ -158,7 +160,8 @@ async def findBracketPairs(entry: str, Functions, context):
             balance = 0
             for i in argument:
                 digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a digit in it
-                if i == "$" and start is None and argument[count + 1] != "$" and argument[count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
+                if i == "$" and start is None and argument[count + 1] != "$" and argument[
+                    count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
                     start = count
                 elif i == "[":
                     balance += 1
@@ -257,6 +260,24 @@ def checkArgs(args, Code):
                     new += f"{i} "
                 Code = str(Code).replace(f"$args", new)
     return Code
+
+
+async def isValid(code, functions):
+    if "$isValidFunc" in code:
+        while "$isValidFunc" in code:
+            start = code.index("$isValidFunc[") + 13
+            area = code[start:]
+            if "$" not in area[:area.index(']')]:
+                valid = str(f"${area[:area.index(']')]}").lower() in functions.funcs
+                Code = code.replace(
+                    f"$isValidFunc[{area[:area.index(']')]}]", str(valid)
+                )
+            else:
+                valid = str(f"{area[:area.index(']')]}").lower() in functions.funcs
+                Code = code.replace(
+                    f"$isValidFunc[{area[:area.index(']')]}]", str(valid)
+                )
+            return Code
 
 
 async def checkArgCheck(args, Code, Context):
