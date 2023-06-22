@@ -4,6 +4,9 @@ all_Funcs = [
     "$authorID",
     "$botID",
     "$botName",
+    "$botGuilds",
+    "$botAvatar",
+    "$botMention"
     "$channelCategoryID",
     "$channelCategoryName",
     "$channelCreated",
@@ -47,6 +50,14 @@ date_funcs = ["$channelCreated"]
 
 ifse = ["$If", "$ElIf"]
 
-no_arg_Funcs = ["$botName", "$botID", "$authorID", "$channelID", "$guildID", "$ping"]
+no_arg_Funcs = ["$botName",
+                "$botID",
+                "$authorID",
+                "$channelID",
+                "$guildID",
+                "$ping",
+                "$botGuilds",
+                "$botAvatar",
+                "$botMention"]
 
 newline_char = "*n*"
