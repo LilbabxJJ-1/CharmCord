@@ -4,7 +4,7 @@ from ast import literal_eval
 
 class SlashCommands:
     def slashCommand(self, name, code, args, description=""):
-        from .CharmCord import bots
+        from CharmCord.Classes.CharmCord import bots
         newArgs = []
         for i in args:
             newArgs.append(f"{i}: str")
@@ -20,20 +20,7 @@ async def go(ctx, {', '.join(newArgs)}):
                 await findBracketPairs(finalCode, TotalFuncs, Context)
                 
         """
-        exec_globals = {
-            'bots': bots,
-            'name': name,
-            'description': description,
-            'code': code,
-            'args': args,
-            'TotalFuncs': __import__("CharmCord.Classes.CharmCord", fromlist=["TotalFuncs"]).TotalFuncs,
-            'from': __builtins__.get('from'),
-            'await': __builtins__.get('await'),
-            'slashArgs': __import__('CharmCord.tools', fromlist=['slashArgs']).slashArgs,
-            'findBracketPairs': __import__('CharmCord.tools', fromlist=['findBracketPairs']).findBracketPairs,
-            'noArguments': __import__('CharmCord.tools', fromlist=['noArguments']).noArguments
-        }
 
         # Import required module
         from CharmCord.Classes.CharmCord import TotalFuncs
-        exec(function_definition, exec_globals)
+        exec(function_definition)
