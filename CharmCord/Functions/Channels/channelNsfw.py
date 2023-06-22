@@ -4,6 +4,10 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelNsfw(ID, Context):
+    """
+    Ex. $channelNsfw[ChannelID]
+    returns a boolean about a channel nsfw setting
+    """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelNsfw'")
     from CharmCord.Classes.CharmCord import bots

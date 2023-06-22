@@ -1,7 +1,11 @@
+import asyncio
 import random
+from enum import Enum
 
+# class CharmActivity(Enum):
 import discord
 from discord.ext import tasks
+
 
 def setActivity(message: str, type: str = "watching"):
     if type.lower() == "watching":
@@ -14,14 +18,14 @@ def setActivity(message: str, type: str = "watching"):
     return act
 
 
-# Come back to this
-@tasks.loop(seconds=10)
-async def updateActivity(messages: list, type: str = "watching"):
-    from CharmCord.Functions.AoiCore import bots
-
-    all = messages
-    await bots.change_presence(
-        activity=discord.Activity(
-            type=discord.ActivityType.watching, name=random.choice(all)
+def loopActivity(time: int, messages: [str], types: str = "watching"):
+    @tasks.loop(seconds=time)
+    async def updateActivity(message=messages, type=types):
+        from CharmCord.Classes.CharmCord import bots
+        await bots.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name=random.choice(message)
+            )
         )
-    )
+
+# Still having a lot of errors with this, will return when I have the time to set it up

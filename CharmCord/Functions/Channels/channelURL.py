@@ -4,6 +4,10 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelURL(ID, Context):
+    """
+    Ex. $channelURL
+    returns the channel url to the given ID
+    """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelURL'")
     from CharmCord.Classes.CharmCord import bots

@@ -4,11 +4,14 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelCreated(args: str, Context, timezones, format_datetime):
+    """
+    Ex. $channelCreated[ChannelID]
+    """
     if len(args) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelCreated'")
     est, utc, pst = timezones
     try:
-        ID, TIME, FORM = tuple(args.split(","))
+        ID, TIME, FORM = tuple(args.split(";"))
         TIME = locals()[TIME.strip()]
         FORM = FORM.lower()
     except ValueError:

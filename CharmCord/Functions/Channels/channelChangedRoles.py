@@ -4,6 +4,9 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelChangedRoles(ID, Context):
+    """
+    Ex. $channelChangedRoles[ChannelID]
+    """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelChangedRoles'")
     from CharmCord.Classes.CharmCord import bots

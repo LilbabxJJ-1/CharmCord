@@ -70,6 +70,7 @@ class CharmCord:
                 help_command=self._help_command,
             )
             bots = self._clients
+            bots.guilds
 
         try:
             load_commands(load_command_dir)
@@ -86,7 +87,6 @@ class CharmCord:
                 go = {"STRD": True}
                 json.dump(go, var)
 
-        # super().__init__(intents=self.intent)
 
     def run(self, token: str):
         bots.run(token)
@@ -152,10 +152,12 @@ def CharmClient(
     help_command=None,
     load_command_dir="commands",
 ):
+    """
+    CharmCord Discord Client
+    """
     # Global variables
     global bots
     global TotalFuncs
-    global all_commands
 
     # Initialize FunctionHandler and register functions
     Functions = FunctionHandler()

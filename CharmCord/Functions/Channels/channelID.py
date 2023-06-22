@@ -1,11 +1,6 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
-
-
 async def channelID(empty, Context):
-    try:
-        int(Context.channel.id)
-    except ValueError:
-        EH.Errors(1, "None")
+    """
+    Ex. $channelID
+    return channel ID for the current channel
+    """
     return Context.channel.id

@@ -4,6 +4,10 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelDelay(ID, Context):
+    """
+    Ex. $channelDelay[ChannelID]
+    Returns the channel delay for the given channel ID
+    """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelDelay'")
     from CharmCord.Classes.CharmCord import bots

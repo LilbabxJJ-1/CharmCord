@@ -1,4 +1,4 @@
-from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets
+from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
 
 ########################################
 #              COMMANDS                #
@@ -20,12 +20,10 @@ class Commands:
             newCode = await checkArgCheck(args, Code, Context)
             if newCode == "Failed":
                 return
-            finalCode = checkArgs(args, newCode)
-            finalCode = await noArguments(finalCode, TotalFuncs, Context)
-            print(lets)
+            finalCode = await noArguments(newCode, TotalFuncs, Context)
+            finalCode = checkArgs(args, finalCode)
+            finalCode = await isValid(finalCode, TotalFuncs)
             await findBracketPairs(finalCode, TotalFuncs, Context)
             if len(lets) >= 1:
-                print(lets)
                 lets.clear()
-            print(lets)
 

@@ -4,6 +4,10 @@ EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelType(ID, Context):
+    """
+    Ex. $channelType[ChannelID]
+    returns the channel type of the given ID
+    """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelType'")
     from CharmCord.Classes.CharmCord import bots

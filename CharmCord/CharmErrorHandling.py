@@ -8,8 +8,6 @@ class CharmErrorHandling:
         3: category ID
 
         4: WILDCARD
-
-
         """
 
         if error == 1:
@@ -21,3 +19,8 @@ class CharmErrorHandling:
 
         if error == 4:
             raise SyntaxError(code)
+
+
+class CharmCord_Errors(Exception):
+    def __init__(self, Error: str):
+        raise SyntaxError(Error)
