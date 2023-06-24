@@ -1,3 +1,5 @@
+import asyncio
+
 import discord
 from discord.ext import commands
 from CharmCord.tools import FunctionHandler
@@ -14,13 +16,13 @@ class CharmCord:
     global all_vars
 
     def __init__(
-        self,
-        prefix,
-        case_insensitive,
-        intents: tuple,
-        activity,
-        help_command,
-        load_command_dir,
+            self,
+            prefix,
+            case_insensitive,
+            intents: tuple,
+            activity,
+            help_command,
+            load_command_dir,
     ):
         # Global variables
         global bots
@@ -70,7 +72,6 @@ class CharmCord:
                 help_command=self._help_command,
             )
             bots = self._clients
-            bots.guilds
 
         try:
             load_commands(load_command_dir)
@@ -139,18 +140,20 @@ class CharmCord:
         @bots.event
         async def on_ready():
             from CharmCord.tools import findBracketPairs, noArguments
-
+            from CharmCord.CharmErrorHandling import CharmCord_Errors
             finalCode = await noArguments(Code, TotalFuncs, None)
             await findBracketPairs(finalCode, TotalFuncs, None)
-
-
+            try:
+                await bots.tree.sync()
+            except:
+                CharmCord_Errors("All slash commands need a description")
 def CharmClient(
-    prefix: str,
-    case_insensitive: bool = False,
-    intents: tuple = ("default",),
-    activity=None,
-    help_command=None,
-    load_command_dir="commands",
+        prefix: str,
+        case_insensitive: bool = False,
+        intents: tuple = ("default",),
+        activity=None,
+        help_command=None,
+        load_command_dir="commands",
 ):
     """
     CharmCord Discord Client

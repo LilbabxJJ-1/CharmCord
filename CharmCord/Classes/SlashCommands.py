@@ -1,26 +1,26 @@
-import asyncio
-from ast import literal_eval
+import discord
 
 
 class SlashCommands:
-    def slashCommand(self, name, code, args, description=""):
+
+    def slashCommand(self, name, code, args: list, description=None):
         from CharmCord.Classes.CharmCord import bots
         newArgs = []
         for i in args:
             newArgs.append(f"{i}: str")
-        function_definition = f"""@bots.tree.command(name=name, description=description)
+        needs = {"arguments": args, "codes": code, "bots": bots, "name": name, "description": description}
+        func = f"""
+@bots.tree.command(name=name, description=description)
 async def go(ctx, {', '.join(newArgs)}):
                 from CharmCord.Classes.CharmCord import TotalFuncs
+                from CharmCord.tools import noArguments, slashArgs, findBracketPairs
+                print(codes)
                 Context = ctx
                 new = []
-                for i in args:
+                for i in arguments:
                     new.append(eval(i))
                 finalCode = await noArguments(codes, TotalFuncs, Context)
                 finalCode = slashArgs(new, finalCode)
                 await findBracketPairs(finalCode, TotalFuncs, Context)
-                
         """
-
-        # Import required module
-        from CharmCord.Classes.CharmCord import TotalFuncs
-        exec(function_definition)
+        exec(func, needs)
