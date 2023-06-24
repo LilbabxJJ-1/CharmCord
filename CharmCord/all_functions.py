@@ -6,7 +6,7 @@ all_Funcs = [
     "$botName",
     "$botGuilds",
     "$botAvatar",
-    "$botMention"
+    "$botMention",
     "$channelCategoryID",
     "$channelCategoryName",
     "$channelCreated",
@@ -22,6 +22,7 @@ all_Funcs = [
     "$count",
     "$deletedChannel",
     "$editMessage",
+    "$deleteMessage",
     "$get",
     "$getVar",
     "$getUserVar",
@@ -36,6 +37,7 @@ all_Funcs = [
     "$ping",
     "$pyEval",
     "$sendMessage",
+    "$sendEmbed",
     "$setServerVar",
     "$setUserVar",
     "$setVar",
@@ -44,6 +46,8 @@ all_Funcs = [
     "$userMention",
     "$userName",
     "$wait",
+    '$waitMessage',
+    "$waitReaction"
 ]
 
 date_funcs = ["$channelCreated"]
