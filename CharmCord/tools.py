@@ -114,6 +114,8 @@ async def findBracketPairs(entry: str, Functions, context):
     for code in test:
         line += 1
         if EndIf:
+            if code.strip().startswith("$end"):
+                return
             if code.strip().startswith("$EndIf"):
                 continue
             elif code.strip().startswith("$ElIf"):
@@ -278,6 +280,7 @@ async def isValid(code, functions):
                     f"$isValidFunc[{area[:area.index(']')]}]", str(valid)
                 )
             return Code
+    return code
 
 
 async def checkArgCheck(args, Code, Context):
