@@ -88,7 +88,6 @@ class CharmCord:
                 go = {"STRD": True}
                 json.dump(go, var)
 
-
     def run(self, token: str):
         bots.run(token)
 
@@ -147,6 +146,8 @@ class CharmCord:
                 await bots.tree.sync()
             except:
                 CharmCord_Errors("All slash commands need a description")
+
+
 def CharmClient(
         prefix: str,
         case_insensitive: bool = False,
