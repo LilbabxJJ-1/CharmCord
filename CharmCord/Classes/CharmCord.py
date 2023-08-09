@@ -143,6 +143,7 @@ class CharmCord:
             from CharmCord.CharmErrorHandling import CharmCord_Errors
             finalCode = await noArguments(Code, TotalFuncs, None)
             await findBracketPairs(finalCode, TotalFuncs, None)
+            c = 1
             try:
                 await bots.tree.sync()
             except:
