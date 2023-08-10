@@ -14,7 +14,6 @@ class SlashCommands:
 async def go(ctx, {', '.join(newArgs)}):
                 from CharmCord.Classes.CharmCord import TotalFuncs
                 from CharmCord.tools import noArguments, slashArgs, findBracketPairs
-                print(codes)
                 Context = ctx
                 new = []
                 for i in arguments:
