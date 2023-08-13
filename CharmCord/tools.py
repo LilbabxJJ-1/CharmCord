@@ -189,29 +189,29 @@ async def findBracketPairs(entry: str, Functions, context):
             find = [first, last, keyword, argument, context]
         if find[2].lower() in Functions.funcs:
             name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
-            if find[2] == "$onlyIf" and name is False:
+            if find[2].lower() == "$onlyif" and name is False:
                 return
-            if find[2] == "$If" and name is False:
+            if find[2].lower() == "$if" and name is False:
                 EndIf = False
-                if not any("$EndIf" in i for i in test):
+                if not any("$endeif" in i.lower() for i in test):
                     raise SyntaxError("No $EndIf found in command after $If")
-            elif find[2] == "$If":
-                if not any("$EndIf" in i for i in test):
+            elif find[2].lower() == "$if":
+                if not any("$endif" in i.lower() for i in test):
                     raise SyntaxError("No $EndIf found in command after $If")
 
                 continue
-            if find[2] == "$ElIf" and EndIf is False:
-                if not any("$If" in i for i in test):
+            if find[2].lower() == "$elif" and EndIf is False:
+                if not any("$if" in i.lower() for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$EndIf" in i for i in test):
+                if not any("$endif" in i.lower() for i in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
-            if find[2] == "$ElIf":
-                if not any("$If" in i for i in test):
+            if find[2].lower() == "$elif":
+                if not any("$if" in i.lower() for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$EndIf" in i for i in test):
+                if not any("$endif" in i.lower() for i in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             EndIf = name is not False
@@ -257,10 +257,8 @@ def checkArgs(args, Code):
                                 f"$args[{int(look[start + 1:end])}] Not Provided"
                             )
             else:
-                new = ""
-                for i in args:
-                    new += f"{i} "
-                Code = str(Code).replace(f"$args", new)
+                add = [i for i in args]
+                Code = str(Code).replace(f"$args", str(add))
     return Code
 
 
@@ -284,10 +282,10 @@ async def isValid(code, functions):
 
 
 async def checkArgCheck(args, Code, Context):
-    if "$argCheck" in Code:
-        if Code.count("$argCheck") > 1:
+    if "$argcheck" in Code.lower():
+        if Code.lower().count("$argcheck") > 1:
             raise Exception("Too many $argCheck in a single command | Max is 1!")
-        start = Code.index("$argCheck[") + 10
+        start = Code.lower().index("$argcheck[") + 10
         area = Code[start:]
         try:
             if ";" in area[: area.index("]")]:
