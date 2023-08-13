@@ -1,4 +1,4 @@
-from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments
+from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
 
 AC = {}
 
@@ -12,12 +12,13 @@ class Charmcogs:
             from CharmCord.Classes.CharmCord import TotalFuncs
 
             Context = ctx
-            newCode = checkArgs(args, code)
-            if newCode == "Failed":
+            newcode = await checkArgCheck(args, code, Context)
+            if newcode == "Failed":
                 return
-            finalCode = await checkArgCheck(args, newCode, Context)
-            finalCode = await noArguments(finalCode, TotalFuncs, Context)
-            await findBracketPairs(finalCode, TotalFuncs, Context)
+            finalcode = await noArguments(newcode, TotalFuncs, Context)
+            finalcode = checkArgs(args, finalcode)
+            finalcode = await isValid(finalcode, TotalFuncs)
+            await findBracketPairs(finalcode, TotalFuncs, Context)
 
     def slashcommandcogs(self, name, code, args: list, description):
         def slashcommand():
