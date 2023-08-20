@@ -116,10 +116,10 @@ async def findBracketPairs(entry: str, Functions, context):
         if EndIf:
             if code.strip().startswith("$end"):
                 return
-            if code.strip().startswith("$EndIf"):
+            if code.strip().lower().startswith("$endif"):
                 continue
-            elif code.strip().startswith("$ElIf"):
-                if not any("$If" in i for i in test):
+            elif code.strip().lower().startswith("$elif"):
+                if not any("$if" in i.lower() for i in test):
                     raise SyntaxError("No $If found in command before $ElIf")
                 EndIf = False
                 continue
@@ -155,6 +155,7 @@ async def findBracketPairs(entry: str, Functions, context):
         argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
+        print(find)
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
             count = 0
             start = None
