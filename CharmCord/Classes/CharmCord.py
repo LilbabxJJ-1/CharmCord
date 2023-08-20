@@ -103,11 +103,11 @@ class CharmCord:
         sl = SlashCommands().slashCommand
         sl(name=name, code=code, args=args, description=description.lower())
 
-    def command(self, Name: str, Code: str, Aliases=[]):
+    def command(self, name: str, code: str, aliases=[str]):
         from .Commands import Commands
 
         co = Commands().command
-        co(Name=Name, Code=Code, Aliases=Aliases)
+        co(Name=name, Code=code, Aliases=aliases)
 
     def onChannelUpdated(self, Code):
         @bots.event
