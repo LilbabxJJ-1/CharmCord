@@ -1,17 +1,15 @@
-import discord
 
 
 class SlashCommands:
 
-    def slashCommand(self, name, code, args: list, description=None):
-        from CharmCord.Classes.CharmCord import bots
-        newArgs = []
+    def slash_command(self, name, code, args: list, description=None, bot=None):
+        new_args = []
         for i in args:
-            newArgs.append(f"{i}: str")
-        needs = {"arguments": args, "codes": code, "bots": bots, "name": name, "description": description}
+            new_args.append(f"{i}: str")
+        needs = {"arguments": args, "codes": code, "bot": bot, "name": name, "description": description}
         func = f"""
-@bots.tree.command(name=name, description=description)
-async def go(ctx, {', '.join(newArgs)}):
+@bot.tree.command(name=name, description=description)
+async def go(ctx, {', '.join(new_args)}):
                 from CharmCord.Classes.CharmCord import TotalFuncs
                 from CharmCord.tools import noArguments, slashArgs, findBracketPairs
                 Context = ctx

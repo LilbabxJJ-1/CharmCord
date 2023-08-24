@@ -1,34 +1,33 @@
 from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
-
+from CharmCord.Classes.CharmCord import bots, TotalFuncs
 AC = {}
 
 
-class Charmcogs:
-    def commandcogs(self, name, code):
+class CharmCogs:
+
+    def command_cogs(self, name, codes):
         from .CharmCord import bots
 
         @bots.command(name=name)
-        async def go(ctx, *args, code=code):
-            from CharmCord.Classes.CharmCord import TotalFuncs
+        async def go(ctx, *args, code=codes):
 
-            Context = ctx
-            newcode = await checkArgCheck(args, code, Context)
-            if newcode == "Failed":
+            context = ctx
+            new_code = await checkArgCheck(args, code, context)
+            if new_code == "Failed":
                 return
-            finalcode = await noArguments(newcode, TotalFuncs, Context)
-            finalcode = checkArgs(args, finalcode)
-            finalcode = await isValid(finalcode, TotalFuncs)
-            await findBracketPairs(finalcode, TotalFuncs, Context)
+            code1 = await noArguments(new_code, TotalFuncs, context)
+            code2 = checkArgs(args, code1)
+            final_code = await isValid(code2, TotalFuncs)
+            await findBracketPairs(final_code, TotalFuncs, context)
 
-    def slashcommandcogs(self, name, code, args: list, description):
-        def slashcommand():
-            from CharmCord.Classes.CharmCord import bots
-            newArgs = []
+    def slashcommand_cogs(self, name, code, args: list, description):
+        def slash_command():
+            new_args = []
             for i in args:
-                newArgs.append(f"{i}: str")
+                new_args.append(f"{i}: str")
             needs = {"arguments": args, "codes": code, "bots": bots, "name": name, "description": description}
             func = f"""@bots.tree.command(name=name, description=description)
-async def go(ctx, {', '.join(newArgs)}):
+async def go(ctx, {', '.join(new_args)}):
                         from CharmCord.Classes.CharmCord import TotalFuncs
                         from CharmCord.tools import noArguments, slashArgs, findBracketPairs
                         Context = ctx
@@ -40,4 +39,4 @@ async def go(ctx, {', '.join(newArgs)}):
                         await findBracketPairs(finalCode, TotalFuncs, Context)
                 """
             exec(func, needs)
-        slashcommand()
+        slash_command()
