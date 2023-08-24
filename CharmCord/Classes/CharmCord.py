@@ -109,7 +109,7 @@ class CharmCord:
         co = Commands().command
         co(Name=name, Code=code, Aliases=aliases)
 
-    def onChannelUpdated(self, Code):
+    def onChannelUpdated(self, code):
         @bots.event
         async def on_guild_channel_update(before, after):
             from CharmCord.Functions.Events.oldChannel import options as old
@@ -117,12 +117,12 @@ class CharmCord:
             for i in old.keys():
                 old[i] = before.i
 
-            if Code is not None:
+            if code is not None:
                 from CharmCord.tools import findBracketPairs
 
-                await findBracketPairs(Code, TotalFuncs, None)
+                await findBracketPairs(code, TotalFuncs, None)
 
-    def onChannelDeleted(self, Code=None):
+    def onChannelDeleted(self, code=None):
         @bots.event
         async def on_guild_channel_delete(channel):
             from CharmCord.Functions.Events.deletedChannel import options
@@ -130,17 +130,17 @@ class CharmCord:
             options["name"] = channel.name
             options["id"] = channel.id
             # more options coming
-            if Code is not None:
+            if code is not None:
                 from CharmCord.tools import findBracketPairs
 
-                await findBracketPairs(Code, TotalFuncs, None)
+                await findBracketPairs(code, TotalFuncs, None)
 
-    def onReady(self, Code):
+    def onReady(self, code):
         @bots.event
         async def on_ready():
             from CharmCord.tools import findBracketPairs, noArguments
             from CharmCord.CharmErrorHandling import CharmCordErrors
-            finalCode = await noArguments(Code, TotalFuncs, None)
+            finalCode = await noArguments(code, TotalFuncs, None)
             await findBracketPairs(finalCode, TotalFuncs, None)
             try:
                 await bots.tree.sync()
