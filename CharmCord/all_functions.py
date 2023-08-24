@@ -30,6 +30,7 @@ all_Funcs = [
     "$guildName",
     "$guildTextChannels",
     "$let",
+    "$mentions",
     "$messageAuthor",
     "$messageContent",
     "$oldChannel",
