@@ -6,7 +6,7 @@ with open("README.md", "r") as rd:
 setuptools.setup(
     # Here is the module name.
     name="CharmCord",
-    version="0.18.8",
+    version="0.18.11",
     author="Jade",
     description="CharmCord is the best python string-based package for Discord bot devs",
     long_description=longtext,

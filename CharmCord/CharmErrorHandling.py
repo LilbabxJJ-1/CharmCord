@@ -21,6 +21,6 @@ class CharmErrorHandling:
             raise SyntaxError(code)
 
 
-class CharmCord_Errors(Exception):
+class CharmCordErrors(Exception):
     def __init__(self, Error: str):
         raise SyntaxError(Error)

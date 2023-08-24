@@ -1,5 +1,4 @@
 import CharmCord.CharmErrorHandling as ErrorHandling
-from CharmCord.CharmErrorHandling import CharmCord_Errors
 
 EH = ErrorHandling.CharmErrorHandling()
 

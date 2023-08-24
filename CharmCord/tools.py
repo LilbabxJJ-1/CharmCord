@@ -126,9 +126,9 @@ async def findBracketPairs(entry: str, Functions, context):
             else:
                 pass
         else:
-            if code.strip().startswith("$ElIf"):
+            if code.strip().lower().startswith("$elif"):
                 EndIf = True
-            elif code.strip().startswith("$EndIf"):
+            elif code.strip().lower().startswith("$endif"):
                 EndIf = True
                 continue
             else:
