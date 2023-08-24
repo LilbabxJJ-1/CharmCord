@@ -1,5 +1,5 @@
 import CharmCord.CharmErrorHandling as ErrorHandling
-
+from CharmCord.CharmErrorHandling import CharmCordErrors
 EH = ErrorHandling.CharmErrorHandling()
 
 
@@ -17,4 +17,4 @@ async def channelMention(ID, Context):
         channel = await bots.fetch_channel(ID)
         return channel.mention
     except ValueError:
-        CharmCord_Errors(f"$channelMention: {ID} not valid channel id\nCommand: {Context.command.name}")
+        CharmCordErrors(f"$channelMention: {ID} not valid channel id\nCommand: {Context.command.name}")

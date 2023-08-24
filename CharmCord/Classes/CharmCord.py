@@ -139,13 +139,13 @@ class CharmCord:
         @bots.event
         async def on_ready():
             from CharmCord.tools import findBracketPairs, noArguments
-            from CharmCord.CharmErrorHandling import CharmCord_Errors
+            from CharmCord.CharmErrorHandling import CharmCordErrors
             finalCode = await noArguments(Code, TotalFuncs, None)
             await findBracketPairs(finalCode, TotalFuncs, None)
             try:
                 await bots.tree.sync()
             except:
-                CharmCord_Errors("All slash commands need a description")
+                CharmCordErrors("All slash commands need a description")
 
 
 def CharmClient(

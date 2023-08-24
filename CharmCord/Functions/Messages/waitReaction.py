@@ -1,5 +1,5 @@
 import asyncio
-from CharmCord.CharmErrorHandling import CharmCord_Errors
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 async def waitReaction(args, context):
@@ -44,5 +44,5 @@ async def waitReaction(args, context):
             except asyncio.TimeoutError:
                 await context.channel.send(error)
     except ValueError:
-        CharmCord_Errors(f"ID Error in {context.command.name}")
+        CharmCordErrors(f"ID Error in {context.command.name}")
         return
