@@ -12,10 +12,10 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 ---
-![logo](https://github.com/LilbabxJJ-1/AoiPy/blob/master/CharmCord%20logo.png)
+![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## 0.18.8 Update
+## 0.18.16 Update
 
 - All functions now case-insensitive
 - Added new [docs](https://docs.charm-cord.com)
