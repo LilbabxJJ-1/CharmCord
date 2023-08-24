@@ -4,10 +4,6 @@ files: '.py'
 exclude: ".env,.yml,.gitignore,.git,.md,.txt"
 default_stages: [push, commit]
 repos:
-# I have to disable Bandit because there are
-# just so so so so many many many many
-# security issues with this lib
-# From your dearest, Noelle
 -   repo: https://github.com/PyCQA/bandit
     rev: 1.7.5
     hooks:
