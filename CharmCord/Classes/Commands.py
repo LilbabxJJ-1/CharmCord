@@ -1,5 +1,4 @@
 from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
-from CharmCord.Classes.CharmCord import TotalFuncs
 ########################################
 #              COMMANDS                #
 ########################################
@@ -9,6 +8,7 @@ class Commands:
     # Global variables
 
     def command(self, name: str, code: str, aliases: list = [], bot=None):
+        from CharmCord.Classes.CharmCord import TotalFuncs
         # Define command function dynamically
 
         @bot.command(name=name, aliases=aliases)
