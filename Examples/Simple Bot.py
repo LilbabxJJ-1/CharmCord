@@ -10,7 +10,7 @@ bot.command(
     """,
 )
 
-bot.slashCommand(
+bot.slash_command(
     name="toast",
     code="""
     $sendMessage[1112301680839643156; I AM TOAST!!]
@@ -20,7 +20,7 @@ bot.slashCommand(
 )
 
 
-bot.onReady(
+bot.on_ready(
     code="$console[$botName is online!]"
 )
 
