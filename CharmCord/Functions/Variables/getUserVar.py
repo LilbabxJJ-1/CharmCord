@@ -9,13 +9,13 @@ async def getUserVar(args, Context):
     serverID = Context.guild.id
     var = ag[1]
     try:
-        with open("variables.json", "r") as vars:
-            total = json.load(vars)
+        with open("variables.json", "r") as variables:
+            total = json.load(variables)
             return total[f"{user}_{var}"]
     except KeyError:
-        with open("variables.json", "r") as vars:
-            total = json.load(vars)
-        with open("variables.json", "w") as vars:
+        with open("variables.json", "r") as variables:
+            total = json.load(variables)
+        with open("variables.json", "w") as variables:
             total.update({f"{user}_{serverID}_{var}": all_vars[var]})
-            json.dump(total, vars)
+            json.dump(total, variables)
             return all_vars[var]

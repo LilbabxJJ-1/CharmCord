@@ -7,12 +7,12 @@ async def setUserVar(args, Context):
     var = ag[1]
     value = ag[2]
     serverID = Context.guild.id
-    with open("variables.json", "r") as vars:
-        total = json.load(vars)
-    with open("variables.json", "w") as vars:
+    with open("variables.json", "r") as variables:
+        total = json.load(variables)
+    with open("variables.json", "w") as variables:
         try:
             total.update({f"{user}_{var}": int(value)})
         except:
             total.update({f"{user}_{serverID}_{var}": value})
-        json.dump(total, vars)
+        json.dump(total, variables)
     return
