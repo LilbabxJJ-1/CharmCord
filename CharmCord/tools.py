@@ -78,35 +78,44 @@ EndIf = True
 
 async def findBracketPairs(entry: str, Functions, context):
     global EndIf
-    test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
+    test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 1]
     starts = 0
     for i in test:
         if i.strip().startswith("$") and i[-1] != "]" and "[" in i.strip():
             try:
-                test[starts] = (
-                        test[starts].strip() + " " + test[starts + 1].strip()
-                ).strip()
+                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
                 test.remove(test[starts + 1])
                 starts += 1
             except IndexError:
                 starts -= 1
-                test[starts] = (
-                        test[starts].strip() + " " + test[starts + 1].strip()
-                ).strip()
+                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
                 test.remove(test[starts + 1])
                 starts += 1
         elif i.endswith("]") and i[0].strip() != "$":
-            test[starts] = (
-                    test[starts - 1].strip() + " " + test[starts].strip()
-            ).strip()
+            test[starts] = (test[starts - 1].strip() + " " + test[starts].strip()).strip()
             test.remove(test[starts - 1])
             starts += 1
         elif i[-1].strip() != "]" and i[0].strip() != "$":
             test[starts] = test[starts - 1] + " " + test[starts].strip()
             test.remove(test[starts - 1])
+        elif i.strip().startswith("]"):
+            test[starts] = test[starts - 1] + " " + test[starts].strip()
+            test.remove(test[starts - 1])
         else:
             starts += 1
             continue
+
+    count = 0
+    for cleanup in test:
+        if cleanup.strip() == "]":
+            test[count - 1] = test[count - 1] + test[count]
+            test.remove(test[count])
+        elif cleanup.endswith("]") and cleanup[0] != "$":
+            test[count - 1] = test[count - 1] + test[count]
+            test.remove(test[count])
+        else:
+            count += 1
+
 
     if len(test) == 0:
         test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
