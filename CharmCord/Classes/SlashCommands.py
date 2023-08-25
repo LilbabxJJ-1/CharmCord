@@ -1,5 +1,3 @@
-
-
 class SlashCommands:
 
     def slash_command(self, name, code, args: list, description=None, bot=None):

@@ -1,5 +1,5 @@
 from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
-
+from CharmCord.Classes.CharmCord import TotalFuncs
 ########################################
 #              COMMANDS                #
 ########################################
@@ -13,8 +13,6 @@ class Commands:
 
         @bot.command(name=name, aliases=aliases)
         async def go(ctx, *args, code=code):
-            from CharmCord.Classes.CharmCord import TotalFuncs
-
             context = ctx
             new_code = await checkArgCheck(args, code, context)
             if new_code == "Failed":
