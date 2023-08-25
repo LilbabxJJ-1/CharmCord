@@ -2,8 +2,9 @@ import json
 import discord
 from discord.ext import commands
 from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
-from CharmCord.Functions.Events.deletedChannel import options
-from CharmCord.Functions.Events.oldChannel import options as old
+# from CharmCord.Functions.Events.deletedChannel import options
+# from CharmCord.Functions.Events.oldChannel import options as old
+from CharmCord.Functions.Events.options import options
 from .CommandHandler import load_commands
 from .SlashCommands import SlashCommands
 from .Commands import Commands
@@ -36,6 +37,7 @@ class CharmCord:
         self.intent = ""
         self._activity = activity
         self.all_variables = {}
+        self.bot = None
 
         # Determine intents
         if "all" in self.intented:
@@ -70,7 +72,7 @@ class CharmCord:
                 activity=self._activity,
                 help_command=self._help_command,
             )
-        bots = self._clients
+        bots, self.bot = self._clients, self._clients
 
         try:
             load_commands(load_command_dir)
@@ -85,7 +87,8 @@ class CharmCord:
                 go = {"STRD": True}
                 json.dump(go, var)
 
-    def run(self, token: str):
+    @staticmethod
+    def run(token: str):
         bots.run(token)
 
     def variables(self, variables: dict):
@@ -94,42 +97,67 @@ class CharmCord:
             self.all_variables[key] = value
         all_vars = self.all_variables
 
-    def slash_command(self, name: str, code: str, args: list = [], description: str = "") -> None:
+    @staticmethod
+    def slash_command(name: str, code: str, args: list = [], description: str = "") -> None:
         sl = SlashCommands().slash_command
         sl(name=name, code=code, args=args, description=description.lower(), bot=bots)
 
-    def command(self, name: str, code: str, aliases: list = None):
+    @staticmethod
+    def command(name: str, code: str, aliases: list = None):
         co = Commands().command
         if aliases is None:
             co(name=name, code=code, bot=bots)
         else:
             co(name=name, code=code, aliases=aliases, bot=bots)
 
-    def on_channel_updated(self, code):
-        @bots.event
-        async def on_guild_channel_update(before, after):
-            for i in old.keys():
-                old[i] = before.i
+    # EVENTS BELOW
+
+    def on_member_join(self, code=None):
+        @self.bot.event
+        async def on_member_join(member):
+            options["memberJoined"]["id"] = member.id
+
             if code is not None:
-                await findBracketPairs(code, TotalFuncs, None)
+                final_code = await noArguments(code, TotalFuncs, None)
+                await findBracketPairs(final_code, TotalFuncs, None)
+            return
+
+    def on_channel_updated(self, code=None):
+        @self.bot.event
+        async def on_guild_channel_update(before, after):
+            for i in options["oldChannel"].keys():
+                options["oldChannel"][i] = before.i
+            for i in options["newChannel"].keys():
+                options["newChannel"][i] = after.i
+            if code is not None:
+                final_code = await noArguments(code, TotalFuncs, None)
+                await findBracketPairs(final_code, TotalFuncs, None)
 
     def on_channel_deleted(self, code=None):
-        @bots.event
+        @self.bot.event
         async def on_guild_channel_delete(channel):
-            options["name"] = channel.name
-            options["id"] = channel.id
+            options["deletedChannel"]["name"] = channel.name
+            options["deletedChannel"]["id"] = channel.id
+            options["deletedChannel"]["type"] = channel.type
+            options["deletedChannel"]["category"] = channel.category
+            options["deletedChannel"]["categoryid"] = channel.category_id
+            options["deletedChannel"]["guild"] = channel.guild
+            options["deletedChannel"]["nsfw"] = channel.nsfw
+            options["deletedChannel"]["delay"] = channel.slowmode_delay
+            options["deletedChannel"]["created"] = channel.created_at
             # more options coming
             if code is not None:
-                await findBracketPairs(code, TotalFuncs, None)
+                final_code = await noArguments(code, TotalFuncs, None)
+                await findBracketPairs(final_code, TotalFuncs, None)
 
     def on_ready(self, code):
-        @bots.event
+        @self.bot.event
         async def on_ready():
             from CharmCord.CharmErrorHandling import CharmCordErrors
-            finalCode = await noArguments(code, TotalFuncs, None)
-            await findBracketPairs(finalCode, TotalFuncs, None)
+            final_code = await noArguments(code, TotalFuncs, None)
+            await findBracketPairs(final_code, TotalFuncs, None)
             try:
-                await bots.tree.sync()
+                await self.bot.tree.sync()
             except Exception:
                 CharmCordErrors("All slash commands need a description")
 
