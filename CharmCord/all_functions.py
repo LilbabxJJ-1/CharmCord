@@ -53,7 +53,9 @@ all_Funcs = [
     "$memberJoined",
     "$hasPerm",
     "$message",
-    "$charmAI"
+    "$charmAI",
+    "$purge",
+    "$messageID"
 ]
 
 date_funcs = ["$channelCreated"]
@@ -70,6 +72,7 @@ no_arg_Funcs = ["$botName",
                 "$botAvatar",
                 "$botMention",
                 "$memberJoined",
+                "$messageID",
                 "$message"]
 
 newline_char = "*n*"
