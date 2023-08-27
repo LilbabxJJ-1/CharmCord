@@ -23,6 +23,10 @@ async def sendEmbed(args: str, Context):
             f"discord.Embed(title=title, description=message, color=discord.Color.{color.lower()}())"
         )
         embed.set_footer(text=footer)
+        if isinstance(Context, discord.Interaction):
+            await Context.response.send_message(embed=embed)
+            message = await Context.original_response()
+            return message.id
         message = await channel.send(embed=embed)
     except discord.ClientException:
         raise SyntaxError("Can't send empty message!")
@@ -36,5 +40,9 @@ async def sendEmbed(args: str, Context):
         channel = await bots.fetch_channel(int(channel_id))
         embed = eval("discord.Embed(title=title, description=message)")
         embed.set_footer(text=footer)
+        if isinstance(Context, discord.Interaction):
+            await Context.response.send_message(embed=embed)
+            message = await Context.original_response()
+            return message.id
         message = await channel.send(embed=embed)
     return message.id

@@ -29,6 +29,11 @@ Made functions easier to use on multi-lines
 
 Updates to the [docs](https://docs.charm-cord.com)
 
+## Minor Update
+
+- Made `$sendEmbed` response automatically change depending on context of the command (Whether it's 
+a slash command or normal command)
+
 
 ## <span style="color:pink">CharmCord</span> Setups
 
