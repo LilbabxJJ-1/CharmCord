@@ -5,7 +5,7 @@ EH = ErrorHandling.CharmErrorHandling()
 
 async def channelChangedRoles(ID, Context):
     """
-    Ex. $channelChangedRoles[ChannelID]
+    Ex. $channelChangedRoles[ChannelID;Index]
     """
     if len(ID) < 1:
         raise EH.Errors(4, "No parameter provided for '$channelChangedRoles'")

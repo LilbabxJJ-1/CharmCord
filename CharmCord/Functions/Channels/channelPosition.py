@@ -15,6 +15,6 @@ async def channelPosition(ID, Context):
     try:
         int(ID)
         channel = await bots.fetch_channel(ID)
-        return str(channel.position)
+        return str(channel.position + 1)
     except ValueError:
         EH.Errors(2, ID)
