@@ -116,7 +116,6 @@ async def findBracketPairs(entry: str, Functions, context):
         else:
             count += 1
 
-
     if len(test) == 0:
         test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     line = 0
@@ -164,13 +163,17 @@ async def findBracketPairs(entry: str, Functions, context):
         argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
-        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
+        funcJob = False
+        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument) and funcJob is False:
+            if "$charmai" in argument.lower():
+                funcJob = True
             count = 0
             start = None
             end = None
             balance = 0
             for i in argument:
-                digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a digit in it
+                digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a
+                # digit in it
                 if i == "$" and start is None and argument[count + 1] != "$" and argument[
                     count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
                     start = count
