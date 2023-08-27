@@ -15,10 +15,19 @@
 ![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## 0.18.16 Update
+## 0.19.0 Update
 
-- All functions now case-insensitive
-- Added new [docs](https://docs.charm-cord.com)
+#### New Functions
+
+- `$hasPerm`
+- `$message`
+- `$charmAI`
+
+Lots of code refactoring and optimizing
+
+Made functions easier to use on multi-lines
+
+Updates to the [docs](https://docs.charm-cord.com)
 
 
 ## <span style="color:pink">CharmCord</span> Setups
