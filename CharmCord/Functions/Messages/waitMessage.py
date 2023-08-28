@@ -15,11 +15,11 @@ async def waitMessage(args, context):
         user = split[1]
         timeout = int(split[2])
 
-        def check(message):
-            if int(channel_id) == message.channel.id:
+        def check(msg):
+            if int(channel_id) == msg.channel.id:
                 if user == "everyone":
                     return True
-                elif int(user) == message.author.id:
+                elif int(user) == msg.author.id:
                     return True
         error = None
         if len(split[3]) > 1:

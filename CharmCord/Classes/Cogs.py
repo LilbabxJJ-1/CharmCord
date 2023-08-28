@@ -5,7 +5,8 @@ AC = {}
 
 class CharmCogs:
 
-    def command_cogs(self, name, codes):
+    @staticmethod
+    def command_cogs(name, codes):
         from .CharmCord import bots
 
         @bots.command(name=name)
@@ -20,7 +21,8 @@ class CharmCogs:
             final_code = await isValid(code2, TotalFuncs)
             await findBracketPairs(final_code, TotalFuncs, context)
 
-    def slashcommand_cogs(self, name, code, args: list, description):
+    @staticmethod
+    def slashcommand_cogs(name, code, args: list, description):
         def slash_command():
             new_args = []
             for i in args:

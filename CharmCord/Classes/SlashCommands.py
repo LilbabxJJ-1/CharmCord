@@ -1,6 +1,7 @@
 class SlashCommands:
 
-    def slash_command(self, name, code, args: list, description=None, bot=None):
+    @staticmethod
+    def slash_command(name, code, args: list, description=None, bot=None):
         new_args = []
         for i in args:
             new_args.append(f"{i}: str")

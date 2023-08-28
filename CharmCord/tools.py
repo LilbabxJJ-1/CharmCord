@@ -1,7 +1,5 @@
-from datetime import datetime as D_T
+from datetime import datetime as d_t
 from pytz import timezone
-
-import CharmCord.Classes.CharmCord
 from CharmCord.all_functions import date_funcs, ifse
 from .Functions import *
 
@@ -27,41 +25,41 @@ class FunctionHandler:
         return await self.funcs[keyword](args, context)
 
 
-async def noArguments(entry: str, Functions, context):
+async def noArguments(entry: str, functions, context):
     from .all_functions import no_arg_Funcs
 
     for func in no_arg_Funcs:
         if func in entry:
             entry = entry.replace(
                 func,
-                str(await Functions.execute_functions(func.lower(), None, context)),
+                str(await functions.execute_functions(func.lower(), None, context)),
             )
 
     return entry
 
 
-def slashArgs(args, Code):
-    if "$slashArgs" in Code:
-        while "$slashArgs" in str(Code):
+def slashArgs(args, code):
+    if "$slashArgs" in code:
+        while "$slashArgs" in str(code):
             count = 0
             end = None
             balance = 0
-            start = Code.index("$slashArgs") + 10
-            look = Code[start: len(Code)]
-            for i in look:
-                if i == "[":
+            start = code.index("$slashArgs") + 10
+            look = code[start: len(code)]
+            for char in look:
+                if char == "[":
                     start = count
                     count += 1
                     balance += 1
                     continue
-                if i == "]":
+                if char == "]":
                     end = count
                     balance -= 1
                 count += 1
                 if balance == 0 and start is not None and end is not None:
                     try:
                         # Replace $args with arguments
-                        Code = str(Code).replace(
+                        code = str(code).replace(
                             f"$slashArgs[{look[start + 1:end]}]",
                             args[int(look[start + 1: end]) - 1],
                         )
@@ -70,18 +68,18 @@ def slashArgs(args, Code):
                         raise SyntaxError(
                             f"$slashArgs[{int(look[start + 1:end])}] Not Provided"
                         )
-    return Code
+    return code
 
 
 EndIf = True
 
 
-async def findBracketPairs(entry: str, Functions, context):
+async def findBracketPairs(entry: str, functions, context):
     global EndIf
     test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 1]
     starts = 0
-    for i in test:
-        if i.strip().startswith("$") and i[-1] != "]" and "[" in i.strip():
+    for char in test:
+        if char.strip().startswith("$") and char[-1] != "]" and "[" in char.strip():
             try:
                 test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
                 test.remove(test[starts + 1])
@@ -91,14 +89,14 @@ async def findBracketPairs(entry: str, Functions, context):
                 test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
                 test.remove(test[starts + 1])
                 starts += 1
-        elif i.endswith("]") and i[0].strip() != "$":
+        elif char.endswith("]") and char[0].strip() != "$":
             test[starts] = (test[starts - 1].strip() + " " + test[starts].strip()).strip()
             test.remove(test[starts - 1])
             starts += 1
-        elif i[-1].strip() != "]" and i[0].strip() != "$":
+        elif char[-1].strip() != "]" and char[0].strip() != "$":
             test[starts] = test[starts - 1] + " " + test[starts].strip()
             test.remove(test[starts - 1])
-        elif i.strip().startswith("]"):
+        elif char.strip().startswith("]"):
             test[starts] = test[starts - 1] + " " + test[starts].strip()
             test.remove(test[starts - 1])
         else:
@@ -127,7 +125,7 @@ async def findBracketPairs(entry: str, Functions, context):
             if code.strip().lower().startswith("$endif"):
                 continue
             elif code.strip().lower().startswith("$elif"):
-                if not any("$if" in i.lower() for i in test):
+                if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
                 EndIf = False
                 continue
@@ -146,15 +144,15 @@ async def findBracketPairs(entry: str, Functions, context):
         last = None
         count = 0
         balance1 = 0
-        for i in code:
-            if i == "[" and first is None:
+        for char in code:
+            if char == "[" and first is None:
                 first = count
                 balance1 += 1
                 count += 1
                 continue
-            if i == "[":
+            if char == "[":
                 balance1 += 1
-            elif i == "]":
+            elif char == "]":
                 last = count
                 balance1 -= 1
             if first is not None and last is not None and balance1 == 0:
@@ -163,23 +161,23 @@ async def findBracketPairs(entry: str, Functions, context):
         argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
-        funcJob = False
-        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument) and funcJob is False:
+        func_job = False
+        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument) and func_job is False:
             if "$charmai" in argument.lower():
-                funcJob = True
+                func_job = True
             count = 0
             start = None
             end = None
             balance = 0
-            for i in argument:
+            for char in argument:
                 digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a
                 # digit in it
-                if i == "$" and start is None and argument[count + 1] != "$" and argument[
-                    count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
+                if char == "$" and start is None and argument[count + 1] != "$" and argument[
+                        count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
                     start = count
-                elif i == "[":
+                elif char == "[":
                     balance += 1
-                elif i == "]":
+                elif char == "]":
                     end = count
                     balance -= 1
                 count += 1
@@ -189,77 +187,77 @@ async def findBracketPairs(entry: str, Functions, context):
                 argument = (
                         argument[:start]
                         + str(
-                    await findBracketPairs(argument[start: end + 1], Functions, context)
-                )
+                            await findBracketPairs(argument[start: end + 1], functions, context)
+                        )
                         + argument[end + 1:]
                 )
             else:
                 argument = (
-                        str(await findBracketPairs(argument, Functions, context))
+                        str(await findBracketPairs(argument, functions, context))
                         + argument[end + 1:]
                 )
             find = [first, last, keyword, argument, context]
-        if find[2].lower() in Functions.funcs:
-            name = await Functions.execute_functions(find[2].lower(), find[3], find[4])
+        if find[2].lower() in functions.funcs:
+            name = await functions.execute_functions(find[2].lower(), find[3], find[4])
             if find[2].lower() == "$onlyif" and name is False:
                 return
             if find[2].lower() == "$if" and name is False:
                 EndIf = False
-                if not any("$endif" in i.lower() for i in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
             elif find[2].lower() == "$if":
-                if not any("$endif" in i.lower() for i in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
 
                 continue
             if find[2].lower() == "$elif" and EndIf is False:
-                if not any("$if" in i.lower() for i in test):
+                if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$endif" in i.lower() for i in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             if find[2].lower() == "$elif":
-                if not any("$if" in i.lower() for i in test):
+                if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$endif" in i.lower() for i in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             EndIf = name is not False
 
         else:
-            name = find[2]
+            response = find[2]
 
     try:
-        return name
+        return response
     except Exception as e:
         raise Exception(f"Error at: {e}")
 
 
-def checkArgs(args, Code):
-    if "$args" in Code:
-        while "$args" in str(Code):
-            if "$args[" in Code:
+def checkArgs(args, code):
+    if "$args" in code:
+        while "$args" in str(code):
+            if "$args[" in code:
                 count = 0
                 end = None
                 balance = 0
-                start = Code.index("$args") + 5
-                look = Code[start: len(Code)]
-                for i in look:
-                    if i == "[":
+                start = code.index("$args") + 5
+                look = code[start: len(code)]
+                for Char in look:
+                    if Char == "[":
                         start = count
                         count += 1
                         balance += 1
                         continue
-                    if i == "]":
+                    if Char == "]":
                         end = count
                         balance -= 1
                     count += 1
                     if balance == 0 and start is not None and end is not None:
                         try:
                             # Replace $args with arguments
-                            Code = str(Code).replace(
+                            code = str(code).replace(
                                 f"$args[{look[start + 1:end]}]",
                                 args[int(look[start + 1: end]) - 1],
                             )
@@ -269,9 +267,9 @@ def checkArgs(args, Code):
                                 f"$args[{int(look[start + 1:end])}] Not Provided"
                             )
             else:
-                add = [i for i in args]
-                Code = str(Code).replace(f"$args", str(add))
-    return Code
+                add = [char for char in args]
+                code = str(code).replace(f"$args", str(add))
+    return code
 
 
 async def isValid(code, functions):
@@ -281,83 +279,83 @@ async def isValid(code, functions):
             area = code[start:]
             if "$" not in area[:area.index(']')]:
                 valid = str(f"${area[:area.index(']')]}").lower() in functions.funcs
-                Code = code.replace(
+                code = code.replace(
                     f"$isValidFunc[{area[:area.index(']')]}]", str(valid)
                 )
             else:
                 valid = str(f"{area[:area.index(']')]}").lower() in functions.funcs
-                Code = code.replace(
+                code = code.replace(
                     f"$isValidFunc[{area[:area.index(']')]}]", str(valid)
                 )
-            return Code
+            return code
     return code
 
 
-async def checkArgCheck(args, Code, Context):
-    if "$argcheck" in Code.lower():
-        if Code.lower().count("$argcheck") > 1:
+async def checkArgCheck(args, code, context):
+    if "$argcheck" in code.lower():
+        if code.lower().count("$argcheck") > 1:
             raise Exception("Too many $argCheck in a single command | Max is 1!")
-        start = Code.lower().index("$argcheck[") + 10
-        area = Code[start:]
+        start = code.lower().index("$argcheck[") + 10
+        area = code[start:]
         try:
             if ";" in area[: area.index("]")]:
-                argTotal = area[: area.index(";")]
+                arg_total = area[: area.index(";")]
                 warning = area[area.index(";") + 1: area.index("]")]
-                if len(args) < int(argTotal):
-                    await Context.channel.send(warning)
+                if len(args) < int(arg_total):
+                    await context.channel.send(warning)
                     return "Failed"
-                Code = Code.replace(
-                    f"$argCheck[{argTotal}{area[area.index(';'):area.index(']')]}]\n",
+                code = code.replace(
+                    f"$argCheck[{arg_total}{area[area.index(';'):area.index(']')]}]\n",
                     "",
                 )
-                return Code
+                return code
             else:
-                argTotal = area[: area.index("]")]
-                if len(args) < int(argTotal):
+                arg_total = area[: area.index("]")]
+                if len(args) < int(arg_total):
                     return "Failed"
-                Code = Code.replace(f"$argCheck[{argTotal}]\n", "")
-                return Code
+                code = code.replace(f"$argCheck[{arg_total}]\n", "")
+                return code
         except Exception:
             raise SyntaxError("Not enough arguments in $argCheck!")
-    return Code
+    return code
 
 
-def format_datetime(datetime: D_T, FORM: str, TIMEZONE):
-    UnformatedDatetime = datetime.astimezone(TIMEZONE)
-    UnformatedDatetimeTuple = (
-        UnformatedDatetime.year,
-        UnformatedDatetime.month,
-        UnformatedDatetime.day,
-        UnformatedDatetime.hour,
-        UnformatedDatetime.minute,
-        UnformatedDatetime.second,
-        UnformatedDatetime.microsecond,
+def format_datetime(datetime: d_t, form: str, tz):
+    unformated_datetime = datetime.astimezone(tz)
+    unformulated_datetime_tuple = (
+        unformated_datetime.year,
+        unformated_datetime.month,
+        unformated_datetime.day,
+        unformated_datetime.hour,
+        unformated_datetime.minute,
+        unformated_datetime.second,
+        unformated_datetime.microsecond,
     )
-    year, month, day, hour, minute, second, microsecond = UnformatedDatetimeTuple
+    year, month, day, hour, minute, second, microsecond = unformulated_datetime_tuple
 
-    AM_PM = "AM" if hour < 12 else "PM"
+    am_pm = "AM" if hour < 12 else "PM"
     hour = hour if hour < 12 else hour - 12
 
-    FORM = FORM.lower().strip()
+    form = form.lower().strip()
 
-    if FORM == "full":
-        desiredDateForm = f"USA: {month}/{day}/{year} at {hour} :{minute} :{second} :{microsecond} {AM_PM}"
-    elif FORM == "year":
-        desiredDateForm = str(year)
-    elif FORM == "month":
-        desiredDateForm = str(month)
-    elif FORM == "day":
-        desiredDateForm = str(day)
-    elif FORM == "hour":
-        desiredDateForm = str(hour)
-    elif FORM == "minute":
-        desiredDateForm = str(minute)
-    elif FORM == "second":
-        desiredDateForm = str(second)
-    elif FORM == "microsecond":
-        desiredDateForm = str(microsecond)
-    elif FORM == "ampm":
-        desiredDateForm = AM_PM
+    if form == "full":
+        desired_date_form = f"USA: {month}/{day}/{year} at {hour} :{minute} :{second} :{microsecond} {am_pm}"
+    elif form == "year":
+        desired_date_form = str(year)
+    elif form == "month":
+        desired_date_form = str(month)
+    elif form == "day":
+        desired_date_form = str(day)
+    elif form == "hour":
+        desired_date_form = str(hour)
+    elif form == "minute":
+        desired_date_form = str(minute)
+    elif form == "second":
+        desired_date_form = str(second)
+    elif form == "microsecond":
+        desired_date_form = str(microsecond)
+    elif form == "ampm":
+        desired_date_form = am_pm
     else:
-        desiredDateForm = "ERROR"
-    return desiredDateForm
+        desired_date_form = "ERROR"
+    return desired_date_form

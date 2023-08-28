@@ -3,7 +3,7 @@ import CharmCord.CharmErrorHandling as ErrorHandling
 EH = ErrorHandling.CharmErrorHandling()
 
 
-async def channelCreated(args: str, Context, timezones, format_datetime):
+async def channelCreated(args: str, context, timezones, format_datetime):
     """
     Ex. $channelCreated[ChannelID]
     """
@@ -11,29 +11,29 @@ async def channelCreated(args: str, Context, timezones, format_datetime):
         raise EH.Errors(4, "No parameter provided for '$channelCreated'")
     est, utc, pst = timezones
     try:
-        ID, TIME, FORM = tuple(args.split(";"))
-        TIME = locals()[TIME.strip()]
-        FORM = FORM.lower()
+        ids, time, form = tuple(args.split(";"))
+        time = locals()[time.strip()]
+        form = form.lower()
     except ValueError:
-        FORM = "full"
+        form = "full"
         try:
-            ID, TIME = tuple(args.split(","))
-            TIME = locals()[TIME.strip()]
+            ids, time = tuple(args.split(","))
+            time = locals()[time.strip()]
         except:
-            ID = args
-            TIME = utc
+            ids = args
+            time = utc
 
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(ID)
-        channel = await bots.fetch_channel(ID)
+        int(ids)
+        channel = await bots.fetch_channel(ids)
 
-        desiredDateForm = format_datetime(channel.created_at, FORM, TIME)
+        desiredDateForm = format_datetime(channel.created_at, form, time)
         if desiredDateForm != "ERROR":
             return desiredDateForm
         else:
             raise SyntaxError("Invalid Format option in $channelCreated!")
 
     except ValueError:
-        EH.Errors(2, ID)
+        EH.Errors(2, ids)

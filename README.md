@@ -91,31 +91,29 @@ Slash Interactions/Outside Commands/Activity:
 ```python
 
 from CharmCord import CharmClient, setActivity
+
 # ---------------Imports--------------------
 
 # Activity message is the actual status, the type is whether it'll
 # be a game status, listening status, etc
-act = setActivity(message="my servers", type="watching")
+act = setActivity(message="my servers", typing="watching")
 
 # For Commands outside the main.py file, you should add the 
 # load_command_dir parameter with the name of your command file
-bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",), activity=act,  load_command_dir="Commands")
-
+bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",), activity=act, load_command_dir="Commands")
 
 bot.onReady(
     Code="$console[Bot is Ready]"
 )
 
-
 bot.slashCommand(
-    Name="repeat", # Name of the slash command
-    Args=["sentence"], #The required arguments
-    Description="Repeats what you say", # Description of command
+    Name="repeat",  # Name of the slash command
+    Args=["sentence"],  # The required arguments
+    Description="Repeats what you say",  # Description of command
     Code="""
     $slashSend[$slashArgs[1]]
-    """ # Code running on the command
+    """  # Code running on the command
 )
-
 
 bot.run("*******<<TOKEN>>***********")
 ```

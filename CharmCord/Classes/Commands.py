@@ -7,14 +7,15 @@ from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArgume
 class Commands:
     # Global variables
 
-    def command(self, name: str, code: str, aliases: list = [], bot=None):
+    @staticmethod
+    def command(name: str, code: str, aliases: list = [], bot=None):
         from CharmCord.Classes.CharmCord import TotalFuncs
         # Define command function dynamically
 
         @bot.command(name=name, aliases=aliases)
-        async def go(ctx, *args, code=code):
+        async def go(ctx, *args, codes=code):
             context = ctx
-            new_code = await checkArgCheck(args, code, context)
+            new_code = await checkArgCheck(args, codes, context)
             if new_code == "Failed":
                 return
             code1 = await noArguments(new_code, TotalFuncs, context)

@@ -1,4 +1,4 @@
-async def sum(args, Context):
+async def sum(args, context):
     if ";" in args:
         values = args.split(";")
         try:

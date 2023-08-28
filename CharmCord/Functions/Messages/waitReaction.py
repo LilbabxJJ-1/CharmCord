@@ -16,13 +16,13 @@ async def waitReaction(args, context):
         emoji = split[2]
         timeout = int(split[3])
 
-        def check(reaction, user):
+        def check(rct, usr):
             if int(channel_id) == context.channel.id:
                 if users == "everyone":
-                    if str(reaction.emoji.name) == emoji:
+                    if str(rct.emoji.name) == emoji:
                         return True
-                elif int(users) == user.id:
-                    if str(reaction.emoji.name) == emoji:
+                elif int(users) == usr.id:
+                    if str(rct.emoji.name) == emoji:
                         return True
 
         error = None
