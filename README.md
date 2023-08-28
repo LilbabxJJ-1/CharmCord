@@ -41,13 +41,13 @@ bot.variables({
     "money": 199
 })
 
-bot.onReady(
+bot.on_ready(
     Code="$console[Bot is Ready]"
 )
 
 bot.command(
-    Name="add-money",
-    Code="""
+    name="add-money",
+    code="""
     $setUserVar[$args[1];money;$args[2]]
     $sendMessage[$channelID;Added $$args[2] to $userName[$args[1]]'s account]
     """
@@ -58,8 +58,8 @@ bot.command(
 )
 
 bot.command(
-    Name="Ping", # Command Name
-    Code="""
+    name="Ping", # Command Name
+    code="""
     $sendMessage[$channelID; Pong!! $ping]
     """ # Command Code
 )
@@ -85,15 +85,15 @@ act = setActivity(message="my servers", typing="watching")
 # load_command_dir parameter with the name of your command file
 bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",), activity=act, load_command_dir="Commands")
 
-bot.onReady(
-    Code="$console[Bot is Ready]"
+bot.on_ready(
+    code="$console[Bot is Ready]"
 )
 
-bot.slashCommand(
-    Name="repeat",  # Name of the slash command
-    Args=["sentence"],  # The required arguments
-    Description="Repeats what you say",  # Description of command
-    Code="""
+bot.slash_command(
+    name="repeat",  # Name of the slash command
+    args=["sentence"],  # The required arguments
+    description="Repeats what you say",  # Description of command
+    code="""
     $slashSend[$slashArgs[1]]
     """  # Code running on the command
 )
