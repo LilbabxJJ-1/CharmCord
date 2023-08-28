@@ -12,6 +12,5 @@ async def slashSend(args: str, Context: discord.Interaction):
         except Exception:
             await Context.followup.send(message)
     except Exception as e:
-        print(e)
         raise SyntaxError("Can't send empty message!")
     return
