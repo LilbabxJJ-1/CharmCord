@@ -15,24 +15,7 @@
 ![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## 0.19.0 Update
-
-#### New Functions
-
-- `$hasPerm`
-- `$message`
-- `$charmAI`
-
-Lots of code refactoring and optimizing
-
-Made functions easier to use on multi-lines
-
-Updates to the [docs](https://docs.charm-cord.com)
-
-## Minor Update
-
-- Made `$sendEmbed` response automatically change depending on context of the command (Whether it's 
-a slash command or normal command)
+## v0.19.8
 
 
 ## <span style="color:pink">CharmCord</span> Setups
