@@ -1,10 +1,19 @@
+import discord
+
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 async def purge(args, context):
+
     def check(msg):
-        if context.message.id != msg.id:
-            return True
+        from CharmCord.Classes.CharmCord import bots
+        if isinstance(context, discord.Interaction):
+            if msg.author.id != bots.user.id:
+                return True
+        else:
+            if context.message.id != msg.id:
+                return True
+
     from CharmCord.Classes.CharmCord import bots
     vals = args.split(";")
     channel = vals[0]
@@ -20,7 +29,10 @@ async def purge(args, context):
 
     if checking == "true":
         try:
-            await channel.purge(limit=int(amount), check=check)
+            if isinstance(context, discord.Interaction):
+                await context.response.defer()
+                return await channel.purge(limit=int(amount), check=check)
+            return await channel.purge(limit=int(amount), check=check)
         except ValueError:
             CharmCordErrors(f"{amount} is not a digit! Needs to be digit")
     elif checking == "false":
