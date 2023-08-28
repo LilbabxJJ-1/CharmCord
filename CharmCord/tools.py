@@ -198,10 +198,10 @@ async def findBracketPairs(entry: str, functions, context):
                 )
             find = [first, last, keyword, argument, context]
         if find[2].lower() in functions.funcs:
-            name = await functions.execute_functions(find[2].lower(), find[3], find[4])
-            if find[2].lower() == "$onlyif" and name is False:
+            response = await functions.execute_functions(find[2].lower(), find[3], find[4])
+            if find[2].lower() == "$onlyif" and response is False:
                 return
-            if find[2].lower() == "$if" and name is False:
+            if find[2].lower() == "$if" and response is False:
                 EndIf = False
                 if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
@@ -224,7 +224,7 @@ async def findBracketPairs(entry: str, functions, context):
                 if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
-            EndIf = name is not False
+            EndIf = response is not False
 
         else:
             response = find[2]
