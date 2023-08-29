@@ -16,11 +16,11 @@ async def onlyIf(args, context):
         for i in choices:
             if i in args:
                 if i in ["==", "!="]:
-                    vals = values[0]
+                    vals = values[0].split(i)
                     val1 = vals[0].strip()
                     val2 = vals[1].strip()
                 else:
-                    vals = values[0]
+                    vals = values[0].split(i)
                     val1 = int(vals[0])
                     val2 = int(vals[1])
                 result = operator_mapping.get(i, lambda x, y: None)(val1, val2)
@@ -28,7 +28,10 @@ async def onlyIf(args, context):
                     return True
                 else:
                     if isinstance(context, discord.Interaction):
-                        await context.response.send_message(values[1])
+                        try:
+                            await context.response.send_message(values[1])
+                        except:
+                            await context.followup.send(values[1])
                     else:
                         await context.send(values[1])
                     return False
