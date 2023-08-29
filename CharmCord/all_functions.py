@@ -57,7 +57,9 @@ all_Funcs = [
     "$purge",
     "$messageID",
     "$userID",
-    "$defer"
+    "$defer",
+    "$getJson",
+    "$sendDM"
 ]
 
 date_funcs = ["$channelCreated"]
