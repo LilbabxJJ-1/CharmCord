@@ -1,7 +1,8 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+import discord
 
 
 async def authorName(emp, Context):
-    return Context.author.name
+    if isinstance(Context, discord.Interaction):
+        return Context.user.name
+    else:
+        return Context.author.name
