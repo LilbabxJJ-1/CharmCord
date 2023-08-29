@@ -1,6 +1,4 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 async def channelDelay(ID, Context):
@@ -9,12 +7,11 @@ async def channelDelay(ID, Context):
     Returns the channel delay for the given channel ID
     """
     if len(ID) < 1:
-        raise EH.Errors(4, "No parameter provided for '$channelDelay'")
+        raise CharmCordErrors("No parameter provided for '$channelDelay'")
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(ID)
-        channel = await bots.fetch_channel(ID)
-        return channel.slowmode_delay
+        channel = await bots.fetch_channel(ID.replace("<#", "").replace(">", ""))
+        return channel.delay
     except ValueError:
-        EH.Errors(2, ID)
+        CharmCordErrors(f"$channelDelay: {ID} not valid channel id\nCommand: {Context.command.name}")

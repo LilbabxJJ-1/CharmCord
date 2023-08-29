@@ -1,15 +1,13 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
-async def userMention(user, context):
+async def userMention(user: str, context):
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(user)
+        int(user.replace("<@", "").replace(">", ""))
         new_user = await bots.fetch_user(user)
     except ValueError:
-        EH.Errors(1, user)
+        CharmCordErrors(f"ID ({user}) in $userMention not valid")
         return
     return new_user.mention

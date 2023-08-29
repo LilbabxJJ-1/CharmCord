@@ -1,6 +1,4 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 async def channelCreated(args: str, context, timezones, format_datetime):
@@ -8,7 +6,7 @@ async def channelCreated(args: str, context, timezones, format_datetime):
     Ex. $channelCreated[ChannelID]
     """
     if len(args) < 1:
-        raise EH.Errors(4, "No parameter provided for '$channelCreated'")
+        raise CharmCordErrors("No parameter provided for '$channelCreated'")
     est, utc, pst = timezones
     try:
         ids, time, form = tuple(args.split(";"))
@@ -26,8 +24,7 @@ async def channelCreated(args: str, context, timezones, format_datetime):
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(ids)
-        channel = await bots.fetch_channel(ids)
+        channel = await bots.fetch_channel(ids.replace("<#", "").replace(">", ""))
 
         desiredDateForm = format_datetime(channel.created_at, form, time)
         if desiredDateForm != "ERROR":
@@ -36,4 +33,4 @@ async def channelCreated(args: str, context, timezones, format_datetime):
             raise SyntaxError("Invalid Format option in $channelCreated!")
 
     except ValueError:
-        EH.Errors(2, ids)
+        CharmCordErrors(f"$channelCreated: {ids} not valid channel id\nCommand: {context.command.name}")

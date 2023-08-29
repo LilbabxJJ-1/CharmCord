@@ -1,6 +1,5 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
-EH = ErrorHandling.CharmErrorHandling()
 
 
 async def channelURL(ID, Context):
@@ -9,12 +8,11 @@ async def channelURL(ID, Context):
     returns the channel url to the given ID
     """
     if len(ID) < 1:
-        raise EH.Errors(4, "No parameter provided for '$channelURL'")
+        CharmCordErrors("No parameter provided for '$channelURL'")
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(ID)
-        channel = await bots.fetch_channel(ID)
+        channel = await bots.fetch_channel(ID.replace("<#", "").replace(">", ""))
         return channel.jump_url
     except ValueError:
-        EH.Errors(2, ID)
+        CharmCordErrors(f"$channelURL: {ID} not valid channel id\nCommand: {Context.command.name}")

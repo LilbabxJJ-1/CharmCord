@@ -1,6 +1,4 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 async def channelPosition(ID, Context):
@@ -9,12 +7,11 @@ async def channelPosition(ID, Context):
     returns the position of a given channel ID
     """
     if len(ID) < 1:
-        raise EH.Errors(4, "No parameter provided for '$channelPosition'")
+        CharmCordErrors("No parameter provided for '$channelPosition'")
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(ID)
-        channel = await bots.fetch_channel(ID)
-        return str(channel.position + 1)
+        channel = await bots.fetch_channel(ID.replace("<#", "").replace(">", ""))
+        return channel.position
     except ValueError:
-        EH.Errors(2, ID)
+        CharmCordErrors(f"$channelPosition: {ID} not valid channel id\nCommand: {Context.command.name}")
