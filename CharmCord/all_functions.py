@@ -55,7 +55,8 @@ all_Funcs = [
     "$message",
     "$charmAI",
     "$purge",
-    "$messageID"
+    "$messageID",
+    "$userID"
 ]
 
 date_funcs = ["$channelCreated"]
