@@ -5,7 +5,7 @@ async def userMention(user: str, context):
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        int(user.replace("<@", "").replace(">", ""))
+        user = int(user.replace("<@", "").replace(">", ""))
         new_user = await bots.fetch_user(user)
     except ValueError:
         CharmCordErrors(f"ID ({user}) in $userMention not valid")
