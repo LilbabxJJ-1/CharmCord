@@ -1,7 +1,7 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
-async def userMention(user: str, context):
+async def userID(user: str, context):
     from CharmCord.Classes.CharmCord import bots
 
     try:
