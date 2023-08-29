@@ -15,7 +15,12 @@
 ![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## v0.19.8
+## v0.19.15
+
+- Added `$defer` and `$userID`
+- Made errors command specific (says which command and function)
+- Made functions able to read <@/#mentions> and IDs
+
 
 
 ## <span style="color:pink">CharmCord</span> Setups
