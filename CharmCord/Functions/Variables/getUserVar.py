@@ -5,13 +5,13 @@ async def getUserVar(args, Context):
     from CharmCord.Classes.CharmCord import all_vars
 
     ag = args.split(";")
-    user = ag[0]
+    user = ag[0].replace("<@", "").replace(">", "")
     serverID = Context.guild.id
     var = ag[1]
     try:
         with open("variables.json", "r") as variables:
             total = json.load(variables)
-            return total[f"{user}_{var}"]
+            return total[f"{user}_{serverID}_{var}"]
     except KeyError:
         with open("variables.json", "r") as variables:
             total = json.load(variables)
