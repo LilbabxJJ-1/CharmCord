@@ -75,49 +75,49 @@ EndIf = True
 
 
 async def findBracketPairs(entry: str, functions, context):
+    """
+    `findBracketPairs` is used to look through the text and determine what function
+    is holding what information and how to reformat it into a way for the Discord.py
+    package to read it.
+    :param entry: The string text of the command
+    :param functions: List of all possible functions to use
+    :param context: Discord Context
+    :return: Awaited Async Functions
+    """
     global EndIf
-    test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 1]
-    starts = 0
+    test = [line.strip() for line in entry.split("\n") if len(line.strip()) > 0]
+    starts, pairs, index = 0, 0, 0
+    new = []
     for char in test:
-        if char.strip().startswith("$") and char[-1] != "]" and "[" in char.strip():
-            try:
-                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
-                test.remove(test[starts + 1])
-                starts += 1
-            except IndexError:
-                starts -= 1
-                test[starts] = (test[starts].strip() + " " + test[starts + 1].strip()).strip()
-                test.remove(test[starts + 1])
-                starts += 1
-        elif char.endswith("]") and char[0].strip() != "$":
-            test[starts] = (test[starts - 1].strip() + " " + test[starts].strip()).strip()
-            test.remove(test[starts - 1])
-            starts += 1
-        elif char[-1].strip() != "]" and char[0].strip() != "$":
-            test[starts] = test[starts - 1] + " " + test[starts].strip()
-            test.remove(test[starts - 1])
-        elif char.strip().startswith("]"):
-            test[starts] = test[starts - 1] + " " + test[starts].strip()
-            test.remove(test[starts - 1])
-        else:
+        pairs += char.count("[")
+        pairs -= char.count("]")
+        if starts >= len(test):
+            starts -= 1
+        if char.strip().startswith("$") and pairs > 0 and len(new) == 0:
+            new.append(test[test.index(char)] + " " + test[test.index(char) + 1])
             starts += 1
             continue
+        if starts == 1:
+            starts += 1
+            continue
+        if char.strip().startswith("$") and pairs == 0 and len(new) == 0:
+            new.append(test[test.index(char)])
+            index += 1
+        elif char.strip().startswith("$") and pairs == 0 and len(new) > 0:
+            new.append(test[test.index(char)])
+            index += 1
+        elif char.strip().startswith("$") and pairs > 0 and len(new) > 0:
+            new.append(test[test.index(char)])
+            index += 1
+        elif char.strip()[0] != "$" and pairs == 0 and len(new) > 0:
+            new[index] = new[index] + " " + test[test.index(char)]
+        elif char.strip()[0] != "$" and pairs > 0 and len(new) > 0:
+            new[index] = new[index] + " " + test[test.index(char)]
 
-    count = 0
-    for cleanup in test:
-        if cleanup.strip() == "]":
-            test[count - 1] = test[count - 1] + test[count]
-            test.remove(test[count])
-        elif cleanup.endswith("]") and cleanup[0] != "$":
-            test[count - 1] = test[count - 1] + test[count]
-            test.remove(test[count])
-        else:
-            count += 1
-
-    if len(test) == 0:
+    if len(new) == 0:
         test = [line.strip() for line in entry.split("\n") if len(line.strip()) >= 3]
     line = 0
-    for code in test:
+    for code in new:
         line += 1
         if EndIf:
             if code.strip().startswith("$end"):
@@ -173,7 +173,7 @@ async def findBracketPairs(entry: str, functions, context):
                 digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a
                 # digit in it
                 if char == "$" and start is None and argument[count + 1] != "$" and argument[
-                        count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
+                    count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
                     start = count
                 elif char == "[":
                     balance += 1
@@ -187,8 +187,8 @@ async def findBracketPairs(entry: str, functions, context):
                 argument = (
                         argument[:start]
                         + str(
-                            await findBracketPairs(argument[start: end + 1], functions, context)
-                        )
+                    await findBracketPairs(argument[start: end + 1], functions, context)
+                )
                         + argument[end + 1:]
                 )
             else:
