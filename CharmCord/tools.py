@@ -61,7 +61,7 @@ def slashArgs(args, code):
                         # Replace $args with arguments
                         code = str(code).replace(
                             f"$slashArgs[{look[start + 1:end]}]",
-                            args[int(look[start + 1: end]) - 1],
+                            str(args[int(look[start + 1: end]) - 1]),
                         )
                         break
                     except IndexError:
@@ -81,7 +81,7 @@ async def findBracketPairs(entry: str, functions, context):
     package to read it.
     :param entry: The string text of the command
     :param functions: List of all possible functions to use
-    :param context: Discord Context
+    :param context: Discord context
     :return: Awaited Async Functions
     """
     global EndIf
@@ -172,8 +172,8 @@ async def findBracketPairs(entry: str, functions, context):
             for char in argument:
                 digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]  # A keyword will never start or have a
                 # digit in it
-                if char == "$" and start is None and argument[count + 1] != "$" and argument[
-                    count + 1] not in digits:  # $$keyword will discount the first $ as part of the text
+                if char == "$" and start is None and argument[count + 1] != "$" and argument[count + 1] not in digits:
+                    # $$keyword will discount the first $ as part of the text
                     start = count
                 elif char == "[":
                     balance += 1
@@ -186,9 +186,7 @@ async def findBracketPairs(entry: str, functions, context):
             if start != 0:
                 argument = (
                         argument[:start]
-                        + str(
-                    await findBracketPairs(argument[start: end + 1], functions, context)
-                )
+                        + str(await findBracketPairs(argument[start: end + 1], functions, context))
                         + argument[end + 1:]
                 )
             else:
