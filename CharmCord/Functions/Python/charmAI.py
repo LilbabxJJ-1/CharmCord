@@ -2,7 +2,7 @@ import aiohttp
 
 
 async def charmAI(args, context):
-    api_token = 'gb_api_EFSQ1U9NN1x9Na7HZeQeqdC25C9EzG8UvV1Irr4H'
+    api_token = '...'
 
     # Set up the API base URL
     base_url = 'https://api.gitbook.com/v1'

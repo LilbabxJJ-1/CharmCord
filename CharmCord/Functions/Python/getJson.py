@@ -1,5 +1,7 @@
-from CharmCord.CharmErrorHandling import CharmCordErrors
 import aiohttp
+
+from CharmCord.CharmErrorHandling import CharmCordErrors
+
 
 async def getJson(args, context):
     """
@@ -10,7 +12,7 @@ async def getJson(args, context):
     """
     if ";" not in args:
         CharmCordErrors(f"Not enough args in $getJson: {context.command.name} command")
-    vals =args.split(";")
+    vals = args.split(";")
     url = vals[0]
     key = vals[1]
 

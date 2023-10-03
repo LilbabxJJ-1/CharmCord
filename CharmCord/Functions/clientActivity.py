@@ -1,6 +1,8 @@
 import random
+
 import discord
 from discord.ext import tasks
+
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
@@ -26,6 +28,7 @@ def loopActivity(time: int, messages: [str], types: str = "watching"):
                 type=discord.ActivityType.watching, name=random.choice(message)
             )
         )
+
     loopAct = updateActivity
     return loopAct
 # Still having a lot of errors with this, will return when I have the time to set it up

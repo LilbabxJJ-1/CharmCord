@@ -1,5 +1,7 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
 import discord
+
+import CharmCord.CharmErrorHandling as ErrorHandling
+
 EH = ErrorHandling.CharmErrorHandling()
 
 

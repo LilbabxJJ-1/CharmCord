@@ -1,6 +1,3 @@
-
-
-
 class CharmErrorHandling:
     @staticmethod
     def Errors(self, error, code):

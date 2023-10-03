@@ -1,5 +1,3 @@
-
-
 async def editMessage(args, context):
     if ";" in args:
         values = args.split(";")
@@ -7,7 +5,8 @@ async def editMessage(args, context):
             msg_id, new_msg = values[0], values[1]
             msg = await context.channel.fetch_message(int(msg_id))
             if msg is None:
-                raise SyntaxError(f"$editMessage Message not found with ID: {msg_id}\nCommand: '{context.command.name}'")
+                raise SyntaxError(
+                    f"$editMessage Message not found with ID: {msg_id}\nCommand: '{context.command.name}'")
             await msg.edit(content=new_msg)
             return
         except IndexError:

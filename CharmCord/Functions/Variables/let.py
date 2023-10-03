@@ -1,4 +1,3 @@
-
 async def let(args, Context):
     from CharmCord.tools import lets
     values = args.split(";")

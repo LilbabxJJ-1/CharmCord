@@ -1,13 +1,15 @@
 import json
+
 import discord
 from discord.ext import commands
-from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
+
 # from CharmCord.Functions.Events.deletedChannel import options
 # from CharmCord.Functions.Events.oldChannel import options as old
 from CharmCord.Functions.Events.options import options
+from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
 from .CommandHandler import load_commands
-from .SlashCommands import SlashCommands
 from .Commands import Commands
+from .SlashCommands import SlashCommands
 
 # Global Calls
 TotalFuncs = None

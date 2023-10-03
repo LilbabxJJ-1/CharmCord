@@ -1,5 +1,5 @@
 import discord
-from CharmCord.CharmErrorHandling import CharmCordErrors
+
 from CharmCord.all_functions import newline_char
 
 

@@ -1,5 +1,3 @@
-
-
 async def ElIf(args, context):
     choices = ["==", ">=", "<=", "!=", "<", ">"]
     operator_mapping = {

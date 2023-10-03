@@ -1,4 +1,5 @@
 import asyncio
+
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
@@ -21,6 +22,7 @@ async def waitMessage(args, context):
                     return True
                 elif int(user) == msg.author.id:
                     return True
+
         error = None
         if len(split[3]) > 1:
             error = split[3]

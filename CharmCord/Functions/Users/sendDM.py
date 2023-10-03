@@ -1,5 +1,3 @@
-import discord
-
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 

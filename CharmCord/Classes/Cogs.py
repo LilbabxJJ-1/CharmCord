@@ -1,5 +1,6 @@
-from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
 from CharmCord.Classes.CharmCord import bots, TotalFuncs
+from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
+
 AC = {}
 
 
@@ -11,7 +12,6 @@ class CharmCogs:
 
         @bots.command(name=name)
         async def go(ctx, *args, code=codes):
-
             context = ctx
             new_code = await checkArgCheck(args, code, context)
             if new_code == "Failed":
@@ -41,4 +41,5 @@ async def go(ctx, {', '.join(new_args)}):
                         await findBracketPairs(finalCode, TotalFuncs, Context)
                 """
             exec(func, needs)
+
         slash_command()
