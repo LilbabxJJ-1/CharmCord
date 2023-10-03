@@ -1,8 +1,10 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-async def mentions(IDs, Context):
+
+
+async def mentions(ids, context):
     try:
-        return Context.message.mentions[int(IDs)-1].id
+        return context.message.mentions[int(ids) - 1].id
     except ValueError:
-        CharmCordErrors("Invalid ID in $mentions | Command..")
+        CharmCordErrors("Invalid args in $mentions | Command..")
     except IndexError:
         return None

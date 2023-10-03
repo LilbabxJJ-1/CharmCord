@@ -1,30 +1,29 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
-
-EH = ErrorHandling.CharmErrorHandling()
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
-async def channelChangedRoles(ID, Context):
+async def channelChangedRoles(args, context):
     """
     Ex. $channelChangedRoles[ChannelID;Index]
     """
-    if len(ID) < 1:
-        raise EH.Errors(4, "No parameter provided for '$channelChangedRoles'")
+    if len(args) < 1:
+        CharmCordErrors("No parameter provided for '$channelChangedRoles'")
+        return
     from CharmCord.Classes.CharmCord import bots
 
-    if ";" in ID:
-        args = ID.split(";")
-        ID = args[0]
-        Index = args[1]
+    if ";" in args:
+        args = args.split(";")
+        args = args[0]
+        index = args[1]
         try:
-            int(ID)
-            channel = await bots.fetch_channel(ID)
-            return channel.changed_roles[int(Index) - 1]
+            int(args)
+            channel = await bots.fetch_channel(args)
+            return channel.changed_roles[int(index) - 1]
         except ValueError:
-            EH.Errors(2, ID)
+            CharmCordErrors("No parameter provided for '$channelCategoryRoles'")
     else:
         try:
-            int(ID)
-            channel = await bots.fetch_channel(ID)
+            int(args)
+            channel = await bots.fetch_channel(args)
             return channel.changed_roles
         except ValueError:
-            EH.Errors(2, ID)
+            CharmCordErrors("No parameter provided for '$channelCategoryRoles'")

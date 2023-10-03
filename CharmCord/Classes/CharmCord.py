@@ -98,7 +98,7 @@ class CharmCord:
         all_vars = self.all_variables
 
     @staticmethod
-    def slash_command(name: str, code: str, args: list = [], description: str = "") -> None:
+    def slash_command(name: str, code: str, args: list[dict] = [{}], description: str = "") -> None:
         sl = SlashCommands().slash_command
         sl(name=name, code=code, args=args, description=description.lower(), bot=bots)
 
@@ -158,7 +158,8 @@ class CharmCord:
             await findBracketPairs(final_code, TotalFuncs, None)
             try:
                 await self.bot.tree.sync()
-            except Exception:
+            except Exception as e:
+                print(e)
                 CharmCordErrors("All slash commands need a description")
 
 

@@ -4,7 +4,7 @@ from CharmCord.CharmErrorHandling import CharmCordErrors
 async def channelPosition(ID, Context):
     """
     Ex. $channelPosition[ChannelID]
-    returns the position of a given channel ID
+    returns the position of a given channel args
     """
     if len(ID) < 1:
         CharmCordErrors("No parameter provided for '$channelPosition'")

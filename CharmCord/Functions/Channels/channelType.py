@@ -4,7 +4,7 @@ from CharmCord.CharmErrorHandling import CharmCordErrors
 async def channelType(ID, Context):
     """
     Ex. $channelType[ChannelID]
-    returns the channel type of the given ID
+    returns the channel type of the given args
     """
     if len(ID) < 1:
         CharmCordErrors("No parameter provided for '$channelType'")

@@ -9,7 +9,7 @@ async def waitReaction(args, context):
     from CharmCord.Classes.CharmCord import bots
     split = args.split(";")
     if len(split) < 3:
-        raise SyntaxError("ID, User, or timeout not provided to $waitMessage")
+        raise SyntaxError("args, User, or timeout not provided to $waitMessage")
     try:
         channel_id = split[0]
         users = split[1]
@@ -44,5 +44,5 @@ async def waitReaction(args, context):
             except asyncio.TimeoutError:
                 await context.channel.send(error)
     except ValueError:
-        CharmCordErrors(f"ID Error in {context.command.name}")
+        CharmCordErrors(f"args Error in {context.command.name}")
         return

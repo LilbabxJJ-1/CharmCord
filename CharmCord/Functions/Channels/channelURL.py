@@ -5,7 +5,7 @@ from CharmCord.CharmErrorHandling import CharmCordErrors
 async def channelURL(ID, Context):
     """
     Ex. $channelURL
-    returns the channel url to the given ID
+    returns the channel url to the given args
     """
     if len(ID) < 1:
         CharmCordErrors("No parameter provided for '$channelURL'")

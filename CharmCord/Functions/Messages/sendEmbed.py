@@ -3,9 +3,9 @@ from CharmCord.CharmErrorHandling import CharmCordErrors
 from CharmCord.all_functions import newline_char
 
 
-async def sendEmbed(args: str, Context):
+async def sendEmbed(args: str, context):
     """
-    Ex. $sendEmbed[Channel ID;Title;Message;Color?;image?;Footer?]
+    Ex. $sendEmbed[Channel args;Title;Message;Color?;image?;Footer?]
     Send an Embed
     """
     from CharmCord.Classes.CharmCord import bots
@@ -26,14 +26,14 @@ async def sendEmbed(args: str, Context):
         embed.set_footer(text=footer)
         embed.set_image(url=image)
 
-        if isinstance(Context, discord.Interaction):
+        if isinstance(context, discord.Interaction):
             try:
-                await Context.response.send_message(embed=embed)
-                message = await Context.original_response()
+                await context.response.send_message(embed=embed)
+                message = await context.original_response()
                 return message.id
             except:
-                await Context.followup.send(embed=embed)
-                message = await Context.original_response()
+                await context.followup.send(embed=embed)
+                message = await context.original_response()
                 return message.id
         message = await channel.send(embed=embed)
     except discord.ClientException:
@@ -50,14 +50,14 @@ async def sendEmbed(args: str, Context):
         embed = eval("discord.Embed(title=title, description=message)")
         embed.set_footer(text=footer)
         embed.set_image(url=image)
-        if isinstance(Context, discord.Interaction):
+        if isinstance(context, discord.Interaction):
             try:
-                await Context.response.send_message(embed=embed)
-                message = await Context.original_response()
+                await context.response.send_message(embed=embed)
+                message = await context.original_response()
                 return message.id
             except:
-                await Context.followup.send(embed=embed)
-                message = await Context.original_response()
+                await context.followup.send(embed=embed)
+                message = await context.original_response()
                 return message.id
         message = await channel.send(embed=embed)
     return message.id

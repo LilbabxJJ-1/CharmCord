@@ -4,7 +4,7 @@ from CharmCord.CharmErrorHandling import CharmCordErrors
 async def channelDelay(ID, Context):
     """
     Ex. $channelDelay[ChannelID]
-    Returns the channel delay for the given channel ID
+    Returns the channel delay for the given channel args
     """
     if len(ID) < 1:
         raise CharmCordErrors("No parameter provided for '$channelDelay'")

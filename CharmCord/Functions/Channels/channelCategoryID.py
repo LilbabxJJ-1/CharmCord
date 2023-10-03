@@ -1,15 +1,15 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
-async def channelCategoryID(ID: str, Context):
+async def channelCategoryID(args: str, context):
     """
     Ex. $channelCategoryID[ChannelID]
-    Returns the ID of the current category ID
+    Returns the args of the current category args
     """
     from CharmCord.Classes.CharmCord import bots
 
     try:
-        channel = await bots.fetch_channel(ID.replace("<#", "").replace(">", ""))
+        channel = await bots.fetch_channel(args.replace("<#", "").replace(">", ""))
         return channel.category.id
     except ValueError:
-        CharmCordErrors(f"$channelCategoryID: {ID} not valid channel id\nCommand: {Context.command.name}")
+        CharmCordErrors(f"$channelCategoryID: {args} not valid channel id\nCommand: {context.command.name}")

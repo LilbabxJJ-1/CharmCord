@@ -1,9 +1,12 @@
 import random
 import discord
 from discord.ext import tasks
+from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
 def setActivity(message: str, typing: str = "watching"):
+    if typing.lower() not in ["watching", "playing", "listening"]:
+        CharmCordErrors("Unknown Status type used for bot activity")
     if typing.lower() == "watching":
         act = discord.Activity(type=discord.ActivityType.watching, name=message)
     elif typing.lower() == "playing":
