@@ -15,11 +15,11 @@
 ![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## v0.20.0
+## v0.22.0
 
 - Added `$getJson` and `$sendDM`
 - Made errors command specific (says which command and function)
-- Made functions able to read <@/#mentions> and IDs
+- Made functions able to read both mentions and IDs
 
 
 
