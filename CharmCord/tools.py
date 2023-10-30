@@ -1,9 +1,7 @@
 from datetime import datetime as d_t
-
 from pytz import timezone
-
 from CharmCord.all_functions import date_funcs, ifse
-from .Functions import *
+from .functions import *
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 lets = {}
@@ -84,7 +82,7 @@ async def findBracketPairs(entry: str, functions, context):
     :param entry: The string text of the command
     :param functions: List of all possible functions to use
     :param context: Discord context
-    :return: Awaited Async Functions
+    :return: Awaited Async functions
     """
     global EndIf
     test = [line.strip() for line in entry.split("\n") if len(line.strip()) > 0]

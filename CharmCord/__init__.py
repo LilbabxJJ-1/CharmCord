@@ -7,5 +7,5 @@ A basic wrapper of discord.py to make developing discord bots easier for new dev
 :license: MIT, see LICENSE for more details.
 """
 
-from .Classes import *
-from .Functions import *
+from .utils import *
+from .functions import *
