@@ -1,20 +1,23 @@
 class SlashCommands:
 
     @staticmethod
-    def slash_command(name, code, args: list[dict], description=None, bot=None):
+    def slash_command(name, code, args: list[dict] = None, description=None, bot=None):
         types = {1: "str", 2: "int"}
         new_args = []
         arg_descripts = []
-        for i in args:
-            if len(i) != 0:
-                try:
-                    i['description']
-                except KeyError:
-                    i['description'] = "No Description"
-                new_args.append(f"{i['name']}: {types[i['type']]}")
-                arg_descripts.append(f"{i['name']} ({types[i['type']]}): {i['description']}")
+        if args is not None:
+            for i in args:
+                if len(i) != 0:
+                    try:
+                        i['description']
+                    except KeyError:
+                        i['description'] = "No Description"
+                    new_args.append(f"{i['name']}: {types[i['type']]}")
+                    arg_descripts.append(f"{i['name']} ({types[i['type']]}): {i['description']}")
+                    needs = {"arguments": args, "codes": code, "bot": bot, "name": name}
+        else:
+            needs = {"codes": code, "bot": bot, "name": name}
         nl = "\n\t\t\t"
-        needs = {"arguments": args, "codes": code, "bot": bot, "name": name}
         func = f"""
 @bot.tree.command(name=name)
 async def go(ctx, {', '.join(new_args)}):
@@ -35,4 +38,21 @@ async def go(ctx, {', '.join(new_args)}):
                 if len(lets) >= 1:
                     lets.clear()
         """
-        exec(func, needs)
+        func2 = f"""
+@bot.tree.command(name=name)
+async def go(ctx, {', '.join(new_args)}):
+                '''{description}
+                '''
+                from CharmCord.utils.CharmCord import TotalFuncs
+                from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
+                context = ctx
+                new = []
+                finalCode = await noArguments(codes, TotalFuncs, context)
+                await findBracketPairs(finalCode, TotalFuncs, context)
+                if len(lets) >= 1:
+                    lets.clear()
+        """
+        if args is None:
+            exec(func2, needs)
+        else:
+            exec(func, needs)
