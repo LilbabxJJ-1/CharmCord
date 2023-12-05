@@ -5,7 +5,6 @@ class SlashCommands:
         types = {1: "str", 2: "int"}
         new_args = []
         arg_descripts = []
-        needs = {}
         if args is not None:
             for i in args:
                 if len(i) != 0:

@@ -96,7 +96,7 @@ class CharmCord:
         all_vars = self.all_variables
 
     @staticmethod
-    def slash_command(name: str, code: str, args: list[dict] = [{}], description: str = "") -> None:
+    def slash_command(name: str, code: str, args: list[dict], description: str = "") -> None:
         sl = SlashCommands().slash_command
         sl(name=name, code=code, args=args, description=description.lower(), bot=bots)
 
