@@ -22,7 +22,8 @@ options = {
         "created": ""
     },
     "memberJoined": {
-        "id": 0
+        "id": 0,
+        'guildid': 0
     },
     "deletedChannel": {
         "name": "",

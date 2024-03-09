@@ -112,8 +112,9 @@ class CharmCord:
 
     def on_member_join(self, code=None):
         @self.bot.event
-        async def on_member_join(member):
+        async def on_member_join(member: discord.Member):
             options["memberJoined"]["id"] = member.id
+            options["memberJoined"]["guildID"] = member.guild.id
 
             if code is not None:
                 final_code = await noArguments(code, TotalFuncs, None)

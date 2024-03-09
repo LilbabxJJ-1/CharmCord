@@ -75,7 +75,6 @@ no_arg_Funcs = ["$botName",
                 "$botGuilds",
                 "$botAvatar",
                 "$botMention",
-                "$memberJoined",
                 "$messageID",
                 "$message",
                 "$defer"]
