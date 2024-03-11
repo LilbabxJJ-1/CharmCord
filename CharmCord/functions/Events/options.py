@@ -35,5 +35,25 @@ options = {
         "nsfw": "",
         "delay": 0,
         "created": ""
+    },
+    "reactionAdd": {
+        "name": "",
+        "emoji": "",
+        "id": 0,
+        "bot_reacted": '',
+        "users_reacted": [],
+        "count": 0,
+        "username": '',
+        "userid": 0,
+    },
+    "reactionRemove": {
+        "name": "",
+        "emoji": "",
+        "id": 0,
+        "bot_reacted": '',
+        "users_reacted": [],
+        "count": 0,
+        "username": '',
+        "userid": 0,
     }
 }

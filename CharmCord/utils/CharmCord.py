@@ -110,11 +110,51 @@ class CharmCord:
 
     # EVENTS BELOW
 
+    def on_reaction_add(self, code=None):
+        @self.bot.event
+        async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
+            try:
+                options["reactionAdd"]["name"] = reaction.emoji.name
+                options["reactionAdd"]["id"] = reaction.emoji.id
+            except AttributeError:
+                options["reactionAdd"]["name"] = reaction.emoji  # May Remove
+                options["reactionAdd"]["id"] = 0
+            options["reactionAdd"]["bot_reacted"] = reaction.me
+            options["reactionAdd"]["users_reacted"] = [user async for user in reaction.users()]
+            options["reactionAdd"]["count"] = reaction.count
+            options["reactionAdd"]["username"] = user.name
+            options["reactionAdd"]["userid"] = user.id
+
+            if code is not None:
+                final_code = await noArguments(code, TotalFuncs, None)
+                await findBracketPairs(final_code, TotalFuncs, None)
+            return
+
+    def on_reaction_remove(self, code=None):
+        @self.bot.event
+        async def on_reaction_remove(reaction: discord.Reaction, user: discord.User):
+            try:
+                options["reactionRemove"]["name"] = reaction.emoji.name
+                options["reactionRemove"]["id"] = reaction.emoji.id
+            except AttributeError:
+                options["reactionRemove"]["name"] = reaction.emoji  # May Remove
+                options["reactionRemove"]["id"] = 0
+            options["reactionRemove"]["bot_reacted"] = reaction.me
+            options["reactionRemove"]["users_reacted"] = [user async for user in reaction.users()]
+            options["reactionRemove"]["count"] = reaction.count
+            options["reactionRemove"]["username"] = user.name
+            options["reactionRemove"]["userid"] = user.id
+
+            if code is not None:
+                final_code = await noArguments(code, TotalFuncs, None)
+                await findBracketPairs(final_code, TotalFuncs, None)
+            return
+
     def on_member_join(self, code=None):
         @self.bot.event
         async def on_member_join(member: discord.Member):
             options["memberJoined"]["id"] = member.id
-            options["memberJoined"]["guildID"] = member.guild.id
+            options["memberJoined"]["guildid"] = member.guild.id
 
             if code is not None:
                 final_code = await noArguments(code, TotalFuncs, None)
