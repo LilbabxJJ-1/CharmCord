@@ -15,10 +15,10 @@
 ![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
 
 ---
-## v0.22.9
+## v0.23.0
 
-- Return to project
-- Fixed $memberJoined function
+- Added `$reactionAdd` and `$reactionRemove` events
+- Added new operation functions `$sub`, `$divide`, `$multi` 
 
 
 
