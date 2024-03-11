@@ -7,13 +7,13 @@ AC = {}
 class CharmCogs:
 
     @staticmethod
-    def command_cogs(name, codes):
+    def command_cogs(name, code):
         from .CharmCord import bots
 
         @bots.command(name=name)
-        async def go(ctx, *args, code=codes):
+        async def go(ctx, *args, codes=code):
             context = ctx
-            new_code = await checkArgCheck(args, code, context)
+            new_code = await checkArgCheck(args, codes, context)
             if new_code == "Failed":
                 return
             code1 = await noArguments(new_code, TotalFuncs, context)
