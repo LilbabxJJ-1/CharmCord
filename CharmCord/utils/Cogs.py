@@ -1,4 +1,4 @@
-from CharmCord.utils.CharmCord import bots, TotalFuncs
+from CharmCord.utils.CharmCord import bots
 from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
 
 AC = {}
@@ -8,7 +8,7 @@ class CharmCogs:
 
     @staticmethod
     def command_cogs(name, code):
-        from .CharmCord import bots
+        from .CharmCord import bots, TotalFuncs
 
         @bots.command(name=name)
         async def go(ctx, *args, codes=code):
