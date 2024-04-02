@@ -122,6 +122,8 @@ async def findBracketPairs(entry: str, functions, context):
         if EndIf:
             if code.strip().startswith("$end"):
                 return
+            if code.strip().lower().startswith("$onlyif") and line != 1:
+                raise SyntaxError("$OnlyIf should only be at the beginning of a command")
             if code.strip().lower().startswith("$endif"):
                 continue
             elif code.strip().lower().startswith("$elif"):

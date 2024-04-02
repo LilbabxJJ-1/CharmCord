@@ -1,4 +1,3 @@
-from CharmCord.utils.CharmCord import bots
 from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, isValid
 
 AC = {}
@@ -23,6 +22,8 @@ class CharmCogs:
 
     @staticmethod
     def slashcommand_cogs(name, code, args: list[dict], description):
+        from .CharmCord import bots, TotalFuncs
+
         def slash_command():
             types = {1: "str", 2: "int"}
             new_args = []
@@ -35,11 +36,10 @@ class CharmCogs:
                         i['description'] = "No Description"
                     new_args.append(f"{i['name']}: {types[i['type']]}")
                     arg_descripts.append(f"{i['name']} ({types[i['type']]}): {i['description']}")
-            nl = "\n\t\t\t"
+            nl = "\n\t\t\t\t\t\t\t\t"
             needs = {"arguments": args, "codes": code, "bot": bots, "name": name}
-            func = f"""
-            @bot.tree.command(name=name)
-            async def go(ctx, {', '.join(new_args)}):
+            func = f"""@bot.tree.command(name=name)
+async def go(ctx, {', '.join(new_args)}):
                             '''{description}
 
                             Args:

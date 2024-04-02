@@ -1,6 +1,7 @@
 all_Funcs = [
     "$If",
     "$ElIf",
+    "$addButton",
     "$authorID",
     "$botAvatar",
     "$botGuilds",
@@ -47,8 +48,8 @@ all_Funcs = [
     "$ping",
     "$pyEval",
     "$purge",
-    "$reactionAdd",
-    "$reactionRemove",
+    "$reactionAdded",
+    "$reactionRemoved",
     "$sendMessage",
     "$sendDM",
     "$sendEmbed",
@@ -71,6 +72,7 @@ date_funcs = ["$channelCreated"]
 ifse = ["$If", "$ElIf"]
 
 no_arg_Funcs = ["$botName",
+                "$addButton",
                 "$botID",
                 "$authorID",
                 "$channelID",

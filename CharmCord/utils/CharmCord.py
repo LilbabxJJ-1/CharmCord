@@ -23,6 +23,16 @@ class CharmCord:
             activity,
             load_command_dir,
     ):
+        """
+        This function initializes a bot with specified prefix, case sensitivity, intents, activity, and loads command files.
+        It determines intents based on user input and creates bot instances with the specified parameters.
+        Additionally, it loads command files and sets up a JSON file for storing variables if it doesn't exist.
+        :param prefix:
+        :param case_insensitive:
+        :param intents:
+        :param activity:
+        :param load_command_dir:
+        """
         # Global variables
         global bots
 
@@ -114,16 +124,19 @@ class CharmCord:
         @self.bot.event
         async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
             try:
-                options["reactionAdd"]["name"] = reaction.emoji.name
-                options["reactionAdd"]["id"] = reaction.emoji.id
+                options["reactionAdded"]["name"] = reaction.emoji.name
+                options["reactionAdded"]["id"] = reaction.emoji.id
             except AttributeError:
-                options["reactionAdd"]["name"] = reaction.emoji  # May Remove
-                options["reactionAdd"]["id"] = 0
-            options["reactionAdd"]["bot_reacted"] = reaction.me
-            options["reactionAdd"]["users_reacted"] = [user async for user in reaction.users()]
-            options["reactionAdd"]["count"] = reaction.count
-            options["reactionAdd"]["username"] = user.name
-            options["reactionAdd"]["userid"] = user.id
+                options["reactionAdded"]["name"] = reaction.emoji  # May Remove
+                options["reactionAdded"]["id"] = 0
+            options["reactionAdded"]["bot_reacted"] = reaction.me
+            options["reactionAdded"]["users_reacted"] = [user async for user in reaction.users()]
+            options["reactionAdded"]["count"] = reaction.count
+            options["reactionAdded"]["username"] = user.name
+            options["reactionAdded"]["userid"] = user.id
+            options["reactionAdded"]["msgid"] = reaction.message.id
+            options["reactionAdded"]["msgauthorid"] = reaction.message.author.id
+            options["reactionAdded"]["msgauthorname"] = reaction.message.author.name
 
             if code is not None:
                 final_code = await noArguments(code, TotalFuncs, None)
@@ -134,21 +147,29 @@ class CharmCord:
         @self.bot.event
         async def on_reaction_remove(reaction: discord.Reaction, user: discord.User):
             try:
-                options["reactionRemove"]["name"] = reaction.emoji.name
-                options["reactionRemove"]["id"] = reaction.emoji.id
+                options["reactionRemoved"]["name"] = reaction.emoji.name
+                options["reactionRemoved"]["id"] = reaction.emoji.id
             except AttributeError:
-                options["reactionRemove"]["name"] = reaction.emoji  # May Remove
-                options["reactionRemove"]["id"] = 0
-            options["reactionRemove"]["bot_reacted"] = reaction.me
-            options["reactionRemove"]["users_reacted"] = [user async for user in reaction.users()]
-            options["reactionRemove"]["count"] = reaction.count
-            options["reactionRemove"]["username"] = user.name
-            options["reactionRemove"]["userid"] = user.id
+                options["reactionRemoved"]["name"] = reaction.emoji  # May Remove
+                options["reactionRemoved"]["id"] = 0
+            options["reactionRemoved"]["bot_reacted"] = reaction.me
+            options["reactionRemoved"]["users_reacted"] = [user async for user in reaction.users()]
+            options["reactionRemoved"]["count"] = reaction.count
+            options["reactionRemoved"]["username"] = user.name
+            options["reactionRemoved"]["userid"] = user.id
+            options["reactionRemoved"]["msgid"] = reaction.message.id
+            options["reactionRemoved"]["msgauthorid"] = reaction.message.author.id
+            options["reactionRemoved"]["msgauthorname"] = reaction.message.author.name
 
             if code is not None:
                 final_code = await noArguments(code, TotalFuncs, None)
                 await findBracketPairs(final_code, TotalFuncs, None)
             return
+
+    def on_message(self, code=None):
+        @self.bot.event
+        async def on_message(msg: discord.Message):
+            pass  # For now
 
     def on_member_join(self, code=None):
         @self.bot.event

@@ -1,6 +1,3 @@
-import ast
-
-
 async def pyEval(code, context):
-    answer = ast.literal_eval(code)
+    answer = eval(code)
     return answer

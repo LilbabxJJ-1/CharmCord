@@ -36,7 +36,7 @@ options = {
         "delay": 0,
         "created": ""
     },
-    "reactionAdd": {
+    "reactionAdded": {
         "name": "",
         "emoji": "",
         "id": 0,
@@ -44,9 +44,12 @@ options = {
         "users_reacted": [],
         "count": 0,
         "username": '',
+        'msgid': 0,
+        'msgauthorid': 0,
+        'msgauthorname': '',
         "userid": 0,
     },
-    "reactionRemove": {
+    "reactionRemoved": {
         "name": "",
         "emoji": "",
         "id": 0,
@@ -54,6 +57,9 @@ options = {
         "users_reacted": [],
         "count": 0,
         "username": '',
+        'msgid': 0,
+        'msgauthorid': 0,
+        'msgauthorname': '',
         "userid": 0,
     }
 }
