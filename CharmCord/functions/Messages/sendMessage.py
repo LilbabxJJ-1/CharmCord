@@ -1,11 +1,10 @@
 from CharmCord.all_functions import newline_char
-from discord.ui import view
-from btnOpts import buttons
+from ._btnOpts_ import views
+from CharmCord.globeHandler import get_globals
 
 
 async def sendMessage(args: str, context):
-    from CharmCord.utils.CharmCord import bots
-
+    bots = get_globals()[1]
     split = args.split(";")
     if len(split) < 2:
         raise SyntaxError("args or message not provided to $sendMessage")
@@ -15,12 +14,15 @@ async def sendMessage(args: str, context):
         if len(split) > 1:
             message = split[1]
             message = message.replace(newline_char, "\n")
-            if len(buttons) > 0:
-                sent = await channel.send(message, view=buttons[0])
+            if len(views) > 0:
+                sent = await channel.send(message, view=views[0])
+                return sent.id
             else:
                 sent = await channel.send(message)
-        if len(buttons) > 0:
-            sent = await channel.send(view=buttons[0])
-    except:
+                return sent.id
+        if len(views) > 0:
+            sent = await channel.send(view=views)
+            return sent.id
+    except Exception as e:
+        print(e)
         raise SyntaxError("Can't send empty message!")
-    return sent.id

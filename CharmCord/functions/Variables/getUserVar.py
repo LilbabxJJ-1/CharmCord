@@ -1,8 +1,9 @@
 import json
+from CharmCord.globeHandler import get_globals
 
 
 async def getUserVar(args, context):
-    from CharmCord.utils.CharmCord import all_vars
+    all_vars = get_globals()[2]
 
     ag = args.split(";")
     user = ag[0].replace("<@", "").replace(">", "")

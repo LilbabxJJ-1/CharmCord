@@ -1,5 +1,5 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-
+from CharmCord.globeHandler import get_globals
 
 async def channelChangedRoles(args, context):
     """
@@ -8,7 +8,7 @@ async def channelChangedRoles(args, context):
     if len(args) < 1:
         CharmCordErrors("No parameter provided for '$channelChangedRoles'")
         return
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     if ";" in args:
         args = args.split(";")

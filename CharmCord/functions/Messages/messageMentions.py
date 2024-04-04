@@ -1,6 +1,8 @@
-async def messageMentions(ids, context):
-    from CharmCord.utils.CharmCord import bots
+from CharmCord.globeHandler import get_globals
 
+
+async def messageMentions(ids, context):
+    bots = get_globals()[1]
     try:
         args = ids.split(";")
         channel = await bots.fetch_channel(args[0])

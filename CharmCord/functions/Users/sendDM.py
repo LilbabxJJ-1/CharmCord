@@ -1,8 +1,8 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-
+from CharmCord.globeHandler import get_globals
 
 async def sendDM(args, context):
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
     if ";" not in args:
         CharmCordErrors(f"Not enough arguments in $sendDM: {context.command.name} command")
 

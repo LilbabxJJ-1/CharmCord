@@ -1,5 +1,5 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-
+from CharmCord.globeHandler import get_globals
 
 async def channelCreated(args: str, context, timezones, format_datetime):
     """
@@ -21,7 +21,7 @@ async def channelCreated(args: str, context, timezones, format_datetime):
             ids = args
             time = utc
 
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         channel = await bots.fetch_channel(ids.replace("<#", "").replace(">", ""))

@@ -1,5 +1,5 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-
+from CharmCord.globeHandler import get_globals
 
 async def channelType(id, context):
     """
@@ -8,7 +8,7 @@ async def channelType(id, context):
     """
     if len(id) < 1:
         CharmCordErrors("No parameter provided for '$channelType'")
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         channel = await bots.fetch_channel(id.replace("<#", "").replace(">", ""))

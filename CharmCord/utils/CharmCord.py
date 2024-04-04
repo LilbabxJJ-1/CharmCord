@@ -1,16 +1,15 @@
 import json
 import discord
 from discord.ext import commands
-from CharmCord.functions.Events.options import options
+from CharmCord.functions.Events._options_ import options
+from CharmCord.functions.Messages._btnOpts_ import button
 from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
 from .CommandHandler import load_commands
 from .Commands import Commands
 from .SlashCommands import SlashCommands
+from ..globeHandler import update_globals, get_globals
 
-# Global Calls
-TotalFuncs = None
-bots = None
-all_vars = None
+global bots
 
 
 class CharmCord:
@@ -81,6 +80,7 @@ class CharmCord:
                 help_command=self._help_command,
             )
         bots, self.bot = self._clients, self._clients
+        update_globals("bots", self.bot)
 
         try:
             load_commands(load_command_dir)
@@ -100,10 +100,15 @@ class CharmCord:
         bots.run(token)
 
     def variables(self, variables: dict):
-        global all_vars
         for key, value in variables.items():
             self.all_variables[key] = value
         all_vars = self.all_variables
+        update_globals("all", all_vars)
+
+    @staticmethod
+    def button_code(name, code):
+        button[name] = code
+        return
 
     @staticmethod
     def slash_command(name: str, code: str, args: list[dict] = None, description: str = "") -> None:
@@ -240,6 +245,7 @@ def CharmClient(
     # Initialize FunctionHandler and register functions
     functions = FunctionHandler()
     TotalFuncs = functions
+    update_globals("total", functions)
     functions.register_functions()
 
     # Create Start instance and return working bot

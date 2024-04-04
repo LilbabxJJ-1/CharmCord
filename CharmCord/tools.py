@@ -1,7 +1,7 @@
 from datetime import datetime as d_t
 from pytz import timezone
-from CharmCord.all_functions import date_funcs, ifse
-from .functions import *
+from CharmCord.all_functions import date_funcs, ifse, all_Funcs, no_arg_Funcs
+from CharmCord.functions import *
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 lets = {}
@@ -15,6 +15,7 @@ class FunctionHandler:
         for line in all_Funcs:
             function = eval(line.replace("$", ""))  # nosec
             self.funcs[line.replace("\n", "").lower()] = function
+            continue
 
     async def execute_functions(self, keyword, args, context):
         if keyword in ifse:
@@ -26,8 +27,6 @@ class FunctionHandler:
 
 
 async def noArguments(entry: str, functions, context):
-    from .all_functions import no_arg_Funcs
-
     for func in no_arg_Funcs:
         if func in entry:
             entry = entry.replace(

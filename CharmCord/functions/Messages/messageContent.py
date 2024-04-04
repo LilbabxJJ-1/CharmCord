@@ -1,5 +1,7 @@
+from CharmCord.globeHandler import get_globals
+
 async def messageContent(ids, context):
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         args = ids.split(";")

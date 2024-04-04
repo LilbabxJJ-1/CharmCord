@@ -1,5 +1,5 @@
-from CharmCord.functions.Events import options
+from CharmCord.functions.Events import _options_
 
 
-async def reactionRemoved(option, context, opt=options.options):
+async def reactionRemoved(option, context, opt=_options_.options):
     return opt["reactionRemoved"][option.lower()]

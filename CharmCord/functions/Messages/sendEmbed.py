@@ -1,5 +1,5 @@
 import discord
-
+from CharmCord.globeHandler import get_globals
 from CharmCord.all_functions import newline_char
 
 
@@ -8,8 +8,7 @@ async def sendEmbed(args: str, context):
     Ex. $sendEmbed[Channel args;Title;Message;Color?;image?;Footer?]
     Send an Embed
     """
-    from CharmCord.utils.CharmCord import bots
-
+    bots = get_globals()[1]
     args = args.replace(newline_char, "\n")
     split = args.split(";")
     try:

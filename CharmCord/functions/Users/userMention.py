@@ -1,8 +1,9 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
+from CharmCord.globeHandler import get_globals
 
 
 async def userMention(user: str, context):
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         user = int(user.replace("<@", "").replace(">", ""))

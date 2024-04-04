@@ -1,5 +1,4 @@
 import discord
-
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 count = 0

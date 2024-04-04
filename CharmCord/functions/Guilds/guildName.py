@@ -1,16 +1,16 @@
-import CharmCord.CharmErrorHandling as ErrorHandling
+from CharmCord.CharmErrorHandling import CharmCordErrors
+from CharmCord.globeHandler import get_globals
 
-EH = ErrorHandling.CharmErrorHandling()
 
 
 async def guildName(id, context):
     if len(id) < 1:
-        raise EH.Errors(4, "No parameter provided for '$guildName'")
-    from CharmCord.utils.CharmCord import bots
+        raise CharmCordErrors("No parameter provided for '$guildName'")
+    bots = get_globals()[1]
 
     try:
         int(id)
         guild = await bots.fetch_guild(id)
         return guild.name
     except ValueError:
-        EH.Errors(2, id)
+        CharmCordErrors("Invalid ID for '$guildName'")

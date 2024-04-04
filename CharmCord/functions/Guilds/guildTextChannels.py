@@ -1,12 +1,12 @@
 import discord
-
 import CharmCord.CharmErrorHandling as ErrorHandling
+from CharmCord.globeHandler import get_globals
 
 EH = ErrorHandling.CharmErrorHandling()
 
 
 async def guildTextChannels(id, context):
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         id = int(id)

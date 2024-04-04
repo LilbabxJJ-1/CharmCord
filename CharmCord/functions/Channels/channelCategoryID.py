@@ -1,12 +1,12 @@
 from CharmCord.CharmErrorHandling import CharmCordErrors
-
+from CharmCord.globeHandler import get_globals
 
 async def channelCategoryID(args: str, context):
     """
     Ex. $channelCategoryID[ChannelID]
     Returns the args of the current category args
     """
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
 
     try:
         channel = await bots.fetch_channel(args.replace("<#", "").replace(">", ""))

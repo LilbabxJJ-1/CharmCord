@@ -1,5 +1,5 @@
 import asyncio
-
+from CharmCord.globeHandler import get_globals
 from CharmCord.CharmErrorHandling import CharmCordErrors
 
 
@@ -7,7 +7,7 @@ async def waitMessage(args, context):
     """
     Ex. $waitMessage[ChannelID;User;timeout;timeoutErrMsg]
     """
-    from CharmCord.utils.CharmCord import bots
+    bots = get_globals()[1]
     split = args.split(";")
     if len(split) < 3:
         raise SyntaxError("args, User, or timeout not provided to $waitMessage")

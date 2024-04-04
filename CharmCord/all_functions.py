@@ -2,6 +2,7 @@ all_Funcs = [
     "$If",
     "$ElIf",
     "$addButton",
+    "$buttonSend",
     "$authorID",
     "$botAvatar",
     "$botGuilds",
@@ -72,7 +73,6 @@ date_funcs = ["$channelCreated"]
 ifse = ["$If", "$ElIf"]
 
 no_arg_Funcs = ["$botName",
-                "$addButton",
                 "$botID",
                 "$authorID",
                 "$channelID",
