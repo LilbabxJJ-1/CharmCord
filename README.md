@@ -12,14 +12,13 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 ---
-![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png)
+![logo](https://github.com/LilbabxJJ-1/CharmCord/blob/master/CharmCord%20logo.png?raw=true)
 
 ---
-## v0.23.1
+## v0.24.1
 
-- Added `$reactionAdd` and `$reactionRemove` events
-- Added new operation functions `$sub`, `$divide`, `$multi` 
-
+- Added `$addButton` functions to be used
+- Rewrote a lot of codebase to conform to PEP8 Standards
 
 
 ## <span style="color:pink">CharmCord</span> Setups
