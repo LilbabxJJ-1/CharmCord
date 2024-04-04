@@ -1,6 +1,3 @@
-from CharmCord.globeHandler import get_globals
-
-
 class SlashCommands:
 
     @staticmethod
@@ -29,6 +26,7 @@ async def go(ctx, {', '.join(new_args)}):
                 Args:
                     {nl.join(arg_descripts)}
                 '''
+                from CharmCord.globeHandler import get_globals
                 from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
                 funcs = get_globals()[0]
                 context = ctx
@@ -46,6 +44,7 @@ async def go(ctx, {', '.join(new_args)}):
 async def go(ctx, {', '.join(new_args)}):
                 '''{description}
                 '''
+                from CharmCord.globeHandler import get_globals
                 from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
                 funcs = get_globals()[0]
                 context = ctx

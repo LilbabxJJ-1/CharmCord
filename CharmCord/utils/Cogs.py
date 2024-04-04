@@ -2,8 +2,9 @@ from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArgume
 from CharmCord.globeHandler import get_globals
 
 AC = {}
-class CharmCogs:
 
+
+class CharmCogs:
 
     @staticmethod
     def command_cogs(name, code):
@@ -46,7 +47,9 @@ async def go(ctx, {', '.join(new_args)}):
                             Args:
                                 {nl.join(arg_descripts)}
                             '''
+                            from CharmCord.globeHandler import get_globals
                             from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
+                            funcs = get_globals()[0]
                             context = ctx
                             new = []
                             for i in arguments:
