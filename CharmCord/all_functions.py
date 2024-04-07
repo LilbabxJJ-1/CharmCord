@@ -2,6 +2,10 @@ all_Funcs = [
     "$If",
     "$ElIf",
     "$addButton",
+    "$addDropdown",
+    "$dropdownOption",
+    "$interactionReply",
+    "$selectedDropdown",
     "$buttonSend",
     "$authorID",
     "$botAvatar",
@@ -83,6 +87,19 @@ no_arg_Funcs = ["$botName",
                 "$botMention",
                 "$messageID",
                 "$message",
+                "$selectedDropdown",
                 "$defer"]
 
 newline_char = "*n*"
+
+
+title = """
+
+  ####    ##  ##     ##     #####    ##   ##   ####     ####    #####    ####    
+ ##  ##   ##  ##    ####    ##  ##   ### ###  ##  ##   ##  ##   ##  ##   ## ##   
+ ##       ##  ##   ##  ##   ##  ##   #######  ##       ##  ##   ##  ##   ##  ##  
+ ##       ######   ######   #####    ## # ##  ##       ##  ##   #####    ##  ##  
+ ##       ##  ##   ##  ##   ####     ##   ##  ##       ##  ##   ####     ##  ##  
+ ##  ##   ##  ##   ##  ##   ## ##    ##   ##  ##  ##   ##  ##   ## ##    ## ##   
+  ####    ##  ##   ##  ##   ##  ##   ##   ##   ####     ####    ##  ##   ####                                                                                 
+"""
