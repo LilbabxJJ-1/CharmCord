@@ -1,8 +1,9 @@
 import json
 import discord
+from CharmCord.all_functions import title
 from discord.ext import commands
 from CharmCord.functions.Events._options_ import options
-from CharmCord.functions.Messages._btnOpts_ import button
+from CharmCord.functions.Messages._btnOpts_ import interactions
 from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
 from .CommandHandler import load_commands
 from .Commands import Commands
@@ -94,6 +95,8 @@ class CharmCord:
             with open("variables.json", "w") as var:
                 go = {"STRD": True}
                 json.dump(go, var)
+        print(title)
+
 
     @staticmethod
     def run(token: str):
@@ -106,8 +109,10 @@ class CharmCord:
         update_globals("all", all_vars)
 
     @staticmethod
-    def button_code(name, code):
-        button[name] = code
+    def interaction_code(id_name, code):
+        if id_name in interactions:
+            raise Exception(f"Multiple interactions with '{id_name}' ID found! Please make sure all IDs are unique")
+        interactions[id_name] = code
         return
 
     @staticmethod
