@@ -1,11 +1,17 @@
 from discord.ui import View, Button
-from ._btnOpts_ import button, views
+from ._btnOpts_ import interactions, views
 from CharmCord.globeHandler import get_globals
 
 
 async def addButton(args, ctx):
     from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
-    name, custom_id = args.split(";")
+    try:
+        label, custom_id = args.split(";")
+    except:
+        raise SyntaxError("$addButton needs a label and custom_id")
+
+    if sum(1 for val in interactions.values() if val == custom_id) > 1:
+        raise Exception(f"Multiple interactions with '{custom_id}' ID found! Please make sure all IDs are unique")
 
     class MyView(View):
         def __init__(self):
@@ -26,7 +32,7 @@ async def addButton(args, ctx):
             funcs = get_globals()[0]
             views.clear()
             try:
-                codes = button[custom_id]
+                codes = interactions[custom_id]
             except KeyError:
                 raise Exception(f"There's no code for button: {custom_id}")
             new_code = await checkArgCheck(args, codes, button_interaction)
@@ -39,9 +45,9 @@ async def addButton(args, ctx):
             if len(lets) >= 1:
                 lets.clear()
 
-        data = Button(label=name, custom_id=custom_id)
+        data = Button(label=label, custom_id=custom_id)
         mine = MyView()
-        mine.add_button(name, data)
+        mine.add_button(label, data)
         views.append(mine)
         data.callback = button_go
         views[0].add_item(data)
@@ -49,7 +55,7 @@ async def addButton(args, ctx):
         async def button_go(button_interaction):
             funcs = get_globals()[0]
             views.clear()
-            codes = button[custom_id]
+            codes = interactions[custom_id]
             new_code = await checkArgCheck(args, codes, button_interaction)
             if new_code == "Failed":
                 return
@@ -60,7 +66,7 @@ async def addButton(args, ctx):
             if len(lets) >= 1:
                 lets.clear()
 
-        data = Button(label=name, custom_id=custom_id)
+        data = Button(label=label, custom_id=custom_id)
         data.callback = button_go
         views[0].add_item(data)
     return
