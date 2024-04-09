@@ -1,9 +1,11 @@
 import discord
 from CharmCord.all_functions import newline_char
 from CharmCord.functions.Messages._btnOpts_ import views
+from CharmCord.CharmErrorHandling import deprecated
 
 
 async def buttonSend(args, interaction: discord.Interaction):
+    deprecated(reason="$buttonSend is deprecated and outdated. It's recommended to use $interactionReply instead.")
     try:
         message = args
         message = message.replace(newline_char, "\n")
