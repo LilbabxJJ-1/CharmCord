@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "charmcord"
-version = "0.24.2"
+version = "0.25.0"
 description = "CharmCord is the best python string-based package for Discord bot devs"
 authors = ["Jade"]
 license = "MIT"

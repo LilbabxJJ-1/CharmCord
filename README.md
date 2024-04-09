@@ -14,10 +14,22 @@
 
 ---
 
-## v0.24.1
+## v0.25.0
 
-- Added `$addButton` functions for enhanced interaction
-- Rewrote significant portions of the codebase to conform to PEP8 standards
+Function Additions
+
+- `$addButton`
+- `$addDropdown`
+- `$dropdownOption`
+- `$setGlobalUserVar`
+- `$getGloablUserVar`
+- `$interactionReply`
+
+Deprecated Functions
+
+- `$buttonSend`
+- `$slashSend`
+
 --- 
 ## <span style="color:pink">CharmCord</span> Setup
 
