@@ -4,7 +4,7 @@ from CharmCord.globeHandler import get_globals
 
 
 async def addButton(args, ctx):
-    from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
+    from CharmCord.tools import check_args_check, check_args, find_bracket_pairs, no_arguments, lets, is_valid
     try:
         label, custom_id = args.split(";")
     except:
@@ -35,13 +35,13 @@ async def addButton(args, ctx):
                 codes = interactions[custom_id]
             except KeyError:
                 raise Exception(f"There's no code for button: {custom_id}")
-            new_code = await checkArgCheck(args, codes, button_interaction)
+            new_code = await check_args_check(args, codes, button_interaction)
             if new_code == "Failed":
                 return
-            code1 = await noArguments(new_code, funcs, button_interaction)
-            code2 = checkArgs(args, code1)
-            final_code = await isValid(code2, funcs)
-            await findBracketPairs(final_code, funcs, button_interaction)
+            code1 = await no_arguments(new_code, funcs, button_interaction)
+            code2 = check_args(args, code1)
+            final_code = await is_valid(code2, funcs)
+            await find_bracket_pairs(final_code, funcs, button_interaction)
             if len(lets) >= 1:
                 lets.clear()
 
@@ -56,13 +56,13 @@ async def addButton(args, ctx):
             funcs = get_globals()[0]
             views.clear()
             codes = interactions[custom_id]
-            new_code = await checkArgCheck(args, codes, button_interaction)
+            new_code = await check_args_check(args, codes, button_interaction)
             if new_code == "Failed":
                 return
-            code1 = await noArguments(new_code, funcs, button_interaction)
-            code2 = checkArgs(args, code1)
-            final_code = await isValid(code2, funcs)
-            await findBracketPairs(final_code, funcs, button_interaction)
+            code1 = await no_arguments(new_code, funcs, button_interaction)
+            code2 = check_args(args, code1)
+            final_code = await is_valid(code2, funcs)
+            await find_bracket_pairs(final_code, funcs, button_interaction)
             if len(lets) >= 1:
                 lets.clear()
 

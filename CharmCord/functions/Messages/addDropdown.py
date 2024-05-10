@@ -4,7 +4,7 @@ from CharmCord.globeHandler import get_globals
 
 
 async def addDropdown(args, ctx):
-    from CharmCord.tools import checkArgCheck, checkArgs, findBracketPairs, noArguments, lets, isValid
+    from CharmCord.tools import check_args_check, check_args, find_bracket_pairs, no_arguments, lets, is_valid
     try:
         placeHolder, custom_id = args.split(";")
 
@@ -29,15 +29,15 @@ async def addDropdown(args, ctx):
         funcs = get_globals()[0]
         views.clear()
         codes = interactions[custom_id]
-        new_code = await checkArgCheck(args, codes, drop_interaction)
+        new_code = await check_args_check(args, codes, drop_interaction)
 
         if new_code == "Failed":
             return
 
-        code1 = await noArguments(new_code, funcs, drop_interaction)
-        code2 = checkArgs(args, code1)
-        final_code = await isValid(code2, funcs)
-        await findBracketPairs(final_code, funcs, drop_interaction)
+        code1 = await no_arguments(new_code, funcs, drop_interaction)
+        code2 = check_args(args, code1)
+        final_code = await is_valid(code2, funcs)
+        await find_bracket_pairs(final_code, funcs, drop_interaction)
 
         if len(lets) >= 1:
             lets.clear()
