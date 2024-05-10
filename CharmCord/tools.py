@@ -183,7 +183,7 @@ async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) ->
                 return
             if code.strip().lower().startswith("$onlyif") and line != 1:
                 raise SyntaxError("$OnlyIf should only be at the beginning of a command")
-            if code.strip().lower().startswith("$EndIf"):
+            if code.strip().lower().startswith("$endif"):
                 continue
             elif code.strip().lower().startswith("$elif"):
                 if not any("$if" in Char.lower() for Char in test):
@@ -195,7 +195,7 @@ async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) ->
         else:
             if code.strip().lower().startswith("$elif"):
                 end_if = True
-            elif code.strip().lower().startswith("$EndIf"):
+            elif code.strip().lower().startswith("$endif"):
                 end_if = True
                 continue
             else:
@@ -219,14 +219,10 @@ async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) ->
             if first is not None and last is not None and balance1 == 0:
                 break
             count += 1
-
         argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
-        func_job = False
         while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
-            if "$charmai" in argument.lower():
-                func_job = True
             count = 0
             start = None
             end = None
@@ -264,10 +260,10 @@ async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) ->
                 return
             if find[2].lower() == "$if" and response is False:
                 end_if = False
-                if not any("$EndIf" in Char.lower() for Char in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
             elif find[2].lower() == "$if":
-                if not any("$EndIf" in Char.lower() for Char in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
 
                 continue
@@ -275,14 +271,14 @@ async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) ->
                 if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$EndIf" in Char.lower() for Char in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             if find[2].lower() == "$elif":
                 if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$EndIf" in Char.lower() for Char in test):
+                if not any("$endif" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             end_if = response is not False

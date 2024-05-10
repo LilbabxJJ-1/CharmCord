@@ -5,7 +5,7 @@ from CharmCord.globeHandler import get_globals
 class Commands:
 
     @staticmethod
-    def command(name: str, code: str, aliases: list, bot=None):
+    def command(name: str, code: str, aliases: list = [], bot=None):
         # Define command function dynamically
 
         @bot.command(name=name, aliases=aliases)
