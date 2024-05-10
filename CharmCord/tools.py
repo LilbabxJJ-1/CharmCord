@@ -1,6 +1,8 @@
 from datetime import datetime as d_t
+import discord.ext.commands
 from pytz import timezone
 from CharmCord.all_functions import date_funcs, ifse, all_Funcs, no_arg_Funcs
+from typing import Callable
 from CharmCord.functions import *
 
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
@@ -11,33 +13,84 @@ class FunctionHandler:
     def __init__(self):
         self.funcs = {}
 
-    def register_functions(self):
+    def register_functions(self) -> None:
+        """
+        Registers functions for execution.
+
+        Notes:
+            This method registers functions for execution by iterating through all_Funcs.
+            Each function is added to the 'funcs' dictionary with its lowercase name as the key.
+
+        :return: None
+        """
         for line in all_Funcs:
             function = eval(line.replace("$", ""))  # nosec
             self.funcs[line.replace("\n", "").lower()] = function
             continue
 
-    async def execute_functions(self, keyword, args, context):
+    async def execute_functions(self, keyword: str,
+                                args: str,
+                                context: discord.ext.commands.Context) -> Callable:
+        """
+        Executes functions based on the provided keyword, arguments, and context.
+
+        Notes:
+            This method checks if the keyword exists in predefined function dictionaries.
+
+            It then executes the function with the provided arguments and context.
+
+        :param keyword: The function keyword to execute.
+        :param args: The arguments for the function.
+        :param context: Discord context.
+        :return: The result of executing the function.
+        """
         if keyword in ifse:
-            check = await self.funcs[keyword](args, context)
-            return check
+            return await self.funcs[keyword](args, context)
         if keyword in date_funcs:
             return await self.funcs[keyword](args, context, timezones, format_datetime)
+
         return await self.funcs[keyword](args, context)
 
 
-async def noArguments(entry: str, functions, context):
+async def no_arguments(entry: str,
+                       functions: FunctionHandler,
+                       context: discord.ext.commands.Context) -> str:
+    """
+    Executes functions without arguments.
+
+    Notes:
+        This asynchronous function iterates through no_arg_Funcs and replaces each function
+        occurrence in the entry string with its execution result.
+
+    :param entry: String of CharmCord Code
+    :param functions: Function Handler
+    :param context: Discord Context
+    :return:
+    """
     for func in no_arg_Funcs:
-        if func in entry:
+        if func.lower() in entry:
             entry = entry.replace(
+                func.lower(),
+                str(await functions.execute_functions(func.lower(), '', context))
+            ).replace(
                 func,
-                str(await functions.execute_functions(func.lower(), None, context)),
+                str(await functions.execute_functions(func.lower(), '', context))
             )
 
     return entry
 
 
-def slashArgs(args, code):
+def slash_args(args: list, code: str) -> str:
+    """
+    Replaces $slashArgs with provided arguments in the code string.
+
+    Raises:
+        SyntaxError: If the index provided in $slashArgs is out of bounds.
+
+    :param args: The list of arguments in a slash command
+    :param code: The string of CharmCord code
+    :return: The modified code string with $slashArgs replaced by arguments.
+    """
     if "$slashArgs" in code:
         while "$slashArgs" in str(code):
             count = 0
@@ -57,7 +110,7 @@ def slashArgs(args, code):
                 count += 1
                 if balance == 0 and start is not None and end is not None:
                     try:
-                        # Replace $args with arguments
+                        # Replace $slashArgs with arguments
                         code = str(code).replace(
                             f"$slashArgs[{look[start + 1:end]}]",
                             str(args[int(look[start + 1: end]) - 1]),
@@ -70,20 +123,27 @@ def slashArgs(args, code):
     return code
 
 
-EndIf = True
-
-
-async def findBracketPairs(entry: str, functions, context):
+async def find_bracket_pairs(entry: str, functions: FunctionHandler, context) -> None:
     """
-    `findBracketPairs` is used to look through the text and determine what function
-    is holding what information and how to reformat it into a way for the Discord.py
-    package to read it.
+    Async function to find and execute bracketed pairs within a command.
+
+    Raises:
+        SyntaxError: If there are syntax errors in the command structure.
+        Exception: If an error occurs during execution.
+
+    Notes:
+        This function identifies and executes commands encapsulated within square brackets.
+        It handles nested brackets and supports various control flow commands like $if, $elif, $else, and $end_if.
+        The executed commands are based on the provided functions and context.
+
     :param entry: The string text of the command
     :param functions: List of all possible functions to use
     :param context: Discord context
     :return: Awaited Async functions
     """
-    global EndIf
+    end_if = True
+    response = None
+
     test = [line.strip() for line in entry.split("\n") if len(line.strip()) > 0]
     starts, pairs, index = 0, 0, 0
     new = []
@@ -118,25 +178,25 @@ async def findBracketPairs(entry: str, functions, context):
     line = 0
     for code in new:
         line += 1
-        if EndIf:
+        if end_if:
             if code.strip().startswith("$end"):
                 return
             if code.strip().lower().startswith("$onlyif") and line != 1:
                 raise SyntaxError("$OnlyIf should only be at the beginning of a command")
-            if code.strip().lower().startswith("$endif"):
+            if code.strip().lower().startswith("$EndIf"):
                 continue
             elif code.strip().lower().startswith("$elif"):
                 if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
-                EndIf = False
+                end_if = False
                 continue
             else:
                 pass
         else:
             if code.strip().lower().startswith("$elif"):
-                EndIf = True
-            elif code.strip().lower().startswith("$endif"):
-                EndIf = True
+                end_if = True
+            elif code.strip().lower().startswith("$EndIf"):
+                end_if = True
                 continue
             else:
                 continue
@@ -159,11 +219,12 @@ async def findBracketPairs(entry: str, functions, context):
             if first is not None and last is not None and balance1 == 0:
                 break
             count += 1
+
         argument = str(code[first + 1: last])
         keyword = code[0:first]
         find = [first, last, keyword, argument, context]
         func_job = False
-        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument) and func_job is False:
+        while "[" in str(argument) and "]" in str(argument) and "$" in str(argument):
             if "$charmai" in argument.lower():
                 func_job = True
             count = 0
@@ -184,15 +245,16 @@ async def findBracketPairs(entry: str, functions, context):
                 count += 1
                 if balance == 0 and start is not None and end is not None:
                     break
+
             if start != 0:
                 argument = (
                         argument[:start]
-                        + str(await findBracketPairs(argument[start: end + 1], functions, context))
+                        + str(await find_bracket_pairs(argument[start: end + 1], functions, context))
                         + argument[end + 1:]
                 )
             else:
                 argument = (
-                        str(await findBracketPairs(argument, functions, context))
+                        str(await find_bracket_pairs(argument, functions, context))
                         + argument[end + 1:]
                 )
             find = [first, last, keyword, argument, context]
@@ -201,29 +263,29 @@ async def findBracketPairs(entry: str, functions, context):
             if find[2].lower() == "$onlyif" and response is False:
                 return
             if find[2].lower() == "$if" and response is False:
-                EndIf = False
-                if not any("$endif" in Char.lower() for Char in test):
+                end_if = False
+                if not any("$EndIf" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
             elif find[2].lower() == "$if":
-                if not any("$endif" in Char.lower() for Char in test):
+                if not any("$EndIf" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $If")
 
                 continue
-            if find[2].lower() == "$elif" and EndIf is False:
+            if find[2].lower() == "$elif" and end_if is False:
                 if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$endif" in Char.lower() for Char in test):
+                if not any("$EndIf" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
             if find[2].lower() == "$elif":
                 if not any("$if" in Char.lower() for Char in test):
                     raise SyntaxError("No $If found in command before $ElIf")
 
-                if not any("$endif" in Char.lower() for Char in test):
+                if not any("$EndIf" in Char.lower() for Char in test):
                     raise SyntaxError("No $EndIf found in command after $Elif")
 
-            EndIf = response is not False
+            end_if = response is not False
 
         else:
             response = find[2]
@@ -234,7 +296,19 @@ async def findBracketPairs(entry: str, functions, context):
         raise Exception(f"Error at: {e}")
 
 
-def checkArgs(args, code):
+def check_args(args: tuple, code: str) -> str:
+    """
+    Checks and replaces $args placeholders with provided arguments in the code string.
+
+    Notes:
+        This function iterates through the code string and replaces $args placeholders with provided arguments.
+        It handles cases where $args is used with an index to replace specific arguments from the list.
+        If no index is provided, it replaces $args with the entire list.
+
+    :param args: Tuple of command Arguments
+    :param code: String of CharmCord Code
+    :return:
+    """
     if "$args" in code:
         while "$args" in str(code):
             if "$args[" in code:
@@ -271,10 +345,10 @@ def checkArgs(args, code):
     return code
 
 
-async def isValid(code, functions):
+async def is_valid(code: str, functions: FunctionHandler) -> str:
     if "$isValidFunc" in code:
         while "$isValidFunc" in code:
-            start = code.index("$isValidFunc[") + 13
+            start = code.index("$is_validFunc[") + 13
             area = code[start:]
             if "$" not in area[:area.index(']')]:
                 valid = str(f"${area[:area.index(']')]}").lower() in functions.funcs
@@ -290,7 +364,26 @@ async def isValid(code, functions):
     return code
 
 
-async def checkArgCheck(args, code, context):
+async def check_args_check(args: tuple,
+                           code: str,
+                           context: discord.ext.commands.Context) -> str:
+    """
+    Checks and processes $argcheck statements in the code string.
+
+    Raises:
+        Exception: If there are too many $argcheck statements in a single command.
+        SyntaxError: If there are not enough arguments provided in $argcheck statements.
+
+    Notes:
+        This asynchronous function checks for $argcheck statements in the code string and processes them.
+        It ensures that the number of arguments provided meets the specified criteria in $argcheck statements.
+        If the conditions are not met, it may send a warning message to the channel and return "Failed".
+
+    :param args: List of arguments
+    :param code: The code string containing $argcheck statements
+    :param context: Discord context
+    :return: String
+    """
     if "$argcheck" in code.lower():
         if code.lower().count("$argcheck") > 1:
             raise Exception("Too many $argCheck in a single command | Max is 1!")
@@ -320,15 +413,15 @@ async def checkArgCheck(args, code, context):
 
 
 def format_datetime(datetime: d_t, form: str, tz):
-    unformated_datetime = datetime.astimezone(tz)
+    unformatted_datetime = datetime.astimezone(tz)
     unformulated_datetime_tuple = (
-        unformated_datetime.year,
-        unformated_datetime.month,
-        unformated_datetime.day,
-        unformated_datetime.hour,
-        unformated_datetime.minute,
-        unformated_datetime.second,
-        unformated_datetime.microsecond,
+        unformatted_datetime.year,
+        unformatted_datetime.month,
+        unformatted_datetime.day,
+        unformatted_datetime.hour,
+        unformatted_datetime.minute,
+        unformatted_datetime.second,
+        unformatted_datetime.microsecond,
     )
     year, month, day, hour, minute, second, microsecond = unformulated_datetime_tuple
 
