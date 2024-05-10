@@ -14,7 +14,8 @@
 
 ---
 
-## v0.25.0
+## v1.0.0
+### Finally out of the Beta Stage! Thank you for any support offered! More additions coming soon
 
 Function Additions
 
@@ -38,13 +39,12 @@ Install [CharmCord](https://pypi.org/charmcord) via pip:
 ```bash
 pip install CharmCord
 ```
-Warning: This package is still in beta. Use at your own risk. Feel free to report any issues you encounter.
 
 Simple Bot Example:
 ```python
-from CharmCord import CharmClient
+from CharmCord import charmclient
 
-bot = CharmClient(prefix="!", case_insensitive=False, intents=("all",))
+bot = charmclient(prefix="!", case_insensitive=False, intents=("all",))
 
 bot.on_ready(
     Code="$console[Bot is Ready]"
