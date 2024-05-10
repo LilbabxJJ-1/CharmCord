@@ -1,2 +1,2 @@
-from .CharmCord import CharmClient
+from .CharmCord import charmclient
 from .Cogs import CharmCogs

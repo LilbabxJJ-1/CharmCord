@@ -7,4 +7,4 @@ from .Messages import *
 from .Python import *
 from .Users import *
 from .Variables import *
-from .clientActivity import setActivity
+from .clientActivity import set_activity
