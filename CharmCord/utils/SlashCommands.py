@@ -27,15 +27,15 @@ async def go(ctx, {', '.join(new_args)}):
                     {nl.join(arg_descripts)}
                 '''
                 from CharmCord.globeHandler import get_globals
-                from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
+                from CharmCord.tools import no_arguments, slash_args, find_bracket_pairs, lets
                 funcs = get_globals()[0]
                 context = ctx
                 new = []
                 for i in arguments:
                     new.append(eval(i['name']))
-                finalCode = await noArguments(codes, funcs, context)
-                finalCode = slashArgs(new, finalCode)
-                await findBracketPairs(finalCode, funcs, context)
+                finalCode = await no_arguments(codes, funcs, context)
+                finalCode = slash_args(new, finalCode)
+                await find_bracket_pairs(finalCode, funcs, context)
                 if len(lets) >= 1:
                     lets.clear()
         """
@@ -45,12 +45,12 @@ async def go(ctx, {', '.join(new_args)}):
                 '''{description}
                 '''
                 from CharmCord.globeHandler import get_globals
-                from CharmCord.tools import noArguments, slashArgs, findBracketPairs, lets
+                from CharmCord.tools import no_arguments, slash_args, find_bracket_pairs, lets
                 funcs = get_globals()[0]
                 context = ctx
                 new = []
-                finalCode = await noArguments(codes, funcs, context)
-                await findBracketPairs(finalCode, funcs, context)
+                finalCode = await no_arguments(codes, funcs, context)
+                await find_bracket_pairs(finalCode, funcs, context)
                 if len(lets) >= 1:
                     lets.clear()
         """
