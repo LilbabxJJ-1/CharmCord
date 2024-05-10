@@ -27,6 +27,7 @@ all_Funcs = [
     "$channelURL",
     "$charmAI",
     "$console",
+    "$contains",
     "$count",
     "$defer",
     "$deleteMessage",
