@@ -1,10 +1,10 @@
+import asyncio
 import json
 import discord
-from CharmCord.all_functions import title
 from discord.ext import commands
 from CharmCord.functions.Events._options_ import options
 from CharmCord.functions.Messages._btnOpts_ import interactions
-from CharmCord.tools import FunctionHandler, findBracketPairs, noArguments
+from CharmCord.tools import FunctionHandler, find_bracket_pairs, no_arguments
 from .CommandHandler import load_commands
 from .Commands import Commands
 from .SlashCommands import SlashCommands
@@ -33,7 +33,7 @@ class CharmCord:
         :param activity:
         :param load_command_dir:
         """
-        # Global variables
+
         global bots
 
         # Initialize Start class
@@ -64,22 +64,14 @@ class CharmCord:
             self.intent.presences = True
 
         # Create bot instances
-
-        if self._activity is None:
-            self._clients = commands.Bot(
-                command_prefix=self.prefix,
-                case_insensitive=self.case_insensitive,
-                intents=self.intent,
-                help_command=self._help_command,
-            )
-        else:
-            self._clients = commands.Bot(
-                command_prefix=self.prefix,
-                case_insensitive=self.case_insensitive,
-                intents=self.intent,
-                activity=self._activity,
-                help_command=self._help_command,
-            )
+        # if self._activity
+        self._clients = commands.Bot(
+            command_prefix=self.prefix,
+            case_insensitive=self.case_insensitive,
+            intents=self.intent,
+            activity=self._activity,
+            help_command=self._help_command,
+        )
         bots, self.bot = self._clients, self._clients
         update_globals("bots", self.bot)
 
@@ -95,8 +87,6 @@ class CharmCord:
             with open("variables.json", "w") as var:
                 go = {"STRD": True}
                 json.dump(go, var)
-        print(title)
-
 
     @staticmethod
     def run(token: str):
@@ -109,7 +99,7 @@ class CharmCord:
         update_globals("all", all_vars)
 
     @staticmethod
-    def interaction_code(id_name, code):
+    def interaction_code(id_name: str, code: str):
         if id_name in interactions:
             raise Exception(f"Multiple interactions with '{id_name}' ID found! Please make sure all IDs are unique")
         interactions[id_name] = code
@@ -130,7 +120,7 @@ class CharmCord:
 
     # EVENTS BELOW
 
-    def on_reaction_add(self, code=None):
+    def on_reaction_add(self, code: str = None):
         @self.bot.event
         async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
             try:
@@ -149,8 +139,8 @@ class CharmCord:
             options["reactionAdded"]["msgauthorname"] = reaction.message.author.name
 
             if code is not None:
-                final_code = await noArguments(code, TotalFuncs, None)
-                await findBracketPairs(final_code, TotalFuncs, None)
+                final_code = await no_arguments(code, TotalFuncs, None)
+                await find_bracket_pairs(final_code, TotalFuncs, None)
             return
 
     def on_reaction_remove(self, code=None):
@@ -172,8 +162,8 @@ class CharmCord:
             options["reactionRemoved"]["msgauthorname"] = reaction.message.author.name
 
             if code is not None:
-                final_code = await noArguments(code, TotalFuncs, None)
-                await findBracketPairs(final_code, TotalFuncs, None)
+                final_code = await no_arguments(code, TotalFuncs, None)
+                await find_bracket_pairs(final_code, TotalFuncs, None)
             return
 
     def on_message(self, code=None):
@@ -188,8 +178,8 @@ class CharmCord:
             options["memberJoined"]["guildid"] = member.guild.id
 
             if code is not None:
-                final_code = await noArguments(code, TotalFuncs, None)
-                await findBracketPairs(final_code, TotalFuncs, None)
+                final_code = await no_arguments(code, TotalFuncs, None)
+                await find_bracket_pairs(final_code, TotalFuncs, None)
             return
 
     def on_channel_updated(self, code=None):
@@ -200,8 +190,8 @@ class CharmCord:
             for i in options["newChannel"].keys():
                 options["newChannel"][i] = after.i
             if code is not None:
-                final_code = await noArguments(code, TotalFuncs, None)
-                await findBracketPairs(final_code, TotalFuncs, None)
+                final_code = await no_arguments(code, TotalFuncs, None)
+                await find_bracket_pairs(final_code, TotalFuncs, None)
 
     def on_channel_deleted(self, code=None):
         @self.bot.event
@@ -217,15 +207,15 @@ class CharmCord:
             options["deletedChannel"]["created"] = channel.created_at
             # more options coming
             if code is not None:
-                final_code = await noArguments(code, TotalFuncs, None)
-                await findBracketPairs(final_code, TotalFuncs, None)
+                final_code = await no_arguments(code, TotalFuncs, None)
+                await find_bracket_pairs(final_code, TotalFuncs, None)
 
-    def on_ready(self, code):
+    def on_ready(self, code: str):
         @self.bot.event
         async def on_ready():
             from CharmCord.CharmErrorHandling import CharmCordErrors
-            final_code = await noArguments(code, TotalFuncs, None)
-            await findBracketPairs(final_code, TotalFuncs, None)
+            final_code = await no_arguments(code, TotalFuncs, None)
+            await find_bracket_pairs(final_code, TotalFuncs, None)
             try:
                 await self.bot.tree.sync()
             except Exception as e:
@@ -233,11 +223,11 @@ class CharmCord:
                 CharmCordErrors("All slash commands need a description")
 
 
-def CharmClient(
+def charmclient(
         prefix: str,
         case_insensitive: bool = False,
         intents: tuple = ("default",),
-        activity=None,
+        activity: discord.Activity = None,
         load_command_dir="commands",
 ):
     """
@@ -261,4 +251,6 @@ def CharmClient(
         activity,
         load_command_dir
     )
+    if activity is not None:
+        print("[CHARMCORD LOGS] Statuses successfully loaded")
     return _final
