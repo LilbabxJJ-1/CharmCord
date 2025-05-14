@@ -17,14 +17,23 @@ async def addDropdown(args, ctx):
     if len(dropdown_values) == 0:
         raise Exception("No Dropdown options created")
 
+    dropdown_options.clear()
     for option in dropdown_values:
         dropdown_options.append(discord.SelectOption(label=option['label'], value=option['value']))
+    dropdown_values.clear()
 
     async def drop_go(drop_interaction):
-        if len(currently_selected) == 0:
-            currently_selected.append(drop_interaction.data['values'][0])
+        selects = []
+        for selected in drop_interaction.data['values']:
+            selects.append(selected)
+        data = {f"{ctx.guild.id}": selects}
+        for count, user_selections in enumerate(currently_selected):
+            if f"{ctx.guild.id}" in user_selections:
+                currently_selected[count] = data
+                break
         else:
-            currently_selected[0] = drop_interaction.data['values'][0]
+            currently_selected.append(data)
+
 
         funcs = get_globals()[0]
         views.clear()
@@ -47,7 +56,6 @@ async def addDropdown(args, ctx):
 
     if len(views) == 0:
         views.append(discord.ui.View().add_item(select))
-    else:
-        views[0].add_item(select)
+
 
     return

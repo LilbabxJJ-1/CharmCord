@@ -1,4 +1,4 @@
-from CharmCord.CharmErrorHandling import CharmCordErrorHandling
+from CharmCord.CharmErrorHandling import CharmCordError
 
 
 async def divide(args, context):
@@ -20,7 +20,7 @@ async def divide(args, context):
                 new = new.replace(".0", "")
             return new
         except ValueError:
-            CharmCordErrorHandling("$divide parameters can only be numbers",
+            CharmCordError("$divide parameters can only be numbers",
                                    f"{args}",
                                    context.command.name).command_error()
         except IndexError:

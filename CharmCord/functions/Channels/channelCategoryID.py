@@ -1,4 +1,4 @@
-from CharmCord.CharmErrorHandling import CharmCordErrors
+from CharmCord.CharmErrorHandling import CharmCordError
 from CharmCord.globeHandler import get_globals
 
 async def channelCategoryID(args: str, context):
@@ -12,4 +12,6 @@ async def channelCategoryID(args: str, context):
         channel = await bots.fetch_channel(args.replace("<#", "").replace(">", ""))
         return channel.category.id
     except ValueError:
-        CharmCordErrors(f"$channelCategoryID: {args} not valid channel id\nCommand: {context.command.name}")
+        CharmCordError(f"Not valid channel id for $channelCategoryID",
+                       args,
+                       context.command.name)

@@ -1,4 +1,6 @@
 import json
+from types import NoneType
+
 import discord
 from discord.ext import commands
 from CharmCord.functions.Events._options_ import options
@@ -7,6 +9,7 @@ from CharmCord.tools import FunctionHandler, find_bracket_pairs, no_arguments
 from .CommandHandler import load_commands
 from .Commands import Commands
 from .SlashCommands import SlashCommands
+from ..CharmErrorHandling import CharmCordError
 from ..globeHandler import update_globals, get_globals
 
 global bots
@@ -91,6 +94,7 @@ class CharmCord:
     def run(token: str):
         bots.run(token)
 
+
     def variables(self, variables: dict):
         for key, value in variables.items():
             self.all_variables[key] = value
@@ -100,17 +104,35 @@ class CharmCord:
     @staticmethod
     def interaction_code(id_name: str, code: str):
         if id_name in interactions:
-            raise Exception(f"Multiple interactions with '{id_name}' ID found! Please make sure all IDs are unique")
+            raise CharmCordError(f"Multiple interactions with same ID found! Please make sure all IDs are unique",
+                                 f"Interaction: {id_name}")
         interactions[id_name] = code
         return
 
     @staticmethod
-    def slash_command(name: str, code: str, args: list[dict] = None, description: str = "") -> None:
+    def slash_command(name: str, description: str, code: str, args: list[dict] = None) -> None:
+         
+        """
+        Creates an interaction command wth the Discord API
+
+        :param name: The name of your interaction command
+        :param code: The charmcord code for your command
+        :param args: The arguments for your interaction
+        :param description: The description for your interaction
+        :return: None
+        """
         sl = SlashCommands().slash_command
         sl(name=name, code=code, args=args, description=description.lower(), bot=bots)
 
     @staticmethod
-    def command(name: str, code: str, aliases: list = None):
+    def command(name: str, code: str, aliases: list = None) -> None:
+        """
+
+        :param name: The name of your prefix command
+        :param code: The charmcord code for your command
+        :param aliases: Different names that can invoke the command
+        :return: None
+        """
         co = Commands().command
         if aliases is None:
             co(name=name, code=code, bot=bots)
@@ -168,7 +190,11 @@ class CharmCord:
     def on_message(self, code=None):
         @self.bot.event
         async def on_message(msg: discord.Message):
-            pass  # For now
+            options['onMessage']['channelid'] = msg.channel.id
+            options['onMessage']['guildid'] = msg.guild.id
+
+            for attr in options['onMessage'].keys():
+                options['onMessage'][attr] = msg.attr
 
     def on_member_join(self, code=None):
         @self.bot.event
@@ -183,11 +209,34 @@ class CharmCord:
 
     def on_channel_updated(self, code=None):
         @self.bot.event
-        async def on_guild_channel_update(before, after):
-            for i in options["oldChannel"].keys():
-                options["oldChannel"][i] = before.i
-            for i in options["newChannel"].keys():
-                options["newChannel"][i] = after.i
+        async def on_guild_channel_update(before: discord.TextChannel, after: discord.TextChannel):
+            options["oldChannel"]["name"] = before.name
+            options["oldChannel"]["id"] = before.id
+            options["oldChannel"]["type"] = before.type
+            options["oldChannel"]["category"] = before.category
+            if not isinstance(before.category, NoneType):
+                options["oldChannel"]["categoryid"] = before.category.id
+            options["oldChannel"]["guild"] = before.guild.name
+            options["oldChannel"]["guildid"] = before.guild.id
+            options["oldChannel"]["nsfw"] = before.nsfw
+            options["oldChannel"]["delay"] = before.slowmode_delay
+
+            options["newChannel"]["name"] = after.name
+            options["newChannel"]["id"] = after.id
+            options["newChannel"]["type"] = after.type
+            options["newChannel"]["category"] = after.category
+            if not isinstance(after.category, NoneType):
+                options["newChannel"]["categoryid"] = after.category.id
+            options["newChannel"]["guild"] = after.guild.name
+            options["newChannel"]["guildid"] = after.guild.id
+            options["newChannel"]["nsfw"] = after.nsfw
+            options["newChannel"]["delay"] = after.slowmode_delay
+
+
+            #for i in options["oldChannel"].keys():
+            #    options["oldChannel"][i] =
+            #for i in options["newChannel"].keys():
+            #    options["newChannel"][i] = after.i
             if code is not None:
                 final_code = await no_arguments(code, TotalFuncs, None)
                 await find_bracket_pairs(final_code, TotalFuncs, None)
@@ -220,6 +269,17 @@ class CharmCord:
             except Exception as e:
                 print(e)
                 CharmCordErrors("All slash commands need a description")
+
+class Intents:
+
+
+    def __init__(self):
+        if "all" in self.intented:
+            self.intent = discord.Intents.all()
+        elif "default" in self.intented:
+            self.intent = discord.Intents.default()
+        else:
+            self.intent = discord.Intents.default()
 
 
 def charmclient(

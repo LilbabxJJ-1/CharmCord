@@ -2,6 +2,12 @@ from ._btnOpts_ import dropdown_values
 
 
 async def dropdownOption(args: str, ctx):
+    """
+    Ex. $dropdownOption[value;label]
+    :param args:
+    :param ctx:
+    :return:
+    """
     try:
         label, value = args.split(";")
     except Exception:
