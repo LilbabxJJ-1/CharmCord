@@ -1,4 +1,4 @@
-from CharmCord.CharmErrorHandling import CharmCordErrorHandling
+from CharmCord.CharmErrorHandling import CharmCordError
 
 
 async def console(args, context):
@@ -11,7 +11,7 @@ async def console(args, context):
     :return:
     """
     if args == "":
-        CharmCordErrorHandling("$Console was given no argument", "", context).command_error()
+        CharmCordError("$Console was given no argument", "", context).command_error()
         return
     print(args)
     return

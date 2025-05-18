@@ -1,0 +1,26 @@
+site_name: CharmCord Docs
+site_author: Jade
+repo_url: https://github.com/LilbabxJJ-1/CharmCord
+theme:
+  name: material
+  palette:
+    primary: pink
+    accent: blue
+  features:
+    - navigation.instant
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Function Reference:
+      - Channels: functions/Channels.md
+      - Client: functions/Client.md
+      - Events: functions/Events.md
+      - Guilds: functions/Guilds.md
+      - Messages: functions/Messages.md
+      - Python: functions/Python.md
+      - Users: functions/Users.md
+      - Variables: functions/Variables.md
+  - Sandbox Info: sandbox.md
+  - Architecture: architecture.md

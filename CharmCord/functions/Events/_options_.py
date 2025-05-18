@@ -61,5 +61,14 @@ options = {
         'msgauthorid': 0,
         'msgauthorname': '',
         "userid": 0,
+    },
+    "onMessage": {
+        "name": "",
+        "id": 0,
+        "guild": '',
+        "guildid": 0,
+        "content": '',
+        "channel": '',
+        "channelid": 0
     }
 }

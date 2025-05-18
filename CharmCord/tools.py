@@ -1,9 +1,11 @@
 from datetime import datetime as d_t
 import discord.ext.commands
 from pytz import timezone
+from virtualenv.seed.wheels.periodic_update import periodic_update
+
 from CharmCord.all_functions import date_funcs, ifse, all_Funcs, no_arg_Funcs
 from typing import Callable
-from CharmCord.CharmErrorHandling import CharmCordErrorHandling
+from CharmCord.CharmErrorHandling import CharmCordError
 from CharmCord.functions import *
 import re
 
@@ -97,63 +99,60 @@ def slash_args(args: list, code: str) -> str:
     """
     if "$slashArgs" in code:
         while "$slashArgs" in str(code):
-            count = 0
-            end = None
-            balance = 0
-            start = code.index("$slashArgs") + 10
-            look = code[start: len(code)]
-            for char in look:
+            arg_start, arg_end, bracket_balance = code.index("$slashArgs") + 10, None, 0
+            if code[arg_start] != "[":
+                 raise CharmCordError(
+                    error_msg='No opening bracket for $slashArgs',
+                    code_sample=code,
+
+                )
+            look = code[arg_start: len(code)]
+            for position_num, char in enumerate(look):
                 if char == "[":
-                    start = count
-                    count += 1
-                    balance += 1
+                    arg_start = position_num
+                    bracket_balance += 1
                     continue
+
                 if char == "]":
-                    end = count
-                    balance -= 1
-                count += 1
-                if balance == 0 and start is not None and end is not None:
+                    arg_end = position_num
+                    bracket_balance -= 1
+
+                if bracket_balance == 0 and arg_start is not None and arg_end is not None:
                     try:
                         # Replace $slashArgs with arguments
                         code = str(code).replace(
-                            f"$slashArgs[{look[start + 1:end]}]",
-                            str(args[int(look[start + 1: end]) - 1]),
+                            f"$slashArgs[{look[arg_start + 1:arg_end]}]",
+                            str(args[int(look[arg_start + 1: arg_end]) - 1]),
                         )
                         break
                     except IndexError:
-                        raise SyntaxError(
-                            f"$slashArgs[{int(look[start + 1:end])}] Not Provided"
+                        raise CharmCordError(
+                            error_msg=f"$slashArgs[{int(look[arg_start + 1:arg_end])}] Not Provided",
+                            code_sample=code
                         )
     return code
 
 
 def break_code_down(code: str) -> list:
-    test = [line.strip() for line in code.split("\n") if len(line.strip()) > 0]
-    starts, pairs, index = 0, 0, 0
-    new = []
-    for char in test:
-        pairs += char.count("[")
-        pairs -= char.count("]")
-        if starts >= len(test):
-            starts -= 1
+    original_code = [line_of_code.strip() for line_of_code in code.split("\n") if len(line_of_code.strip()) > 0]
+    pairs_of_brackets, index = 0, 0
+    formatted_code = []
+    for character in original_code:
+        pairs_of_brackets += character.count("[")
+        pairs_of_brackets -= character.count("]")
 
-        if char.strip().startswith("$") and pairs > 0 and len(new) == 0:
-            new.append(test[test.index(char)] + " " + test[test.index(char) + 1])
-            starts += 1
+        if pairs_of_brackets > 0:
+            if len(formatted_code) > 0:
+                formatted_code[len(formatted_code) - 1] = formatted_code[len(formatted_code) - 1] + original_code[original_code.index(character) + 1]
+            else:
+                formatted_code.append(original_code[original_code.index(character)] + original_code[
+                    original_code.index(character) + 1])
             continue
-        if starts == 1:
-            starts += 1
-            continue
-        if char.strip().startswith("$") and pairs >= 0:
-            if len(new) >= 0:
-                new.append(test[test.index(char)])
-                index += 1
-        if char.strip()[0] != "$" and len(new) > 0:
-            new[index] = new[index] + " " + test[test.index(char)]
-    if len(new) == 0:
-        new = [line.strip() for line in code.split("\n") if len(line.strip()) >= 3]
 
-    return new
+    if len(formatted_code) == 0:
+        formatted_code = [line_of_code.strip() for line_of_code in code.split("\n") if len(line_of_code.strip()) > 3]
+
+    return formatted_code
 
 
 async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, context) -> None:
@@ -178,8 +177,8 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
         function_response = None
         line_number = 0
         formatted_code = break_code_down(raw_code)
-        for line_of_code in formatted_code:
 
+        for line_of_code in formatted_code:
             line_number += 1
             lowercase_line_of_code: str = line_of_code.strip().lower()
             if end_if:
@@ -188,7 +187,7 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                     return
 
                 if lowercase_line_of_code.startswith("$onlyif") and line_number != 1:
-                    raise CharmCordErrorHandling(error_msg="$OnlyIf should be at the beginning of a command",
+                    raise CharmCordError(error_msg="$OnlyIf should be at the beginning of a command",
                                                  code_sample=line_of_code,
                                                  command_name=context.command.name)
 
@@ -197,12 +196,13 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
 
                 elif lowercase_line_of_code.startswith("$elif"):
                     for check_line_number, code_line in enumerate(formatted_code):
-                        if check_line_number + 1 == line_number:
-                            raise CharmCordErrorHandling(error_msg="No $If found in command before $ElIf",
-                                                         code_sample=line_of_code,
-                                                         command_name=context.command.name)
                         if code_line.lower().startswith("$if"):
                             break
+
+                        if check_line_number + 1 == line_number:
+                            raise CharmCordError(error_msg="No $If found in command before $ElIf",
+                                                         code_sample=line_of_code,
+                                                         command_name=context.command.name)
                     end_if = False
                     continue
 
@@ -220,9 +220,16 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                 else:
                     continue
 
-            first_bracket, last_bracket, bracket_balance = None, None, 0
-
+            first_bracket, last_bracket, keyword_start, bracket_balance = None, None, None, 0
+            digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]
             for char_number, character in enumerate(lowercase_line_of_code):
+                try:
+                    if character == '$' and keyword_start is None and lowercase_line_of_code[char_number + 1] != "$" and lowercase_line_of_code[
+                        char_number + 1] not in digits:
+                        keyword_start = char_number
+                except IndexError:
+                    pass
+
                 if character == '[' and not first_bracket:
                     first_bracket = char_number
                     bracket_balance += 1
@@ -235,19 +242,22 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                     last_bracket = char_number
                     bracket_balance -= 1
 
-                if first_bracket and last_bracket and not bool(bracket_balance):
+                if first_bracket is not None and last_bracket is not None and not bool(bracket_balance):
                     break
 
             argument = line_of_code[first_bracket + 1: last_bracket]
-            keyword = line_of_code[0: first_bracket]
+            keyword = line_of_code[keyword_start:first_bracket]
             digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]
             parsed_command = [keyword, argument, context, first_bracket, last_bracket]
             while all(searched in argument for searched in ["]", "["]) and any(searched in argument for searched in all_Funcs):
-                arg_first_bracket, arg_last_bracket, arg_bracket_balance = None, None, 0
-
+                arg_first_bracket, arg_last_bracket, arg_keyword_start, arg_bracket_balance = None, None, None, 0
                 for char_number, character in enumerate(argument):
-                    if character == '$' and not arg_first_bracket and argument[char_number + 1] != "$" and argument[char_number + 1] not in digits:
+                    if character == '$' and arg_keyword_start is None and argument[char_number + 1] != "$" and argument[char_number + 1] not in digits:
+                         arg_keyword_start = char_number
+
+                    if character == '[' and arg_first_bracket is None and argument[char_number + 1] != "$" and argument[char_number + 1] not in digits:
                         arg_first_bracket = char_number
+                        arg_bracket_balance += 1
 
                     elif character == '[':
                         arg_bracket_balance += 1
@@ -256,23 +266,30 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                         arg_last_bracket = char_number
                         arg_bracket_balance -= 1
 
-                    if bool(arg_bracket_balance) and arg_first_bracket is not None and arg_last_bracket:
+                    if not bool(arg_bracket_balance) and arg_first_bracket is not None and arg_last_bracket is not None:
                         break
 
-                if bool(arg_first_bracket):
-                    argument = (argument[:arg_first_bracket]
-                                    + str(await find_bracket_pairs(argument[arg_first_bracket: arg_last_bracket + 1],
+                if bool(arg_keyword_start):
+                        argument = (argument[:arg_keyword_start]
+                                    + str(await find_bracket_pairs(argument[arg_keyword_start: arg_last_bracket + 1],
                                                                    func_executor,
                                                                    context))
                                     + argument[arg_last_bracket + 1:]
-                                     )
+                                    )
+
+                elif bool(arg_first_bracket) and bool(arg_last_bracket):
+                    argument = (argument[:arg_keyword_start]
+                                + str(await find_bracket_pairs(argument[arg_keyword_start: arg_last_bracket + 1],
+                                                               func_executor,
+                                                               context))
+                                + argument[arg_last_bracket + 1:]
+                                )
 
                 else:
                     argument = (str(await find_bracket_pairs(argument, func_executor, context))
                                 + argument[arg_last_bracket + 1:])
 
                 parsed_command = [keyword, argument, context, first_bracket, last_bracket]
-
             if parsed_command[0].lower() in func_executor.funcs:
                 function_response = await func_executor.execute_functions(parsed_command[0].lower(),
                                                                           parsed_command[1],
@@ -285,20 +302,21 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                     if not function_response:
                         end_if = False
                     for check_line_number, code_line in enumerate(formatted_code):
+                        if code_line.lower() == "$endif":
+                                break
+                            
                         if check_line_number + 1 <= line_number:
                             continue
 
-                        if code_line.lower() == "$endif":
-                                break
 
                     else:
-                        raise CharmCordErrorHandling(error_msg="No $EndIf found in command after $If",
+                        raise CharmCordError(error_msg="No $EndIf found in command after $If",
                                                     code_sample=line_of_code,
                                                     command_name=context.command.name)
 
+                    continue
+
                 if parsed_command[0].lower() == '$elif':
-                    if not function_response:
-                        end_if = False
                     for check_line_number, code_line in enumerate(formatted_code):
                         if check_line_number + 1 <= line_number:
                             continue
@@ -307,15 +325,18 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                                 break
 
                     else:
-                        raise CharmCordErrorHandling(error_msg="No $EndIf found in command after $ElIf",
+                        raise CharmCordError(error_msg="No $EndIf found in command after $ElIf",
                                                     code_sample=line_of_code,
                                                     command_name=context.command.name)
 
                     for check_line_number, code_line in enumerate(formatted_code):
                         if check_line_number + 1 == line_number:
-                            raise CharmCordErrorHandling(error_msg="No $If found in command before $ElIf",
+                            raise CharmCordError(error_msg="No $If found in command before $ElIf",
                                                          code_sample=line_of_code,
                                                          command_name=context.command.name)
+
+                        if code_line.lower().startswith("$if"):
+                            break
 
                 end_if = function_response is not False
 
