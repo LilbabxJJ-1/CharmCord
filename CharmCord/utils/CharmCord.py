@@ -300,7 +300,7 @@ def charmclient(
     functions = FunctionHandler()
     TotalFuncs = functions
     update_globals("total", functions)
-    functions.register_functions()
+    functions.load_all_functions()
 
     # Create Start instance and return working bot
     _final = CharmCord(

@@ -1,5 +1,5 @@
 import discord
-from CharmCord.all_functions import newline_char
+from ._btnOpts_ import newline_char
 from CharmCord.functions.Messages._btnOpts_ import views
 
 

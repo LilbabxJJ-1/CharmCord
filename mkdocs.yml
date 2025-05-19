@@ -2,6 +2,7 @@ site_name: CharmCord Docs
 site_author: Jade
 repo_url: https://github.com/LilbabxJJ-1/CharmCord
 theme:
+  logo: logo.png
   name: material
   palette:
     primary: pink
@@ -10,17 +11,99 @@ theme:
     - navigation.instant
     - search.highlight
 
+
+
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Function Reference:
-      - Channels: functions/Channels.md
-      - Client: functions/Client.md
-      - Events: functions/Events.md
-      - Guilds: functions/Guilds.md
-      - Messages: functions/Messages.md
-      - Python: functions/Python.md
-      - Users: functions/Users.md
-      - Variables: functions/Variables.md
-  - Sandbox Info: sandbox.md
-  - Architecture: architecture.md
+    - Home: index.md
+    - Getting Started: getting-started.md
+    - Function Reference:
+        - Channels:
+          - Channels: functions/Channels.md
+          - $channelCategoryID: functions/Channels/channelCategoryID.md
+          - $channelCategoryName: functions/Channels/channelCategoryName.md
+          - $channelChangedRoles: functions/Channels/channelChangedRoles.md
+          - $channelCreated: functions/Channels/channelCreated.md
+          - $channelDelay: functions/Channels/channelDelay.md
+          - $channelID: functions/Channels/channelId.md
+          - $channelMention: functions/Channels/channelMention.md
+          - $channelName: functions/Channels/channelName.md
+          - $channelNsfw: functions/Channels/channelNsfw.md
+          - $channelPosition: functions/Channels/channelPosition.md
+          - $channelType: functions/Channels/channelType.md
+          - $channelURL: functions/Channels/channelURL.md
+        - Client:
+          - Client: functions/Client.md
+          - $botAvatar: functions/Client/botAvatar.md
+          - $botGuilds: functions/Client/botGuilds.md
+          - $botID: functions/Client/botID.md
+          - $botMention: functions/Client/botMention.md
+          - $botName: functions/Client/botName.md
+          - $ping: functions/Client/ping.md
+        - Events:
+          - Events: functions/Events.md
+          - $deletedChannel: functions/Events/deletedChannel.md
+          - $memberJoined: functions/Events/memberJoined.md
+          - $newChannel: functions/Events/newChannel.md
+          - $oldChannel: functions/Events/oldChannel.md
+          - $onMessage: functions/Events/onMessage.md
+          - $reactionAdded: functions/Events/reactionAdded.md
+          - $reactionRemoved: functions/Events/reactionRemoved.md
+        - Guilds:
+          - Guilds: functions/Guilds.md
+          - $botGuilds: functions/Guilds/botGuilds.md
+          - $guildID: functions/Guilds/guildID.md
+          - $guildName: functions/Guilds/guildName.md
+          - $guildTextChannels: functions/Guilds/guildTextChannels.md
+        - Messages:
+          - Messages: functions/Messages.md
+          - $deleteMessage: functions/Messages/deleteMessage.md
+          - $editMessage: functions/Messages/editMessage.md
+          - $mentions: functions/Messages/mentions.md
+          - $message: functions/Messages/message.md
+          - $messageAuthor: functions/Messages/messageAuthor.md
+          - $messageContent: functions/Messages/messageContent.md
+          - $messageID: functions/Messages/messageID.md
+          - $sendEmbed: functions/Messages/sendEmbed.md
+          - $sendMessage: functions/Messages/sendMessage.md
+          - $waitMessage: functions/Messages/waitMessage.md
+        - Python:
+          - Python: functions/Python.md
+          - $console: functions/Python/console.md
+          - $contains: functions/Python/contains.md
+          - $count: functions/Python/count.md
+          - $divide: functions/Python/divide.md
+          - $elif: functions/Python/elif.md
+          - $getJson: functions/Python/getJson.md
+          - $if: functions/Python/if.md
+          - $lower: functions/Python/lower.md
+          - $multi: functions/Python/multi.md
+          - $onlyIf: functions/Python/onlyIf.md
+          - $pyEval: functions/Python/pyEval.md
+          - $random: functions/Python/random.md
+          - $sub: functions/Python/sub.md
+          - $sum: functions/Python/sum.md
+          - $wait: functions/Python/wait.md
+        - Users:
+          - Users: functions/Users.md
+          - $authorID: functions/Users/authorID.md
+          - $authorName: functions/Users/authorName.md
+          - $hasPerm: functions/Users/hasPerm.md
+          - $sendDM: functions/Users/sendDM.md
+          - $userID: functions/Users/userID.md
+          - $userMention: functions/Users/userMention.md
+          - $userName: functions/Users/userName.md
+        - Variables:
+          - Variables: functions/Variables.md
+          - $get: functions/Variables/get.md
+          - $getGlobalUserVar: functions/Variables/getGlobalUserVar.md
+          - $getServerVar: functions/Variables/getServerVar.md
+          - $getUserVar: functions/Variables/getUserVar.md
+          - $getVar: functions/Variables/getVar.md
+          - $let: functions/Variables/let.md
+          - $setGlobalUserVar: functions/Variables/setGlobalUserVar.md
+          - $setServerVar: functions/Variables/setServerVar.md
+          - $setUserVar: functions/Variables/setUserVar.md
+          - $setVar: functions/Variables/setVar.md
+    - Events: events.md
+    - Architecture: architecture.md
+

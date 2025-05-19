@@ -6,8 +6,8 @@ Guild functions give you access to information about the server (also known as a
 
 ## 🧭 Function Index
 
-| Function | Summary |
-|----------|---------|
-| [`$guildID`](#guildid-no-args) | Returns the ID of the current guild |
-| [`$guildName`](#guildname-no-args) | Returns the name of the current guild |
-| [`$guildTextChannels`](#guildtextchannels-no-args) | Returns the count of text channels in the current guild |
+| Function                                          | Summary |
+|---------------------------------------------------|---------|
+| [`$guildID`](guildId)                             | Returns the ID of the current guild |
+| [`$guildName`](guildName)                         | Returns the name of the current guild |
+| [`$guildTextChannels`](guildTextChannels) | Returns the count of text channels in the current guild |

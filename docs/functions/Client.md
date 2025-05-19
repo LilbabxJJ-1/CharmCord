@@ -8,11 +8,11 @@ They are useful when creating responses that reflect your bot's identity, loggin
 
 ## 🧭 Function Index
 
-| Function | Summary |
-|----------|---------|
-| [`$botID`](#botid-no-args) | Returns the bot's user ID |
-| [`$botName`](#botname-no-args) | Returns the bot's username |
-| [`$botAvatar`](#botavatar-no-args) | Returns the bot's avatar URL |
-| [`$botMention`](#botmention-no-args) | Returns a mention tag for the bot |
-| [`$botGuilds`](#botguilds-no-args) | Returns the number of servers the bot is in |
-| [`$ping`](#ping-no-args) | Returns the bot’s latency in ms |
+| Function                         | Summary |
+|----------------------------------|---------|
+| [`$botID`](botId)                | Returns the bot's user ID |
+| [`$botName`](botName)            | Returns the bot's username |
+| [`$botAvatar`](botavatar) | Returns the bot's avatar URL |
+| [`$botMention`](botmention) | Returns a mention tag for the bot |
+| [`$botGuilds`](botguilds) | Returns the number of servers the bot is in |
+| [`$ping`](ping)           | Returns the bot’s latency in ms |

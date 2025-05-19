@@ -1,6 +1,6 @@
 import discord
 from CharmCord.globeHandler import get_globals
-from CharmCord.all_functions import newline_char
+from ._btnOpts_ import newline_char
 
 
 async def sendEmbed(args: str, context):

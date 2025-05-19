@@ -4,12 +4,14 @@
 
 ---
 
+![logo](docs/logo.png)
+
 ## Stats ✨
 ![PyPI](https://img.shields.io/pypi/v/charmcord)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/aoipy?color=green&label=downloads)
-![Downloads](https://static.pepy.tech/personalized-badge/aoipy?period=total&units=international_system&left_color=grey&right_color=green&left_text=downloads)
-![PyPI - License](https://img.shields.io/pypi/l/aoipy)
-![](https://tokei.rs/b1/github/tomschimansky/aoipy)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/charmcord?color=green&label=downloads)
+![Downloads](https://static.pepy.tech/personalized-badge/charmcord?period=total&units=international_system&left_color=grey&right_color=green&left_text=downloads)
+![PyPI - License](https://img.shields.io/pypi/l/charmcord)
+![](https://tokei.rs/b1/github/tomschimansky/charmcord)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 ---
@@ -44,7 +46,7 @@ Simple Bot Example:
 ```python
 from CharmCord import charmclient
 
-bot = charmclient(prefix="!", case_insensitive=False, intents=("all",))
+bot = charmclient(prefix="!", case_insensitive=False, intents='all')
 
 bot.on_ready(
     Code="$console[Bot is Ready]"

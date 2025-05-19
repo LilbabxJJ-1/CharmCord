@@ -1,9 +1,9 @@
 from datetime import datetime as d_t
 import discord.ext.commands
 from pytz import timezone
-from virtualenv.seed.wheels.periodic_update import periodic_update
-
-from CharmCord.all_functions import date_funcs, ifse, all_Funcs, no_arg_Funcs
+import importlib.util
+import inspect
+from pathlib import Path
 from typing import Callable
 from CharmCord.CharmErrorHandling import CharmCordError
 from CharmCord.functions import *
@@ -12,26 +12,123 @@ import re
 timezones = (timezone("EST"), timezone("UTC"), timezone("US/Pacific"))
 lets = {}
 
+all_Funcs = [
+    "$If",
+    "$ElIf",
+    "$addButton",
+    "$addDropdown",
+    "$dropdownOption",
+    "$interactionReply",
+    "$selectedDropdown",
+    "$buttonSend",
+    "$authorID",
+    "$authorName",
+    "$botAvatar",
+    "$botGuilds",
+    "$botID",
+    "$botMention",
+    "$botName",
+    "$channelCategoryID",
+    "$channelCategoryName",
+    "$channelChangedRoles",
+    "$channelCreated",
+    "$channelDelay",
+    "$channelID",
+    "$channelMention",
+    "$channelName",
+    "$channelNsfw",
+    "$channelPosition",
+    "$channelType",
+    "$channelURL",
+    "$charmAI",
+    "$console",
+    "$contains",
+    "$count",
+    "$defer",
+    "$deleteMessage",
+    "$deletedChannel",
+    "$divide",
+    "$editMessage",
+    "$get",
+    "$getJson",
+    "$getVar",
+    "$guildID",
+    "$guildName",
+    "$guildTextChannels",
+    "$hasPerm",
+    "$let",
+    "$lower",
+    "$memberJoined",
+    "$mentions",
+    "$message",
+    "$messageAuthor",
+    "$messageContent",
+    "$messageID",
+    "$newChannel",
+    "$multi",
+    "$oldChannel",
+    "$onlyIf",
+    "$ping",
+    "$pyEval",
+    "$purge",
+    "$random",
+    "$reactionAdded",
+    "$reactionRemoved",
+    "$sendMessage",
+    "$sendDM",
+    "$sendEmbed",
+    "$setServerVar",
+    "$setUserVar",
+    "$setVar",
+    "$slashSend",
+    "$sub",
+    "$sum",
+    "$userMention",
+    "$userName",
+    "$userID",
+    "$wait",
+    "$waitMessage",
+    "$waitReaction"
+]
+
+no_arg_Funcs = ["$botName",
+                "$botID",
+                "$authorID",
+                "$authorName",
+                "$channelID",
+                "$guildID",
+                "$ping",
+                "$botGuilds",
+                "$botAvatar",
+                "$botMention",
+                "$messageID",
+                "$message",
+                "$defer"]
+
+
 
 class FunctionHandler:
     def __init__(self):
         self.funcs = {}
 
-    def register_functions(self) -> None:
-        """
-        Registers functions for execution.
 
-        Notes:
-            This method registers functions for execution by iterating through all_Funcs.
-            Each function is added to the 'funcs' dictionary with its lowercase name as the key.
 
-        :return: None
-        """
+    def load_all_functions(self):
+        base_path = Path(__file__).resolve().parent.parent / 'CharmCord' /"functions"
+        for dirpath, _, filenames in os.walk(base_path):
+            for file in filenames:
+                if file.endswith(".py") and not file.startswith("__"):
+                    file_path = Path(dirpath) / file
+                    mod_name = f"CharmCord.functions.{'.'.join(file_path.relative_to(base_path).with_suffix('').parts)}"
 
-        for line in all_Funcs:
-            function = eval(line.replace("$", ""))  # nosec
-            self.funcs[line.replace("\n", "").lower()] = function
-            continue
+                    spec = importlib.util.spec_from_file_location(mod_name, file_path)
+                    module = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(module)
+
+                    for name, func in inspect.getmembers(module, inspect.iscoroutinefunction):
+                        self.funcs[f"${file.removesuffix('.py').lower()}"] = func
+                        break  # Register only the first async function per file
+
 
     async def execute_functions(self, keyword: str,
                                 args: str,
@@ -49,10 +146,10 @@ class FunctionHandler:
         :param context: Discord context.
         :return: The result of executing the function.
         """
-        if keyword in ifse:
-            return await self.funcs[keyword](args, context)
-        if keyword in date_funcs:
-            return await self.funcs[keyword](args, context, timezones, format_datetime)
+        #if keyword in ifse:
+        #    return await self.funcs[keyword](args, context)
+        #if keyword in date_funcs:
+        #    return await self.funcs[keyword](args, context, timezones, format_datetime)
 
         return await self.funcs[keyword](args, context)
 
@@ -154,6 +251,83 @@ def break_code_down(code: str) -> list:
 
     return formatted_code
 
+async def pair_brackets(code: str, keyword: str = '', args: bool = False, func_executor = None, context = None) -> list:
+    first_bracket, last_bracket, keyword_start, bracket_balance = None, None, None, 0
+    digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]
+
+    if args is False:
+        first_bracket, last_bracket, keyword_start, bracket_balance = None, None, None, 0
+        for char_number, character in enumerate(code):
+            try:
+                if character == '$' and keyword_start is None and code[char_number + 1] != "$" and \
+                        code[char_number + 1] not in digits:
+                    keyword_start = char_number
+
+            except IndexError:
+                pass
+
+            if character == '[' and not first_bracket:
+                first_bracket = char_number
+                bracket_balance += 1
+                continue
+
+            if character == '[':
+                bracket_balance += 1
+
+            elif character == "]":
+                last_bracket = char_number
+                bracket_balance -= 1
+
+            if first_bracket is not None and last_bracket is not None and not bool(bracket_balance):
+                break
+        return [first_bracket, last_bracket, keyword_start, bracket_balance]
+    else:
+        arguments = None
+        first_bracket, last_bracket, keyword_start, bracket_balance = None, None, None, 0
+        for char_number, character in enumerate(code):
+            if character == '$' and keyword_start is None and code[char_number + 1] != "$" and code[
+                char_number + 1] not in digits:
+                keyword_start = char_number
+
+            if character == '[' and first_bracket is None and code[char_number + 1] != "$" and code[
+                char_number + 1] not in digits:
+                first_bracket = char_number
+                bracket_balance += 1
+
+            elif character == '[':
+                bracket_balance += 1
+
+            elif character == ']':
+                last_bracket = char_number
+                bracket_balance -= 1
+
+            if not bool(bracket_balance) and first_bracket is not None and last_bracket is not None:
+                break
+
+        if bool(keyword_start):
+            arguments = (code[:keyword_start]
+                        + str(await find_bracket_pairs(code[keyword_start: last_bracket + 1],
+                                                       func_executor,
+                                                       context))
+                        + code[last_bracket + 1:]
+                        )
+
+        elif bool(first_bracket) and bool(last_bracket):
+            arguments = (code[:keyword_start]
+                        + str(await find_bracket_pairs(code[keyword_start: last_bracket + 1],
+                                                       func_executor,
+                                                       context))
+                        + code[last_bracket + 1:]
+                        )
+
+        else:
+            arguments = (str(await find_bracket_pairs(code, func_executor, context))
+                        + code[last_bracket + 1:])
+
+
+        return [keyword, arguments, context, first_bracket, last_bracket]
+
+
 
 async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, context) -> None:
         """
@@ -177,11 +351,17 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
         function_response = None
         line_number = 0
         formatted_code = break_code_down(raw_code)
+        embed_if = []
+        continued_line = ''
 
         for line_of_code in formatted_code:
             line_number += 1
             lowercase_line_of_code: str = line_of_code.strip().lower()
             if end_if:
+
+                if continued_line != '' and continued_line != line_of_code:
+                    continue
+
 
                 if lowercase_line_of_code.startswith("$end"):
                     return
@@ -210,6 +390,7 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                     pass
 
             else:
+
                 if lowercase_line_of_code.startswith("$elif"):
                     end_if = True
 
@@ -220,80 +401,19 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                 else:
                     continue
 
-            first_bracket, last_bracket, keyword_start, bracket_balance = None, None, None, 0
-            digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]
-            for char_number, character in enumerate(lowercase_line_of_code):
-                try:
-                    if character == '$' and keyword_start is None and lowercase_line_of_code[char_number + 1] != "$" and lowercase_line_of_code[
-                        char_number + 1] not in digits:
-                        keyword_start = char_number
-                except IndexError:
-                    pass
-
-                if character == '[' and not first_bracket:
-                    first_bracket = char_number
-                    bracket_balance += 1
-                    continue
-
-                if character == '[':
-                    bracket_balance += 1
-
-                elif character == "]":
-                    last_bracket = char_number
-                    bracket_balance -= 1
-
-                if first_bracket is not None and last_bracket is not None and not bool(bracket_balance):
-                    break
-
+            first_bracket, last_bracket, keyword_start, bracket_balance = await pair_brackets(line_of_code)
             argument = line_of_code[first_bracket + 1: last_bracket]
             keyword = line_of_code[keyword_start:first_bracket]
-            digits = ["1", "2", "3", "4", "5", "6", '7', '8', "9", "0"]
             parsed_command = [keyword, argument, context, first_bracket, last_bracket]
             while all(searched in argument for searched in ["]", "["]) and any(searched in argument for searched in all_Funcs):
-                arg_first_bracket, arg_last_bracket, arg_keyword_start, arg_bracket_balance = None, None, None, 0
-                for char_number, character in enumerate(argument):
-                    if character == '$' and arg_keyword_start is None and argument[char_number + 1] != "$" and argument[char_number + 1] not in digits:
-                         arg_keyword_start = char_number
+                parsed_command = await pair_brackets(argument, keyword, True, func_executor, context)
 
-                    if character == '[' and arg_first_bracket is None and argument[char_number + 1] != "$" and argument[char_number + 1] not in digits:
-                        arg_first_bracket = char_number
-                        arg_bracket_balance += 1
 
-                    elif character == '[':
-                        arg_bracket_balance += 1
-
-                    elif character == ']':
-                        arg_last_bracket = char_number
-                        arg_bracket_balance -= 1
-
-                    if not bool(arg_bracket_balance) and arg_first_bracket is not None and arg_last_bracket is not None:
-                        break
-
-                if bool(arg_keyword_start):
-                        argument = (argument[:arg_keyword_start]
-                                    + str(await find_bracket_pairs(argument[arg_keyword_start: arg_last_bracket + 1],
-                                                                   func_executor,
-                                                                   context))
-                                    + argument[arg_last_bracket + 1:]
-                                    )
-
-                elif bool(arg_first_bracket) and bool(arg_last_bracket):
-                    argument = (argument[:arg_keyword_start]
-                                + str(await find_bracket_pairs(argument[arg_keyword_start: arg_last_bracket + 1],
-                                                               func_executor,
-                                                               context))
-                                + argument[arg_last_bracket + 1:]
-                                )
-
-                else:
-                    argument = (str(await find_bracket_pairs(argument, func_executor, context))
-                                + argument[arg_last_bracket + 1:])
-
-                parsed_command = [keyword, argument, context, first_bracket, last_bracket]
             if parsed_command[0].lower() in func_executor.funcs:
                 function_response = await func_executor.execute_functions(parsed_command[0].lower(),
                                                                           parsed_command[1],
                                                                           parsed_command[2])
+
 
                 if parsed_command[0].lower() == '$onlyif' and not function_response:
                     return
@@ -301,18 +421,47 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                 if parsed_command[0].lower() == '$if':
                     if not function_response:
                         end_if = False
-                    for check_line_number, code_line in enumerate(formatted_code):
-                        if code_line.lower() == "$endif":
+                        continue  # Don't evaluate the block at all if condition is false
+
+                    # Start from current line
+                    depth = 0
+                    block_lines = []
+                    started = False
+                    line_end = 0
+                    last_if = []
+
+                    for i in range(line_number - 1, len(formatted_code)):
+                        line = formatted_code[i].strip().lower()
+
+                        if line.startswith('$if'):
+                            depth += 1
+                            started = True
+                            last_if.append(formatted_code[i])
+
+                        if started:
+                            block_lines.append(formatted_code[i])
+
+                        if line == '$endif':
+                            depth -= 1
+                            if last_if:
+                                last_if.pop()
+                            if depth == 0:
                                 break
-                            
-                        if check_line_number + 1 <= line_number:
+                            else:
+                                line_end = i
+
+                    if block_lines:
+                        if depth > 0:
+                            raise CharmCordError(error_msg="No $EndIf found in command after $If",
+                                                 code_sample=last_if[0],
+                                                 command_name=context.command.name)
+                        # Remove the opening $if and closing $endif before recursion
+                        nested_code = '\n'.join(block_lines[1:line_end + 1])
+                        try:
+                            continued_line = block_lines[line_end + 1]
+                        except IndexError:
                             continue
-
-
-                    else:
-                        raise CharmCordError(error_msg="No $EndIf found in command after $If",
-                                                    code_sample=line_of_code,
-                                                    command_name=context.command.name)
+                        await find_bracket_pairs(nested_code, func_executor, context)
 
                     continue
 
@@ -348,6 +497,7 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
             return function_response
         except Exception as e:
             raise Exception(f"Error at: {e}")
+
 
 
 def check_args(args: tuple, code: str) -> str:

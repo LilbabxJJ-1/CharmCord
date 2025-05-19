@@ -8,12 +8,12 @@ Use them to create automated responses, logs, or dynamic behaviors without needi
 
 ## 🧭 Function Index
 
-| Event Function | Trigger |
-|----------------|---------|
-| [`$onMessage`](#onmessage) | Triggered when a message is sent |
-| [`$memberJoined`](#memberjoined) | Triggered when a user joins a server |
-| [`$deletedChannel`](#deletedchannel) | Triggered when a channel is deleted |
-| [`$newChannel`](#newchannel) | Triggered when a new channel is created |
-| [`$oldChannel`](#oldchannel) | Triggered when a channel is updated |
-| [`$reactionAdded`](#reactionadded) | Triggered when a reaction is added |
-| [`$reactionRemoved`](#reactionremoved) | Triggered when a reaction is removed |
+| Event Function                        | Trigger |
+|---------------------------------------|---------|
+| [`$onMessage`](onMessage)             | Triggered when a message is sent |
+| [`$memberJoined`](memberJoined)       | Triggered when a user joins a server |
+| [`$deletedChannel`](deletedChannel)   | Triggered when a channel is deleted |
+| [`$newChannel`](newChannel)           | Triggered when a new channel is created |
+| [`$oldChannel`](oldChannel)           | Triggered when a channel is updated |
+| [`$reactionAdded`](reactionAdded)     | Triggered when a reaction is added |
+| [`$reactionRemoved`](reactionRemoved) | Triggered when a reaction is removed |

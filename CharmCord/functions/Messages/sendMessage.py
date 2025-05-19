@@ -1,7 +1,5 @@
 import discord
-
-from CharmCord.all_functions import newline_char
-from ._btnOpts_ import views
+from ._btnOpts_ import views, newline_char
 from CharmCord.globeHandler import get_globals
 from ...CharmErrorHandling import CharmCordError
 
