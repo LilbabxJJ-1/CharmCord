@@ -1,6 +1,6 @@
-from CharmCord import CharmClient
+from CharmCord import charmclient
 
-bot = CharmClient(prefix="!", case_insensitive=True, intents=("all",))
+bot = charmclient(prefix="!", case_insensitive=True, intents=("all",))
 
 
 # argCheck should always go on top! Reads from top to bottom

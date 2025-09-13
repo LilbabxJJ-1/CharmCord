@@ -1,7 +1,7 @@
-from CharmCord import CharmClient, setActivity
+from CharmCord import charmclient, set_activity
 
-act = setActivity(typing="watching", message="All my servers")
-bot = CharmClient(prefix="!", case_insensitive=True, intents=("all",), activity=act)
+act = set_activity(typing="watching", message="All my servers")
+bot = charmclient(prefix="!", case_insensitive=True, intents=["all"], activity=act)
 
 # Bot code here...
 

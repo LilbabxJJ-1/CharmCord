@@ -351,8 +351,9 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
         function_response = None
         line_number = 0
         formatted_code = break_code_down(raw_code)
-        embed_if = []
         continued_line = ''
+        embed_if = 0
+
 
         for line_of_code in formatted_code:
             line_number += 1
@@ -361,7 +362,6 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
 
                 if continued_line != '' and continued_line != line_of_code:
                     continue
-
 
                 if lowercase_line_of_code.startswith("$end"):
                     return
@@ -391,12 +391,23 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
 
             else:
 
+                if lowercase_line_of_code.startswith("$if"):
+                    embed_if += 1
+                    continue
+
                 if lowercase_line_of_code.startswith("$elif"):
-                    end_if = True
+                    embed_if -= 1
+                    if embed_if == 0:
+                        end_if = True
+                    else:
+                        continue
 
                 elif lowercase_line_of_code.startswith("$endif"):
-                    end_if = True
-                    continue
+                    if embed_if == 0:
+                        end_if = True
+                        continue
+                    else:
+                        continue
 
                 else:
                     continue
@@ -421,6 +432,7 @@ async def find_bracket_pairs(raw_code: str, func_executor: FunctionHandler, cont
                 if parsed_command[0].lower() == '$if':
                     if not function_response:
                         end_if = False
+                        embed_if += 1
                         continue  # Don't evaluate the block at all if condition is false
 
                     # Start from current line
