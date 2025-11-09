@@ -1,8 +1,8 @@
 import json
 from types import NoneType
-
 import discord
 from discord.ext import commands
+from discord.app_commands.errors import CommandSyncFailure
 from CharmCord.functions.Events._options_ import options
 from CharmCord.functions.Messages._btnOpts_ import interactions
 from CharmCord.tools import FunctionHandler, find_bracket_pairs, no_arguments
@@ -48,6 +48,7 @@ class CharmCord:
         self._activity = activity
         self.all_variables = {}
         self.bot = None
+        self.synced = False
 
         # Determine intents
         if "all" in self.intented:
@@ -121,7 +122,7 @@ class CharmCord:
         :param description: The description for your interaction
         :return: None
         """
-        sl = SlashCommands().slash_command
+        sl = SlashCommands().interaction_command
         sl(name=name, code=code, args=args, description=description.lower(), bot=bots)
 
     @staticmethod
@@ -265,10 +266,13 @@ class CharmCord:
             final_code = await no_arguments(code, TotalFuncs, None)
             await find_bracket_pairs(final_code, TotalFuncs, None)
             try:
-                await self.bot.tree.sync()
-            except Exception as e:
-                print(e)
+                if not self.synced:
+                    await self.bot.tree.sync()
+                    self.synced = True
+            except CommandSyncFailure:
                 CharmCordErrors("All slash commands need a description")
+
+
 
 class Intents:
 
@@ -288,9 +292,33 @@ def charmclient(
         intents: str | list = "Default",
         activity: discord.Activity = None,
         load_command_dir="commands",
-):
+) -> CharmCord:
     """
     CharmCord Discord Client
+
+    Creates and returns a preconfigured Discord bot client instance for CharmCord.
+
+    :param prefix: The command prefix used to invoke text-based commands (e.g. "!" or "$").
+    :type prefix: str
+
+    :param case_insensitive: Whether command names are case-insensitive.
+        If True, commands like `$Ping` and `$ping` are treated the same.
+    :type case_insensitive: bool, optional
+
+    :param intents: The Discord gateway intents to enable.
+        Can be `"Default"` for default intents, or a list of specific intent names to activate.
+    :type intents: str | list, optional
+
+    :param activity: The Discord activity to display under the bot’s name (e.g., "Playing X" or "Watching Y").
+        If None, no activity is set.
+    :type activity: discord.Activity, optional
+
+    :param load_command_dir: The directory to automatically load commands from during initialization.
+        Defaults to `"commands"`.
+    :type load_command_dir: str, optional
+
+    :return: A configured `discord.ext.commands.Bot` (or subclass) instance ready to run.
+    :rtype: discord.ext.commands.Bot
     """
     # Global variables
     global bots

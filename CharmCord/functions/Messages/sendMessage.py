@@ -20,12 +20,14 @@ async def sendMessage(args: str, context):
             message = message.replace(newline_char, "\n")
             if len(views) > 0:
                 sent = await channel.send(message, view=views[0])
+                del views[0]
                 return sent.id
             else:
                 sent = await channel.send(message)
                 return sent.id
         if len(views) > 0:
             sent = await channel.send(view=views)
+            del views[0]
             return sent.id
     except Exception as e:
         print(e)
